@@ -1,4 +1,4 @@
-SECTIONS=01_introduction.tex 02_language.tex 03_implementation.tex 04_results.tex
+SECTIONS=01_introduction.tex 02_language.tex 03_implementation.tex 04_results.tex 05_discussion.tex
 HEADER=_header.tex
 FOOTER=_footer.tex
 LATEX=pdflatex -halt-on-error -output-directory=tmp
