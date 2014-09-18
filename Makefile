@@ -2,9 +2,13 @@ SECTIONS=01_introduction.tex 02_language.tex 03_implementation.tex 04_results.te
 HEADER=_header.tex
 FOOTER=_footer.tex
 LATEX=pdflatex -halt-on-error -output-directory=tmp
+BIBTEX=bibtex
 
 
 paper.pdf : paper.tex $(HEADER) $(FOOTER)
+	$(LATEX) $<
+	$(BIBTEX) tmp/paper.aux
+	$(LATEX) $<
 	$(LATEX) $< && mv tmp/$@ ./
 
 paper.tex : $(SECTIONS)
