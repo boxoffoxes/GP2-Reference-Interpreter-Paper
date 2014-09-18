@@ -1,0 +1,18 @@
+
+Quick-start guide
+=================
+
+Typing `make` will assemble the sections into a single document and compile it
+to PDF using pdflatex. Alternatively typing `make view` will compile the
+document and open it in the Evince document viewer.
+
+If you are familiar with git, you can use it as you normally would. Otherwise
+the Makefile also contains some shortcuts for version control:
+
+`make fetch` will prompt for a Github username and password, and fetch the
+latest changes from Github.
+
+`make commit` will prompt for a Github username and password, and commit any
+changes you have made to the shared repository.
+
+
