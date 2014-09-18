@@ -1,0 +1,18 @@
+
+\section{Discussion}
+
+\subsection{Performance}
+
+As already discussed, little consideration was given to execution speed or memory consumption, and while performance is acceptable for some quite complex programs, it is nevertheless easy to find cases in which performance degrades to an unacceptable degree. A particular example being the Sierpinski triangle benchmark program, which exhibits exponential growth in the number of possible intermediate graphs, and has an execution time in excess of two weeks after only three generations of expansion!
+
+
+Nevertheless, limiting output to a single result graph allows a seventh-generation Sierpinski to be generated within timescales of the order of an hour, indicating that the extreme poor performance of our interpreter is indeed the product of a combinatorial explosion, and not a fundamental issue with the implementation of our interpreter.
+
+
+\subsection{Contributions}
+
+This work lays a valuable foundation for checking the correctness of subsequent GP2 interpreters and compilers. It also demonstrates the use of a lazy functional language to implement a nondeterministic language. Perhaps the data from running the interpreter on our test programs may reveal some insights into properties/features of the interpreter.
+
+
+
+

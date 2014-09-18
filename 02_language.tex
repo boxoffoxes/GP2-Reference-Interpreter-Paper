@@ -1,3 +1,23 @@
 
 \section{The language}
 
+
+The language under consideration is GP2, a development of the original GP graph language.
+
+
+\subsection{Overview}
+
+A GP2 program comprises of a set of graph transformation conditional rule schemata, which we abbreviate to rules, and information about how these rules should be applied to the host graph. Each rule comprises of a left-hand-side that describes a sub-graph that might occur in the host graph, and a right-hand-side that contains the result of applying that rule to the matched sub-graph. The basic idea is that the subgraph of the host graph representing a copy of the left-hand side is replaced by the right-hand side. Graph transformation rules are composed with standard programming language constructs -- conditions and loops -- to create a complete graph program.
+
+
+GP2’s rules may contain variables in the labels of nodes and edges. Variables are statically typed by the programmer, as in C. Host graph labels may contain arbitrary information, which can be used by the program to identify interesting portions of the host graph. A variable assumes the value of the label of the node or edge it matches. In this way, GP2’s rules can modify not only a graph’s structure, but also its labels. A boolean condition may be associated with a rule in order to further control the possible subgraphs it can match.
+
+
+\subsection{Non-determinacy}
+
+
+For any given rule, there may be many possible ways that rule’s left-hand-side can match the host graph. One of the unusual characteristics of a graph programming language is that, for a single rule application, the interpreter or compiler is free to select any one of the possible match sites and apply the rule there.
+
+
+Because our reference interpreter is to be used to test the correctness of a subsequent GP2 compiler, it is useful to be able to generate the graphs corresponding to applying the rule to all possible match sites. For many programs this leads to exponential growth in the number of graphs, necessitating mitigating features to limit the number of rule applications performed and number of result graphs generated.
+
