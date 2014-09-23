@@ -10,7 +10,7 @@
 \ttt{cyclic = delete!; \{edge, loop\}}
 \\\\[-1ex]
 \ttt{delete(a,x,y: list)}
-\\
+\\[.5ex]
 \begin{tabular}{rcl}
 \begin{graph}(2.5,1)(0,-.1)
 \roundnode{A}(0.4,0.4)
@@ -48,7 +48,7 @@
 }
 \\\\[-1ex]
 \ttt{edge(a,x,y: list)}
-\\
+\\[.5ex]
 \begin{tabular}{rcl}
 \begin{graph}(2.5,1)(0,-.1)
 \roundnode{A}(0.4,0.4)
@@ -78,7 +78,7 @@
 \end{tabular}
 \\\\[-1ex]
 \ttt{loop(a,x: list)}
-\\
+\\[.5ex]
 \begin{tabular}{rcl}
 \begin{graph}(1.6,1)(0,-.1)
 \roundnode{A}(.4,.4)
