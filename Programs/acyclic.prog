@@ -5,100 +5,90 @@
    \graphnodecolour{1}
 
 \fbox{%
-\begin{tabular}{l}
-\ttt{main = if cyclic then fail}\\
-\ttt{cyclic = delete!; \{edge, loop\}}
-\\\\[-1ex]
-\ttt{delete(a,x,y: list)}
+$
+\begin{array}{rclcrcl}
+\multicolumn{7}{l}{\ttt{main = if cyclic then fail}}\\
+\multicolumn{7}{l}{\ttt{cyclic = delete!;\;\{edge,\,loop\}}}
+\\[1.8ex]
+\multicolumn{3}{l}{\mathtt{delete(a,x,y\colon list)}}
 \\[.5ex]
-\begin{tabular}{rcl}
-\begin{graph}(2.5,1)(0,-.1)
+\begin{graph}(2,1)(.1,-.1)
 \roundnode{A}(0.4,0.4)
 \autonodetext{A}{$\x$}
-\roundnode{B}(2.1,0.4)
+\roundnode{B}(1.8,0.4)
 \autonodetext{B}{$\y$}
 \autonodetext{A}[s]{\tiny 1}
 \autonodetext{B}[s]{\tiny 2} 
 \diredge{A}{B}
-\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\bowtext{A}{B}{.14}{$\mathtt{a}$}
 \end{graph}
 &
-\begin{graph}(.8,1)(0,-.1)
-\freetext(0.4,0.4){$\dder$}
+\begin{graph}(.6,1)(0,-.1)
+\freetext(0.3,0.4){$\dder$}
 \end{graph}
 &
-\begin{graph}(2.5,1)(0,-.1)
+\begin{graph}(2,1)(.1,-.1)
 \roundnode{A}(0.4,0.4)
 \autonodetext{A}{$\x$}
-\roundnode{B}(2.1,0.4)
+\roundnode{B}(1.8,0.4)
 \autonodetext{B}{$\y$}
 \autonodetext{A}[s]{\tiny 1}
 \autonodetext{B}[s]{\tiny 2} 
 \end{graph}
 \\[.5ex]
-\multicolumn{3}{l}{\ttt{where $\mathtt{indeg(1)=0}$}}
-\end{tabular}
-\hspace*{3em} 
-\setlength{\tabcolsep}{.5\tabcolsep}
-\raisebox{2.5ex}{
-\begin{tabular}{lll} 
-/$\ast$ & \small \emph{preserves cycles} \\ 
-   & \small \emph{and acyclicity} & $\ast$/
-\end{tabular}
-}
-\\\\[-1ex]
-\ttt{edge(a,x,y: list)}
+\multicolumn{3}{l}{\texttt{where $\mathtt{indeg(1)=0}$}}
+\\[2ex]
+\multicolumn{3}{l}{\mathtt{edge(a,x,y\colon list)}} 
+&
+\hspace{2em} 
+& 
+\multicolumn{3}{l}{\mathtt{loop(a,x\colon list)}}
 \\[.5ex]
-\begin{tabular}{rcl}
-\begin{graph}(2.5,1)(0,-.1)
+\begin{graph}(2,1)(.1,-.1)
 \roundnode{A}(0.4,0.4)
 \autonodetext{A}{$\x$}
-\roundnode{B}(2.1,0.4)
+\roundnode{B}(1.8,0.4)
 \autonodetext{B}{$\y$}
 \autonodetext{A}[s]{\tiny 1}
 \autonodetext{B}[s]{\tiny 2} 
 \diredge{A}{B}
-\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\bowtext{A}{B}{.14}{$\mathtt{a}$}
 \end{graph}
 &
-\begin{graph}(.8,1)(0,-.1)
-\freetext(0.4,0.4){$\dder$}
+\begin{graph}(.6,1)(0,-.1)
+\freetext(0.3,0.4){$\dder$}
 \end{graph}
 &
-\begin{graph}(2.5,1)(0,-.1)
+\begin{graph}(2,1)(.1,-.1)
 \roundnode{A}(0.4,0.4)
 \autonodetext{A}{$\x$}
-\roundnode{B}(2.1,0.4)
+\roundnode{B}(1.8,0.4)
 \autonodetext{B}{$\y$}
 \autonodetext{A}[s]{\tiny 1}
 \autonodetext{B}[s]{\tiny 2} 
 \diredge{A}{B}
-\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\bowtext{A}{B}{.14}{$\mathtt{a}$}
 \end{graph}
-\end{tabular}
-\\\\[-1ex]
-\ttt{loop(a,x: list)}
-\\[.5ex]
-\begin{tabular}{rcl}
-\begin{graph}(1.6,1)(0,-.1)
+&&
+\begin{graph}(1.4,1)(.1,-.1)
 \roundnode{A}(.4,.4)
 \autonodetext{A}{$\x$}
 \autonodetext{A}[s]{\tiny 1}
-\dirloopedge{A}(.54,.22)(.54,-.22)
-\freetext(1.55,.4){$\mathtt{a}$}
+\dirloopedge{A}(.46,.2)(.46,-.2)
+\freetext(1.4,.4){$\mathtt{a}$}
 \end{graph}
 &
-\begin{graph}(.8,1)(0,-.1)
-\freetext(0.4,0.4){$\dder$}
+\begin{graph}(.6,1)(0,-.1)
+\freetext(0.3,0.4){$\dder$}
 \end{graph}
 &
-\begin{graph}(1.6,1)(0,-.1)
+\begin{graph}(1.4,1)(.1,-.1)
 \roundnode{A}(.4,.4)
 \autonodetext{A}{$\x$}
 \autonodetext{A}[s]{\tiny 1}
-\dirloopedge{A}(.54,.22)(.54,-.22)
-\freetext(1.55,.4){$\mathtt{a}$}
+\dirloopedge{A}(.46,.2)(.46,-.2)
+\freetext(1.4,.4){$\mathtt{a}$}
 \end{graph}
-\end{tabular}
-\end{tabular}
+\end{array}
+$
 }

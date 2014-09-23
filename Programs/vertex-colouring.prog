@@ -5,7 +5,6 @@
 \autodistance{1.0}
 \graphnodecolour{1}
 
-\fbox{%
 $\begin{array}{l}
 \mtt{main}\, =\, \mathtt{init!;\; inc!}
 \\\\[-1ex]
@@ -59,4 +58,3 @@ $\begin{array}{l}
 \end{graph}
 \end{array}
 \end{array}$
-}

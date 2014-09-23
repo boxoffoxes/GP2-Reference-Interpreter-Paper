@@ -1,15 +1,47 @@
 \section{Graph Programs}
 \label{sec:graph-programs}
 
+We briefly introduce GP by discussing two example programs (see \cite{Plump12a} for a language definition). The principal programming construct in GP are conditional graph transformation rules labelled with expressions. 
+
+
+\begin{example}[Transitive Closure]
+
+\begin{tabular}{lp{10.5cm}}
+\ul{Input:} & Any graph $G$. \\
+\ul{Output:} & The smallest extension of $G$ with unlabelled edges making the graph transitive (where ``unlabelled'' edges are labelled with the empty list).
+\end{tabular}
+  
+\begin{figure}[htb]
+\begin{center}
+ \input{Programs/trans_closure.prog}
+\end{center}
+%\vspace{-.5\baselineskip}
+\caption{Program for transitive closure}\label{fig:transitive-closure}
+\end{figure}
+
+\ul{Notes}
+\begin{enumerate}
+\setlength{\itemsep}{-.5ex}
+\item The output is unique up to isomorphism.
+\item The derivation length is bounded by $|V_G|^2$.
+\end{enumerate}
+\end{example}
+
+
+\begin{example}[Vertex Colouring]
 
 \begin{tabular}{lp{10.5cm}}
 \ul{Input:} & Any graph $G$. \\
 \ul{Output:} & The graph obtained from $G$\/ by marking grey each node and replacing its label $l$\/ with $l{:}i$, where $1 \leq i \leq |V_G|$ is the node's \emph{colour}. The source and target of each non-loop edge have different colours.
 \end{tabular}
   
+\begin{figure}[htb]
 \begin{center}
-\input{Programs/vertex-colouring.prog}
+ \input{Programs/vertex-colouring.prog}
 \end{center}
+%\vspace{-.5\baselineskip}
+\caption{Program for vertex colouring}\label{fig:vertex-colouring}
+\end{figure}
 
 \ul{Notes}
 \begin{enumerate}
@@ -17,4 +49,5 @@
 \item The derivation length is bounded by $|V_G|^2$.
 \item The program is highly non-deterministic. For the same input graph, it may return outputs with different numbers of colours.
 \end{enumerate}
+\end{example}
 

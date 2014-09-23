@@ -1,24 +1,7 @@
 \section{Benchmark Programs}
 \label{sec:benchmark}
  
-
-\subsection{Transitive closure}
-
-\begin{tabular}{lp{10.5cm}}
-\ul{Input:} & Any graph $G$. \\
-\ul{Output:} & The smallest extension of $G$ with unlabelled edges making the graph transitive (where ``unlabelled'' edges are labelled with the empty list).
-\end{tabular}
-  
-\begin{center}
-\input{Programs/trans_closure.prog}
-\end{center}
-
-\ul{Notes}
-\begin{enumerate}
-\setlength{\itemsep}{-.5ex}
-\item The output is unique up to isomorphism.
-\item The derivation length is bounded by $|V_G|^2$.
-\end{enumerate}
+Besides the programs for transitive closure and vertex colouring, we select four more programs for benchmarking.
 
 
 \subsection{Shortest distances}
@@ -40,7 +23,7 @@
 \end{enumerate}
 
 
-\subsection{Acyclic graphs}
+\subsection{Recognising acyclic graphs}
 \label{sec:acyclic}
 
 \begin{tabular}{lp{10.5cm}}
@@ -51,11 +34,6 @@
 \begin{center}
 \input{Programs/acyclic.prog}
 \end{center}
-
-
-\subsection{Vertex colouring}
-
-See Section \ref{sec:graph-programs} for the description of this program.
 
 
 \subsection{Rooted 2-colouring}
@@ -77,7 +55,7 @@ See Section \ref{sec:graph-programs} for the description of this program.
 \end{enumerate}
 
 
-\subsection{Sierpinski triangles}
+\subsection{Generating Sierpinski triangles}
 
 \begin{tabular}{lp{10.5cm}}
 \ul{Input:} & A single node labelled with a non-negative integer $n$. \\
