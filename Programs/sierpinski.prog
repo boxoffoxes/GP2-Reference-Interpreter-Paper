@@ -6,7 +6,7 @@
 }
 
 \newcommand{\leftgraph}{
-\begin{graph}(4,3.5)%(-0.5,1)%
+\begin{graph}(4,3.2)(0,.3)%
 \setupg%
 \roundnode{1}(0.5,2.8)%
 \roundnode{2}(2.5,2.8)%
@@ -27,7 +27,7 @@
 }
 
 \newcommand{\rightgraph}{
-\begin{graph}(5,5)%(-0.5,1)%
+\begin{graph}(5,4.7)(0,.3)%
 \setupg%
 \roundnode{1}(0.5,4.4)%
 \roundnode{2}(2.5,4.4)%
