@@ -1,0 +1,92 @@
+\graphnodesize{1.1}
+\grapharrowlength{.2}
+\grapharrowwidth{.6}
+\autodistance{1.0}
+\graphnodecolour{1}
+
+\framebox{%
+$\begin{array}{rclcrcl}
+\multicolumn{5}{l}{\mathtt{main} = \mathtt{init};\,\mathtt{\{add,\, reduce\}!}}
+\\[1.5ex]
+\multicolumn{3}{l}{\mathtt{init(x\colon list)}}
+&&
+\multicolumn{3}{l}{\mathtt{add(x,y\colon list;\, m,n\colon int)}}
+\\[1ex]
+\begin{graph}(.8,1.1)
+\roundnode{1}(.4,.6)[\grey]
+\autonodetext{1}{$\mathtt{x}$}
+\autonodetext{1}[s]{\tiny 1}
+\end{graph}
+&
+\begin{graph}(.8,1.1)
+\freetext(.4,.6){$\dder$}
+\end{graph}
+&
+\begin{graph}(.8,1.1)
+\roundnode{1}(0.4,.6)[\grey]
+\autonodetext{1}{$\mathtt{x{:}0}$}
+\autonodetext{1}[s]{\tiny 1}
+\end{graph}
+&
+\hspace{3em}
+&
+\begin{graph}(2.5,1.1)
+\roundnode{1}(0.4,.6)[\grey]
+\autonodetext{1}{$\mathtt{x{:}m}$}
+\roundnode{2}(2.1,.6)
+\autonodetext{2}{$\mathtt{y}$}
+\autonodetext{1}[s]{\tiny 1}
+\autonodetext{2}[s]{\tiny 2} 
+\diredge{1}{2}
+\bowtext{1}{2}{0.13}{$\mathtt{n}$}
+\end{graph}
+&
+\begin{graph}(.8,1.1)
+\freetext(.4,.6){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.5,1.1)
+\roundnode{1}(0.4,.6)[\grey]
+\autonodetext{1}{$\mathtt{x{:}m}$}
+\roundnode{2}(2.1,.6)[\grey]
+\autonodetext{2}{$\mathtt{y{:}m{+}n}$}
+\autonodetext{1}[s]{\tiny 1}
+\autonodetext{2}[s]{\tiny 2} 
+\diredge{1}{2}
+\bowtext{1}{2}{0.13}{$\mathtt{n}$}
+\end{graph}
+\\[1.5ex]
+&&&&
+\multicolumn{3}{l}{\mathtt{reduce(x,y\colon list;\, m,n,p\colon int)}}
+\\[1ex]
+&&&&
+\begin{graph}(2.5,1.1)
+\roundnode{A}(0.4,0.6)[\grey]
+\autonodetext{A}{$\mathtt{x{:}m}$}
+\roundnode{B}(2.1,0.6)[\grey]
+\autonodetext{B}{$\mathtt{y{:}p}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.13}{$\mathtt{n}$}
+\end{graph}
+&
+\begin{graph}(.8,1.1)
+\freetext(.4,.6){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.5,1.1)
+\roundnode{A}(0.4,0.6)[\grey]
+\autonodetext{A}{$\mathtt{x{:}m}$}
+\roundnode{B}(2.1,0.6)[\grey]
+\autonodetext{B}{$\mathtt{y{:}m{+}n}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.13}{$\mathtt{n}$}
+\end{graph}
+\\
+&&&&
+\multicolumn{3}{l}{\texttt{where $\mathtt{m+n < p}$}}
+\end{array}$
+}

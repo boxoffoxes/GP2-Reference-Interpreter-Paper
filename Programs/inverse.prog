@@ -1,0 +1,57 @@
+\graphnodesize{0.8}
+\grapharrowlength{0.2}
+\grapharrowwidth{0.6}
+\autodistance{1.0}
+\graphnodecolour{1}
+
+\fbox{%
+$\begin{array}{rcl}
+\multicolumn{3}{l}{\mathtt{main} = \mathtt{reverse!;\; unmark!}}
+\\[1ex]
+\multicolumn{3}{l}{\mathtt{reverse(a,x,y\colon list)}}
+\\
+\begin{graph}(2.5,1.1)(.2,1.1)
+ \roundnode{n1}(.6,1.7)
+  \autonodetext{n1}{\texttt{x}}\autonodetext{n1}[s]{\tiny 1}
+ \roundnode{n2}(2.2,1.7)
+  \autonodetext{n2}{\texttt{y}}\autonodetext{n2}[s]{\tiny 2}
+ \diredge{n1}{n2}\bowtext{n1}{n2}{.13}{\texttt{a}}
+\end{graph}
+&
+\begin{graph}(.4,1.1)
+ \freetext(.2,.6){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.5,1.1)(.2,1.1)
+ \roundnode{n1}(.7,1.7)
+  \autonodetext{n1}{\texttt{x}}\autonodetext{n1}[s]{\tiny 1}
+  \roundnode{n2}(2.3,1.7)
+  \autonodetext{n2}{\texttt{y}}\autonodetext{n2}[s]{\tiny 2}
+ \diredge{n2}{n1}[\graphlinedash{2 2}]
+ \bowtext{n1}{n2}{.13}{$\mathtt{a}$}
+\end{graph}
+\\[1ex]
+\multicolumn{3}{l}{\mathtt{unmark(a,x,y\colon list)}}
+\\
+\begin{graph}(2.5,1.1)(.2,1.1)
+ \roundnode{n1}(.6,1.7)
+  \autonodetext{n1}{\texttt{x}}\autonodetext{n1}[s]{\tiny 1}
+ \roundnode{n2}(2.2,1.7)
+  \autonodetext{n2}{\texttt{y}}\autonodetext{n2}[s]{\tiny 2}
+ \diredge{n1}{n2}[\graphlinedash{2 2}]
+ \bowtext{n1}{n2}{.13}{\texttt{a}}
+\end{graph}
+&
+\begin{graph}(.4,1.1)
+ \freetext(.2,.6){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.3,1.1)(.2,1.1)
+ \roundnode{n1}(.7,1.7)
+  \autonodetext{n1}{\texttt{x}}\autonodetext{n1}[s]{\tiny 1}
+  \roundnode{n2}(2.3,1.7)
+  \autonodetext{n2}{\texttt{y}}\autonodetext{n2}[s]{\tiny 2}
+ \diredge{n1}{n2}\bowtext{n1}{n2}{.13}{\texttt{a}}
+\end{graph}
+\end{array}$
+}

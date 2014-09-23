@@ -1,0 +1,137 @@
+\begin{tikzpicture} [scale=0.65,align=center,auto,inner sep=2mm,arrowin,arrowout,font=\ttfamily]
+\node at (6.3,4.3) {main = try start; sort!; test-cycle then cleanup};
+\node at (5.4,3.7) {start = make-root; add-indeg!; num-source!};
+\node at (3.1,3.1) {sort = \{number, hide-edge\}};
+\node at (4,2.5) {test-cycle = if shaded then fail};
+\node at (3.8,1.9) {cleanup = undo1!; undo2!; undo3};
+
+%make-root
+\node at (0,0) {\Large{$\emptyset$}};
+\node at (1.2,0){$\Rightarrow$};
+\node at (1,0)[above=5mm] {make-root()};
+\node at (2.7,0)[root,label=below:\scriptsize{1}]{1};
+
+%add-indeg
+\begin{scope}[yshift=-3cm]
+\node at (0,0)[circle,draw,label=below:\scriptsize{1}]{x};
+\node at (1.2,0){$\Rightarrow$};
+\node at (1.9,0)[above=4mm] {add-indeg(x:atom)};
+\node at (3.6,0)[fill=black!20,rectangle,draw,rounded corners=3mm,inner sep=1.7mm,label=below:\scriptsize{1}]{x:indeg(1)};
+\end{scope}
+
+%number
+\begin{scope}[xshift=0.1cm,yshift=-6.5cm]
+\node (l1) at (0,0)[root,label=right:\scriptsize{1}]{i};
+\node (l2) at (0,-2.5)[circle,draw,label=right:\scriptsize{2}]{l}
+  edge[<-] (l1);
+\node (l3) at (0,-5)[inner sep=1mm,fill=black!20,circle,draw,label=right:\scriptsize{3}]{x:1}
+  edge[<-] node[left]{a} (l2);
+\node at (1.8,-2.5){$\Rightarrow$};
+\node at (1.5,0)[above=4mm] {\parbox{3cm}{number(a,x:atom; i:int; l:list)}};
+\node (r1) at (3.3,0)[inner sep=1mm,root,label=right:\scriptsize{1}]{i+1};
+\node (r2) at (3.3,-2.5)[circle,draw,label=right:\scriptsize{2}]{l}
+  edge[<-] (r1);
+\node (r3) at (3.3,-5)[inner sep=1mm,circle,draw,label=right:\scriptsize{3}]{x:i}
+  edge[<-,bend right=45] (r1)
+  edge[<-] node[left]{a} (r2);
+\end{scope}
+
+%undo1
+\begin{scope}[xshift=0.1cm,yshift=-14cm]
+\node (l1) at (0,0)[root,label=right:\scriptsize{1}]{i};
+\node (l2) at (0,-2.5)[circle,draw,label=right:\scriptsize{2}]{l}
+  edge[<-] (l1);
+\node (l3) at (0,-5)[circle,draw,label=right:\scriptsize{3}]{k}
+  edge[<-,dashed] node[left]{a} (l2);
+\node at (1.8,-2.5){$\Rightarrow$};
+\node at (2.5,0)[above=4mm] {undo1(i:int; l,k:list)};
+\node (r1) at (3.3,0)[inner sep=1mm,root,label=right:\scriptsize{1}]{i+1};
+\node (r2) at (3.3,-2.5)[circle,draw,label=right:\scriptsize{2}]{l}
+  edge[<-] (r1);
+\node (r3) at (3.3,-5)[circle,draw,label=right:\scriptsize{3}]{k}
+  edge[<-] node[left]{a} (r2);
+\end{scope}
+
+%num-source
+\begin{scope}[xshift=7cm]
+\node (l1) at (0,0)[root,label=below:\scriptsize{1}]{i};
+\node (l2) at (2,0)[inner sep=1mm,fill=black!20,circle,draw,label=below:\scriptsize{2}]{x:0};
+\node at (3.2,0){$\Rightarrow$};
+\node at (3,0)[above=4mm] {num-source(x:atom; i:int)};
+\node (r1) at (4.4,0)[inner sep=1mm,root,label=below:\scriptsize{1}]{i+1};
+\node (r2) at (6.4,0)[inner sep=1mm,circle,draw,label=below:\scriptsize{2}]{x:i}
+  edge [<-] (r1);  
+\end{scope}
+
+%shaded
+\begin{scope}[inner sep=2mm,xshift=7cm,yshift=-3cm]
+\node at (0,0)[fill=black!20,circle,draw,label=below:\scriptsize{1}]{l};
+\node at (1.2,0){$\Rightarrow$};
+\node at (1.3,0)[above=4mm] {shaded(l:list)};
+\node at (2.4,0)[fill=black!20,circle,draw,label=below:\scriptsize{1}]{l};
+\end{scope}
+
+%hide-edge
+\begin{scope}[xshift=7cm,yshift=-6.5cm]
+\node (l1) at (0,0)[root,label=right:\scriptsize{1}]{i};
+\node (l2) at (0,-2.5)[circle,draw,label=right:\scriptsize{2}]{l}
+  edge[<-] (l1);
+\node (l3) at (0,-5)[inner sep=1mm,fill=black!20,circle,draw,label=right:\scriptsize{3}]{x:d}
+  edge[<-] node[left]{a} (l2);
+\node at (1.8,-2.5){$\Rightarrow$};
+\node at (2.2,0)[above=4mm] {\parbox{4cm}{hide-edge(a,x:atom; d,i:int; l:list)}};
+\node (r1) at (3.3,0)[root,label=right:\scriptsize{1}]{i};
+\node (r2) at (3.3,-2.5)[circle,draw,label=right:\scriptsize{2}]{l}
+  edge[<-] (r1);
+\node (r3) at (3.3,-5)[inner sep=0.5mm,fill=black!20,circle,draw,label=right:\scriptsize{3}]{x:d-1}
+  edge[<-,dashed] node[left]{a} (r2);
+\node at (0.8,-5)[below=5mm] {where d$\;>\;$1};
+\end{scope}
+
+%undo2
+\begin{scope}[xshift=6.5cm,yshift=-15cm]
+\node (l1) at (0,0)[root,label=below:\scriptsize{1}]{i};
+\node (l2) at (2.2,0)[circle,draw,label=below:\scriptsize{2}]{l}
+    edge [<-] (l1);  
+\node at (3.4,0){$\Rightarrow$};
+\node at (2.3,0)[above=4mm] {undo2(i:int; l:list)};i
+
+\node (r1) at (4.6,0)[root,label=below:\scriptsize{1}]{i};
+\node (r2) at (6.4,0)[circle,draw,label=below:\scriptsize{2}]{l};
+\end{scope}
+
+%undo3
+\begin{scope}[xshift=6.5cm,yshift=-18.1cm]
+\node at (0,0) [root,label=below:\scriptsize{1}]{i};
+\node at (1.2,0){$\Rightarrow$};
+\node at (1.05,0)[above=5mm] {undo3(i:int)};
+\node at (2,0) {\Large{$\emptyset$}};
+\end{scope}
+
+\draw (-1,4.9) rectangle (14.5,-20);
+
+%Old rules
+
+%edge
+%\begin{scope}[inner sep=2mm,xshift=7cm,yshift=-3cm]
+%\node (l1) at (0,0)[fill=black!20,circle,draw,label=below:\scriptsize{1}]{l};
+%\node (l2) at (2,0)[fill=black!20,circle,draw,label=below:\scriptsize{2}]{k}
+%  edge [<-] (l1);  
+%\node at (3.2,0){$\Rightarrow$};
+%\node at (1.3,0)[above=4mm] {edge(l,k:list)};
+%\node (r1) at (4.4,0)[fill=black!20,circle,draw,label=below:\scriptsize{1}]{l};
+%\node (r2) at (6.4,0)[fill=black!20,circle,draw,label=below:\scriptsize{2}]{k}
+%  edge [<-] (r1); 
+
+%loop
+%\begin{scope}[xshift=6.5cm,yshift=-18.1cm]
+%\node (l) at (0,0) [fill=black!20,circle,draw,label=below:\scriptsize{2}]{l}
+%  edge [->,in=338,out=22,min distance=7mm] (l);
+%\node at (1.5,0){$\Rightarrow$};
+%\node at (1.05,0)[above=5mm] {loop(l:list)};
+%\node (r) at (2.5,0)[fill=black!20,circle,draw,label=below:\scriptsize{2}]{l}
+%    edge [->,in=338,out=22,min distance=7mm] (r);
+%\end{scope}
+
+\end{tikzpicture}
+

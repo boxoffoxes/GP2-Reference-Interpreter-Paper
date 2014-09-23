@@ -1,6 +1,32 @@
-\documentclass[]{llncs}
+\documentclass{llncs}
 %\usepackage{lncs}
+
+\usepackage{amsmath,latexsym,amsfonts,amssymb,theorem}
+\usepackage{rotating,graphs,stmaryrd}
+\usepackage{subfig,pgf,xcolor,tikz}
 \usepackage{cite}
+
+\input{macros}
+
+\usetikzlibrary{arrows,fit,backgrounds}
+\tikzset{arrowin/.style={<-,>=latex,semithick},arrowout/.style={->,>=latex,semithick},root/.style={circle,draw,line width=2pt}}
+
+
 \begin{document}
-\title{A Reference Interpreter for a Graph Programming Language}
+
+\title{A Reference Interpreter for Graph Programs}
+%\title{A Reference Interpreter for a Graph Programming Language}
+
+\author{Christopher Bak, Glyn Faulkner, Detlef Plump and Colin Runciman} 
+\institute{Department of Computer Science\\
+           The University of York, UK}
+
+
+\maketitle
+\thispagestyle{empty}
+
+
+\begin{abstract}
+Abstract goes here.
+\end{abstract}
 

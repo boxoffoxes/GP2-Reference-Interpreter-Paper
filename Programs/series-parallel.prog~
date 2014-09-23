@@ -1,0 +1,121 @@
+   \graphnodesize{.6}
+   \grapharrowlength{0.2}
+   \grapharrowwidth{0.6}
+   \autodistance{1.0}
+   \graphnodecolour{1}
+
+\vspace{1.2ex}
+$\begin{array}{ll}
+\multicolumn{2}{l}{%
+\text{\ttt{series-parallel}}\; =\; \mtt{reduce!};\, \text{\ttt{delete-base}};\, \mtt{if}\ \mtt{nonempty}\ \mtt{then}\ \mtt{fail}
+} 
+\\
+\multicolumn{2}{l}{\mathtt{reduce}\; =\; \{\mathtt{par},\, \mathtt{seq}\}}
+\\\\
+\multicolumn{2}{l}{%
+\mathtt{par(a,b,x,y\colon int)}
+}
+\\[1ex]
+\multicolumn{2}{l}{%
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\dirbow{A}{B}{.12}
+\bowtext{A}{B}{.25}{$\mathtt{a}$}
+\dirbow{A}{B}{-.12}
+\bowtext{A}{B}{-.27}{$\mathtt{b}$}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,0.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{0}$}
+\end{graph}
+}
+\\\\
+\multicolumn{2}{l}{%
+\mathtt{seq(a,b,x,y,z\colon int)}
+}
+\\[1ex]
+\multicolumn{2}{l}{%
+\begin{graph}(4.2,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\roundnode{C}(3.8,0.4)
+\autonodetext{C}{$\z$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{C}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\diredge{B}{C}
+\bowtext{B}{C}{.15}{$\mathtt{b}$}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\z$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{0}$}
+\end{graph}
+}
+\\\\[-.5ex]
+\mathtt{delete-base(a,x,y\colon int)} \hspace{3cm} & \mathtt{nonempty(x\colon int)}
+\\[1ex]
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,0.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(.4,.8)
+\freetext(0.2,0.4){\large $\emptyset$}
+\end{graph}
+%
+&
+%
+\begin{graph}(.8,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\autonodetext{A}[s]{\tiny 1}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,0.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(.8,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\autonodetext{A}[s]{\tiny 1}
+\end{graph}
+\end{array}$

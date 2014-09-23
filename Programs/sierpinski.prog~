@@ -1,0 +1,114 @@
+\newcommand{\setupg}{%
+\graphnodecolour{1}%
+\graphnodesize{.93}%
+\opaquetextfalse%
+\autodistance{1.0}%
+}
+
+\newcommand{\leftgraph}{
+\begin{graph}(4,3.5)%(-0.5,1)%
+\setupg%
+\roundnode{1}(0.5,2.8)%
+\roundnode{2}(2.5,2.8)%
+\roundnode{3}(1.5,1)%
+\roundnode{4}(3.5,1)%
+\autonodetext{1}[s]{\tiny 1}%
+\autonodetext{2}[s]{\tiny 2}%
+\autonodetext{3}[s]{\tiny 3}%
+\autonodetext{4}[s]{\tiny 4}%
+\autonodetext{1}{\texttt{x\_y}}%
+\autonodetext{2}{\texttt{y}}%
+\autonodetext{3}{\texttt{u}}%
+\autonodetext{4}{\texttt{v}}%
+\diredge{2}{3}\bowtext{2}{3}{-0.12}{\texttt{0}}%
+\diredge{2}{4}\bowtext{2}{4}{0.12}{\texttt{1}}%
+\diredge{3}{4}\bowtext{3}{4}{-0.12}{\texttt{2}}%
+\end{graph}%
+}
+
+\newcommand{\rightgraph}{
+\begin{graph}(5,5)%(-0.5,1)%
+\setupg%
+\roundnode{1}(0.5,4.4)%
+\roundnode{2}(2.5,4.4)%
+\roundnode{3}(0.5,1.0)%
+\roundnode{4}(4.5,1.0)%
+\roundnode{5}(1.5,2.7)%
+\roundnode{6}(3.5,2.7)%
+\roundnode{7}(2.5,1.0)%
+\autonodetext{1}[s]{\tiny 1}%
+\autonodetext{2}[s]{\tiny 2}%
+\autonodetext{3}[s]{\tiny 3}%
+\autonodetext{4}[s]{\tiny 4}%
+\autonodetext{1}{\texttt{x\_y}}%
+\autonodetext{2}{\texttt{y+1}}%
+\autonodetext{3}{\texttt{u}}%
+\autonodetext{4}{\texttt{v}}%
+\autonodetext{5}{\texttt{y+1}}%
+\autonodetext{6}{\texttt{y+1}}%
+\autonodetext{7}{\texttt{0}}%
+\diredge{2}{5}\bowtext{2}{5}{-0.12}{\texttt{0}}%
+\diredge{5}{3}\bowtext{5}{3}{-0.12}{\texttt{0}}%
+\diredge{6}{7}\bowtext{6}{7}{-0.12}{\texttt{0}}%
+\diredge{2}{6}\bowtext{2}{6}{0.12}{\texttt{1}}%
+\diredge{5}{7}\bowtext{5}{7}{0.12}{\texttt{1}}%
+\diredge{6}{4}\bowtext{6}{4}{0.12}{\texttt{1}}%
+\diredge{5}{6}\bowtext{5}{6}{-0.12}{\texttt{2}}%
+\diredge{3}{7}\bowtext{3}{7}{-0.12}{\texttt{2}}%
+\diredge{7}{4}\bowtext{7}{4}{-0.12}{\texttt{2}}%
+\end{graph}%
+}
+
+\newcommand{\ngraph}[1]{%
+\begin{graph}(1.2,1.5)%
+\setupg%
+\roundnode{1}(0.6,0.9)%
+\autonodetext{1}{#1}%
+\autonodetext{1}[s]{\tiny 1}%
+\end{graph}%
+}
+\newcommand{\goesto}{\hspace{.25cm}$\dder$\hspace{.25cm}}
+
+\newcommand{\startgraph}{%
+\begin{graph}(4,3)%(-0.5,1)%
+\setupg%
+\roundnode{1}(0.5,2.2)%
+\roundnode{2}(2.5,2.2)%
+\roundnode{3}(1.5,0.5)%
+\roundnode{4}(3.5,0.5)%
+\autonodetext{1}[s]{\tiny 1}%
+\autonodetext{1}{\texttt{x\_0}}%
+\autonodetext{2}{\texttt{1}}%
+\autonodetext{3}{\texttt{0}}%
+\autonodetext{4}{\texttt{0}}%
+\diredge{2}{3}\bowtext{2}{3}{-0.12}{\texttt{0}}%
+\diredge{2}{4}\bowtext{2}{4}{0.12}{\texttt{1}}%
+\diredge{3}{4}\bowtext{3}{4}{-0.12}{\texttt{2}}%
+\end{graph}%
+}
+\newcommand{\myvcenter}[1]{\ensuremath{\vcenter{\hbox{#1}}}}
+
+\begin{tabular}{lcl}
+\multicolumn{3}{l}{$\mathtt{main\, =\, init;\; (inc;\; expand!)!}$} \\\\
+$\mathtt{init (x: int)}$  & \hspace*{2em} &  $\mathtt{inc (x,y: int)}$\\[-1.5ex]
+\myvcenter{\ngraph{x}} \goesto \myvcenter{\startgraph} 
+&&
+\parbox{6cm}{%
+\myvcenter{\ngraph{\texttt{x\_y}}} \goesto \myvcenter{\ngraph{\small\texttt{x\_y+1}}} \\[1ex]  
+\texttt{where x > y} 
+}
+\\\\
+\multicolumn{3}{l}{$\mathtt{expand (x,y,u,v: int)}$} \\[-1ex] 
+\multicolumn{3}{l}{\myvcenter{\leftgraph} \goesto \myvcenter{\rightgraph}}
+\end{tabular}
+
+%\begin{tabular}{|l|} \hline
+%\texttt{init (x: int)} \\
+%\nodeframegraph{x} \goesto \startframegraph \\ 
+%\hline \texttt{inc (x,y: int)} \\
+%\nodeframegraph{\texttt{x\_y}} \goesto \nodeframegraph{\texttt{x\_y+1}} \\ 
+%\texttt{where x > y} \\
+%\hline \texttt{expand (x,y,u,v: int)} \\
+%\leftframegraph \goesto \rightframegraph \\
+%\hline
+%\end{tabular}

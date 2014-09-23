@@ -1,0 +1,67 @@
+\begin{tikzpicture} [scale=0.7,align=center,auto,inner sep=2mm,arrowin,arrowout,font=\ttfamily]
+\node at (4.75,3.8) {main = try (init; colouring; unshaded)};
+\node at (6.75,3.2) {colouring = ((colour; if invalid then stop)!; back)!};
+\node at (4,2.6) {colour = \{colour-blue,colour-red\}};
+\node at (4.45,2) {invalid = \{joined-reds,joined-blues\}};
+
+%init
+\node at (0,0)[root,label=below:\scriptsize{1}]{x};
+\node at (1.2,0){$\Rightarrow$};
+\node at (1,0)[above=5mm] {init(x:atom)};
+\node at (2.4,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
+
+%stop
+\begin{scope}[yshift=-3cm]
+\node (l1) at (0,0)[root,label=below:\scriptsize{1}]{x};
+\node at (1.2,0){$\Rightarrow$};
+\node at (1,0)[above=5mm] {stop(x:atom)};
+\node (r1) at (2.4,0)[root,fill=black!20,label=below:\scriptsize{1}]{x};
+\end{scope}
+
+%unshaded
+\begin{scope}[yshift=-6cm]
+\node (l1) at (0,0)[root,label=below:\scriptsize{1}]{x};
+\node at (1.2,0){$\Rightarrow$};
+\node at (1.5,0)[above=5mm] {unshaded(x:atom)};
+\node (r1) at (2.4,0)[root,label=below:\scriptsize{1}]{x};
+\end{scope}
+
+%colour-red
+\begin{scope}[xshift=5.5cm]
+\node (l1) at (0,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
+\node (l2) at (2.9,0)[inner sep = 2mm,circle,draw,label=below:\scriptsize{2}]{y}
+   edge [] node[above]{a} (l1);
+\node at (4.1,0){$\Rightarrow$};
+\node at (3.2,0)[above=5mm] {colour-red(a:list; x,y:atom)};
+\node (r1) at (5.3,0)[circle,draw,fill=red!75,label=below:\scriptsize{1}]{x};
+\node (r2) at (8.2,0)[root,fill=blue!60,label=below:\scriptsize{2}]{y}
+  edge [dashed] node[above]{a} (r1);  
+\end{scope}
+
+%joined-reds
+\begin{scope}[xshift=5.5cm,yshift=-3cm]
+\node (l1) at (0,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
+\node (l2) at (2.9,0)[circle,draw,fill=red!75,label=below:\scriptsize{2}]{y}
+  edge [<->] node[above]{a} (l1);
+\node at (4.1,0){$\Rightarrow$};
+\node at (3.3,0)[above=5mm] {joined-reds(a:list; x,y:atom)};
+\node (r1) at (5.3,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
+\node (r2) at (8.2,0)[circle,draw,fill=red!75,label=below:\scriptsize{2}]{y}
+  edge [<->] node[above]{a} (r1);
+\end{scope}
+
+%back
+\begin{scope}[xshift=5.5cm,yshift=-6cm]
+\node (l1) at (0,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
+\node (l2) at (2.9,0)[circle,draw,fill=blue!60,label=below:\scriptsize{2}]{y}
+  edge [<->,dashed] node[above]{a} (l1);  
+\node at (4.1,0){$\Rightarrow$};
+\node at (2.4,0)[above=5mm] {back(a:list; x,y:atom)};
+\node (r1) at (5.3,0)[circle,draw,fill=red!75,label=below:\scriptsize{1}]{x};
+\node (r2) at (8.2,0)[root,fill=blue!60,label=below:\scriptsize{2}]{y}
+  edge [<->] node[above]{a} (r1);
+\end{scope}
+
+\draw (-1.2,4.4) rectangle (15.2,-7.5);
+
+\end{tikzpicture}

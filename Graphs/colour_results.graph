@@ -1,0 +1,47 @@
+% graph settings as in Programs/colouring.prog
+
+
+\begin{graph}(3.2,3.2)
+ \roundnode{n1}(.4,1.6)\autonodetext{n1}{1}
+ \roundnode{n2}(1.6,2.8)\autonodetext{n2}{1}
+ \roundnode{n3}(2.8,1.6)\autonodetext{n3}{1}
+ \roundnode{n4}(1.6,.4)\autonodetext{n4}{1}
+ \diredge{n1}{n2}\bowtext{n1}{n2}{0.13}{2}
+ \diredge{n2}{n3}\bowtext{n2}{n3}{0.13}{2}
+ \diredge{n3}{n4}\bowtext{n3}{n4}{0.13}{2}
+ \diredge{n4}{n1}\bowtext{n4}{n1}{0.13}{2}
+\end{graph}
+\\
+\begin{graph}(4.2,1)
+ \freetext(.3,.5)%
+  {\begin{turn}{45} \mbox{\large $\DSLongldder^*$} \end{turn}}
+ \freetext(3.9,.5)%
+  {\begin{turn}{-45} \mbox{\large $\DSLongdder^*$} \end{turn}}
+\end{graph}
+\\
+\begin{graph}(3.2,3.2)
+ \roundnode{n1}(.4,1.6)\autonodetext{n1}{1\_0}
+ \roundnode{n2}(1.6,2.8)\autonodetext{n2}{1\_1}
+ \roundnode{n3}(2.8,1.6)\autonodetext{n3}{1\_0}
+ \roundnode{n4}(1.6,.4)\autonodetext{n4}{1\_1}
+ \diredge{n1}{n2}\bowtext{n1}{n2}{0.13}{2}
+ \diredge{n2}{n3}\bowtext{n2}{n3}{0.13}{2}
+ \diredge{n3}{n4}\bowtext{n3}{n4}{0.13}{2}
+ \diredge{n4}{n1}\bowtext{n4}{n1}{0.13}{2}
+\end{graph}
+%
+\begin{graph}(3.2,3.2)
+\end{graph}
+%
+\begin{graph}(3.2,3.2)
+ \roundnode{n1}(.4,1.6)\autonodetext{n1}{1\_0}
+ \roundnode{n2}(1.6,2.8)\autonodetext{n2}{1\_1}
+ \roundnode{n3}(2.8,1.6)\autonodetext{n3}{1\_3}
+ \roundnode{n4}(1.6,.4)\autonodetext{n4}{1\_2}
+ \diredge{n1}{n2}\bowtext{n1}{n2}{0.13}{2}
+ \diredge{n2}{n3}\bowtext{n2}{n3}{0.13}{2}
+ \diredge{n3}{n4}\bowtext{n3}{n4}{0.13}{2}
+ \diredge{n4}{n1}\bowtext{n4}{n1}{0.13}{2}
+\end{graph}
+%
+

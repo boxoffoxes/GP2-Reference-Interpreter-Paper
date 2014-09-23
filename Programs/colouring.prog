@@ -1,0 +1,95 @@
+\graphnodesize{.8}
+\grapharrowlength{.2}
+\grapharrowwidth{.6}
+\autodistance{1.0}
+\graphnodecolour{1}
+
+\fbox{%
+$\begin{array}{lcl}
+\multicolumn{3}{l}{\mathtt{main} = \mathtt{init!};\; \mathtt{\{inc1,\, inc2\}!}}
+\\\\
+\mathtt{init(x\colon int)}
+&
+\hspace{2em}
+&
+\mathtt{inc1(a,i,x,y\colon int)}
+\\[1ex]
+ \begin{array}{rcl}
+    \begin{graph}(.8,1.1)(0,-.1)
+      \roundnode{A}(0.4,0.5)
+      \autonodetext{A}[s]{\tiny 1}
+      \autonodetext{A}{$\mathtt{x}$} 
+    \end{graph}
+    &   
+    \begin{graph}(.8,1.1)(0,-.1)
+     \freetext(.4,.5){$\dder$}
+    \end{graph}
+    &
+    \begin{graph}(.8,1.1)(0,-.1)
+     \roundnode{A}(0.4,0.5)
+     \autonodetext{A}[s]{\tiny 1}
+     \autonodetext{A}{$\mathtt{x}\_0$} 
+    \end{graph}
+ \end{array}
+&&
+\begin{array}{rcl}
+\begin{graph}(2.5,1.1)
+\roundnode{1}(0.4,.6)
+\autonodetext{1}{$\mathtt{x\_i}$}
+\roundnode{2}(2.1,.6)
+\autonodetext{2}{$\mathtt{y\_i}$}
+\autonodetext{1}[s]{\tiny 1}
+\autonodetext{2}[s]{\tiny 2} 
+\diredge{1}{2}
+\bowtext{1}{2}{0.13}{$\mathtt{a}$}
+\end{graph}
+&
+\begin{graph}(.8,1.1)
+\freetext(.4,.6){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.5,1.1)
+\roundnode{1}(0.4,.6)
+\autonodetext{1}{$\mathtt{x\_i}$}
+\roundnode{2}(2.1,.6)[\graphnodesize{1.1}]
+\autonodetext{2}{$\mathtt{y}\_\mathtt{i{+}1}$}
+\autonodetext{1}[s]{\tiny 1}
+\autonodetext{2}[s]{\tiny 2} 
+\diredge{1}{2}
+\bowtext{1}{2}{0.13}{$\mathtt{a}$}
+\end{graph}
+\end{array}
+\\\\
+&& 
+\mathtt{inc2(a,i,x,y\colon int)}
+\\[1ex]
+&& 
+\begin{array}{rcl}
+\begin{graph}(2.5,1.1)
+\roundnode{A}(0.4,0.6)
+\autonodetext{A}{$\mathtt{x\_i}$}
+\roundnode{B}(2.1,0.6)
+\autonodetext{B}{$\mathtt{y\_i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.13}{$\mathtt{a}$}
+\end{graph}
+&
+\begin{graph}(.8,1.1)
+\freetext(.4,.6){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.6,1.1)(-.1,0)
+\roundnode{A}(0.4,0.6)[\graphnodesize{1.1}]
+\autonodetext{A}{$\mathtt{x}\_\mathtt{i{+}1}$}
+\roundnode{B}(2.1,0.6)
+\autonodetext{B}{$\mathtt{y\_i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.13}{$\mathtt{a}$}
+\end{graph}
+\end{array}
+\end{array}$
+}

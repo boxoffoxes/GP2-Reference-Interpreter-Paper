@@ -1,0 +1,141 @@
+   \graphnodesize{.8}
+   \grapharrowlength{0.2}
+   \grapharrowwidth{0.6}
+   \autodistance{1.0}
+   \graphnodecolour{1}
+
+\fbox{%
+$\begin{array}{lcl}
+\multicolumn{3}{l}{\mathtt{main} = \text{\texttt{choose; colour!; if illegal then undo!}}}\\
+\multicolumn{3}{l}{\mathtt{colour = \{colour1,\,colour2\}}}
+\\\\
+\mathtt{choose(x\colon int)} 
+& 
+\hspace{1em} 
+& 
+\mathtt{illegal(a,i,x,y\colon int)}
+\\[1ex]
+ \begin{array}{rcl}
+    \begin{graph}(.8,1)
+      \roundnode{A}(0.4,0.5)
+      \autonodetext{A}[s]{\tiny 1}
+      \autonodetext{A}{$\x$} 
+    \end{graph}
+    &   
+    \begin{graph}(.6,1)
+     \freetext(.3,0.5){$\dder$}
+    \end{graph}
+    &
+    \begin{graph}(2.5,1)
+     \roundnode{A}(0.4,0.5)
+     \autonodetext{A}[s]{\tiny 1}
+     \autonodetext{A}{$\x\_\mathtt{0}$} 
+    \end{graph}
+ \end{array}
+&&
+\begin{array}{rcl}
+\begin{graph}(2.5,1)(0,-.1)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x\_\mathtt{i}$}
+\roundnode{B}(2,0.4)
+\autonodetext{B}{$\y\_\mathtt{i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{0.13}{$\mathtt{a}$}
+\end{graph}
+&
+    \begin{graph}(.4,1)
+     \freetext(.2,0.5){$\dder$}
+    \end{graph}
+&
+\begin{graph}(2.4,1)(0,-.1)
+\roundnode{A}(0.5,0.4)
+\autonodetext{A}{$\x\_\mathtt{i}$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y\_\mathtt{i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{0.13}{$\mathtt{a}$}
+\end{graph}
+\end{array}
+\\\\
+\mathtt{colour1(a,i,x,y\colon int)}  &&   \mathtt{undo(i,x\colon int)}
+\\[1ex]
+\begin{array}{rcl}
+\begin{graph}(2.5,1.2)(0,-.3)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x\_\mathtt{i}$}
+\roundnode{B}(2,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{0.13}{$\mathtt{a}$}
+\end{graph}
+&
+    \begin{graph}(.4,1.2)
+     \freetext(.2,0.7){$\dder$}
+    \end{graph}
+&
+\begin{graph}(2.5,1.2)(0,-.3)
+\roundnode{A}(0.5,0.4)
+\autonodetext{A}{$\x\_\mathtt{i}$}
+\roundnode{B}(2.1,0.4)[\graphnodesize{1.1}]
+\autonodetext{B}{$\y\_\mathtt{1{-}i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{0.13}{$\mathtt{a}$}
+\end{graph}
+\end{array}
+&&
+ \begin{array}{rcl}
+    \begin{graph}(.8,1)
+      \roundnode{A}(0.4,0.5)
+      \autonodetext{A}[s]{\tiny 1}
+      \autonodetext{A}{$\x\_\mathtt{i}$} 
+    \end{graph}
+    &   
+    \begin{graph}(.6,1)
+     \freetext(.3,0.5){$\dder$}
+    \end{graph}
+    &
+    \begin{graph}(2.5,1)
+     \roundnode{A}(0.4,0.5)
+     \autonodetext{A}[s]{\tiny 1}
+     \autonodetext{A}{$\x$} 
+    \end{graph}
+\end{array}
+\\\\
+\mathtt{colour2(a,i,x,y\colon int)}\\[1ex]
+\begin{array}{rcl}
+\begin{graph}(2.5,1.2)(0,-.3)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x\_\mathtt{i}$}
+\roundnode{B}(2,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{B}{A}
+\bowtext{A}{B}{0.13}{$\mathtt{a}$}
+\end{graph}
+&
+    \begin{graph}(.4,1.2)
+     \freetext(.2,0.7){$\dder$}
+    \end{graph}
+&
+\begin{graph}(2.5,1.1)(0,-.3)
+\roundnode{A}(0.5,0.4)
+\autonodetext{A}{$\x\_\mathtt{i}$}
+\roundnode{B}(2.1,0.4)[\graphnodesize{1.1}]
+\autonodetext{B}{$\y\_\mathtt{1{-}i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{B}{A}
+\bowtext{A}{B}{0.13}{$\mathtt{a}$}
+\end{graph}
+\end{array}
+\end{array}$
+}

@@ -1,0 +1,103 @@
+   \graphnodesize{.8}
+   \grapharrowlength{0.2}
+   \grapharrowwidth{0.6}
+   \autodistance{1.0}
+   \graphnodecolour{1}
+
+\fbox{%
+$\begin{array}{l}
+\mathtt{main} = \text{\texttt{choose; colour!; if illegal then undo!}}
+\\\\[-1ex]
+\mathtt{choose(x\colon list)} 
+\\
+    \begin{graph}(.8,1.2)(0,-.2)
+      \roundnode{A}(0.4,0.5)
+      \autonodetext{A}[s]{\tiny 1}
+      \autonodetext{A}{$\x$} 
+    \end{graph}
+%   
+    \begin{graph}(1,1.2)(0,-.2)
+     \freetext(.5,0.5){$\dder$}
+    \end{graph}
+%   
+    \begin{graph}(2.5,1.2)(0,-.2)
+     \roundnode{A}(0.4,0.5)[\grey]
+     \autonodetext{A}[s]{\tiny 1}
+     \autonodetext{A}{$\x{:}\mtt{0}$} 
+    \end{graph}
+\\[1ex]
+\mathtt{colour(a,x,y\colon list;\, i\colon int)} 
+\\
+\begin{graph}(2.4,1.2)(0,-.3)
+\roundnode{A}(0.4,0.4)[\grey]
+\autonodetext{A}{$\x\_\mtt{i}$}
+\roundnode{B}(2,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\edge{A}{B}
+\bowtext{A}{B}{.15}{$\mtt{a}$}
+\end{graph}
+%
+    \begin{graph}(1,1.2)(0,-.2)
+     \freetext(.5,0.5){$\dder$}
+    \end{graph}
+%
+\begin{graph}(2.5,1.2)(0,-.3)
+\roundnode{A}(0.4,0.4)[\grey]
+\autonodetext{A}{$\x{:}\mtt{i}$}
+\roundnode{B}(2.1,0.4)[\grey\graphnodesize{1.1}]
+\autonodetext{B}{$\y{:}\mtt{1{-}i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\edge{A}{B}
+\bowtext{A}{B}{.15}{$\mtt{a}$}
+\end{graph}
+\\[1ex]
+\mtt{illegal(a,x,y\colon list;\, i\colon int)}
+\\
+\begin{graph}(2.4,1.2)(0,-.3)
+\roundnode{A}(0.4,0.4)[\grey]
+\autonodetext{A}{$\x{:}\mtt{i}$}
+\roundnode{B}(2,0.4)[\grey]
+\autonodetext{B}{$\y{:}\mtt{i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mtt{a}$}
+\end{graph}
+%
+    \begin{graph}(1,1.2)(0,-.2)
+     \freetext(.5,0.5){$\dder$}
+    \end{graph}
+%
+\begin{graph}(2.4,1.2)(0,-.3)
+\roundnode{A}(0.4,0.4)[\grey]
+\autonodetext{A}{$\x{:}\mtt{i}$}
+\roundnode{B}(2,0.4)[\grey]
+\autonodetext{B}{$\y{:}\mtt{i}$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mtt{a}$}
+\end{graph}
+\\[1ex]
+\mathtt{undo(x\colon list;\, i\colon int)}
+\\
+    \begin{graph}(.8,1.2)(0,-.2)
+      \roundnode{A}(0.4,0.5)[\grey]
+      \autonodetext{A}[s]{\tiny 1}
+      \autonodetext{A}{$\x{:}\mtt{i}$} 
+    \end{graph}
+%     
+    \begin{graph}(1,1.2)(0,-.2)
+     \freetext(.5,0.5){$\dder$}
+    \end{graph}
+%   
+    \begin{graph}(2.5,1.2)(0,-.2)
+     \roundnode{A}(0.4,0.5)
+     \autonodetext{A}[s]{\tiny 1}
+     \autonodetext{A}{$\x$} 
+    \end{graph}
+\end{array}$
+}

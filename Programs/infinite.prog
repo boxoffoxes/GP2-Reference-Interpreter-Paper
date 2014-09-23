@@ -1,0 +1,63 @@
+   \graphnodesize{.8}
+   \grapharrowlength{0.2}
+   \grapharrowwidth{0.6}
+   \autodistance{1.0}
+   \graphnodecolour{1}
+
+\fbox{%
+$
+\begin{array}{l}
+\text{\ttt{main = init;{\csp}$\mtt{\{stop,\, next\}}$!}}
+\\[1ex]
+\mathtt{init}
+\\
+\begin{array}{rcl}
+\begin{graph}(.2,1)
+\freetext(.1,.5){$\emptyset$}
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(.8,1)
+\roundnode{A}(.4,.5)
+\end{graph}
+\end{array}
+\\[1ex]
+\mathtt{stop}
+\\
+\begin{array}{rcl}
+\begin{graph}(.8,1)
+\roundnode{A}(.4,.5)
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(.2,1)
+\freetext(.1,.5){$\emptyset$}
+\end{graph}
+\end{array}
+\\[1ex]
+\mathtt{next}
+\\
+\begin{array}{rcl}
+\begin{graph}(.8,1)
+\roundnode{A}(.4,.5)
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(2,1)(0,-.1)
+\roundnode{A}(0.4,0.4)
+\roundnode{B}(1.6,0.4)
+\autonodetext{B}{$\mtt{1}$}
+\end{graph}
+\end{array}
+\end{array}
+$
+}

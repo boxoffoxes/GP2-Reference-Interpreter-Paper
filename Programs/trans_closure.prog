@@ -1,0 +1,42 @@
+\graphnodesize{0.8}
+\grapharrowlength{0.2}
+\grapharrowwidth{0.6}
+\autodistance{1.0}
+\graphnodecolour{1}
+
+\fbox{%
+$\begin{array}{rcl}
+\multicolumn{3}{l}{\mathtt{main} = \mathtt{link!}}
+\\[1ex]
+\multicolumn{3}{l}{\mathtt{link (a,b,x,y,z\colon list)}}
+\\
+\begin{graph}(3.8,1.74)(.2,.83)
+ \roundnode{n1}(.6,1.7)
+  \autonodetext{n1}{\texttt{x}}\autonodetext{n1}[s]{\tiny 1}
+ \roundnode{n2}(2.1,1.7)
+  \autonodetext{n2}{\texttt{y}}\autonodetext{n2}[s]{\tiny 2}
+ \roundnode{n3}(3.6,1.7)
+  \autonodetext{n3}{\texttt{z}}\autonodetext{n3}[s]{\tiny 3}
+ \diredge{n1}{n2}\bowtext{n1}{n2}{.18}{\texttt{a}}
+ \diredge{n2}{n3}\bowtext{n2}{n3}{.18}{\texttt{b}}
+\end{graph}
+&
+\begin{graph}(1.2,1.74)(0,-.1)
+ \freetext(.6,.75){$\dder$}
+\end{graph}
+&
+\begin{graph}(3.8,1.74)(.2,.83)
+ \roundnode{n1}(.6,1.7)
+  \autonodetext{n1}{\texttt{x}}\autonodetext{n1}[s]{\tiny 1}
+  \roundnode{n2}(2.1,1.7)
+  \autonodetext{n2}{\texttt{y}}\autonodetext{n2}[s]{\tiny 2}
+ \roundnode{n3}(3.6,1.7)\autonodetext{n3}[s]{\tiny 3}
+  \autonodetext{n3}{\texttt{z}}\autonodetext{n3}[s]{\tiny 3}
+ \dirbow{n1}{n3}{.25}
+ \diredge{n1}{n2}\bowtext{n1}{n2}{.18}{\texttt{a}}
+ \diredge{n2}{n3}\bowtext{n2}{n3}{.18}{\texttt{b}}
+\end{graph}
+\\
+\multicolumn{3}{l}{\text{\ttt{where} $\mtt{\mathop{not} edge(1,3)}$}}
+\end{array}$
+}

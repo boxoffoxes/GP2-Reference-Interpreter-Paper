@@ -1,0 +1,180 @@
+% MISC ----------------------------------
+
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\blue}[1]{\textcolor{blue}{#1}}
+\newcommand{\ttt}{\texttt}
+\newcommand{\csp}{\hspace{.2em}}
+
+
+% FORMULAS ------------------------------------
+
+\newcommand{\mylabel}[1]{ \left\{
+ \begin{array}{@{}l@{}} #1 \end{array} \right\}
+}
+
+\newcommand{\lvar}[1]{\mathtt{#1}}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+
+\newcommand{\mtt}{\mathtt}
+\newcommand{\mrm}{\mathrm}
+\newcommand{\msf}{\mathsf}
+
+\newcommand{\C}{\mathrm{Char}}
+\newcommand{\Adr}{\mathrm{Adr}}
+\newcommand{\Prog}{\mathrm{P}}
+
+\newcommand{\fail}{\mathrm{fail}}
+\newcommand{\g}{\mathrm{gra}}
+\newcommand{\reg}{\mathrm{reg}}
+\newcommand{\s}{\mathrm{s}}
+
+\newcommand{\R}{\mathcal{R}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\A}{\mathcal{A}}
+\renewcommand{\S}{\mathcal{S}}
+
+\newcommand{\sos}{\mathrm{sos}}
+\newcommand{\Sem}[1]{\llbracket{#1}\rrbracket}
+\newcommand{\trans}[1]{\tau\llbracket{#1}\rrbracket}
+\newcommand{\Gbot}{\mathcal{G}_{\bot}}
+
+\newcommand{\X}{\mathrm{X}}
+\newcommand{\V}{\mathrm{V}}
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\D}{\mathrm{D}}
+\newcommand{\tuple}[1]{\langle#1\rangle}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\newcommand{\dom}{\mathrm{Dom}}
+
+\newcommand{\x}{\mathtt{x}}
+\newcommand{\y}{\mathtt{y}}
+\newcommand{\z}{\mathtt{z}}
+
+\newcommand{\ifte}[3]{\mathtt{if}\ #1\ \mathtt{then}\ #2\ \mathtt{else}\ #3}
+\newcommand{\ift}[2]{\mathtt{if}\ #1\ \mathtt{then}\ #2}
+\newcommand{\tryt}[2]{\mathtt{try}\ #1\ \mathtt{then}\ #2}
+\newcommand{\tryte}[3]{\mathtt{try}\ #1\ \mathtt{then}\ #2\ \mathtt{else}\ #3}
+\newcommand{\noteq}{\mathrel{\text{\texttt{!=}}}}
+
+\renewcommand{\bar}[1]{\overline{#1}}
+\newcommand{\wt}[1]{\widetilde{#1}}
+\newcommand{\wh}[1]{\widehat{#1}}
+
+\newcommand{\ul}[1]{\underline{#1}}
+
+
+% REWRITE RELATIONS ---------------------------
+
+% Abstract reduction and term rewriting -------
+
+\newcommand{\symto}{\leftrightarrow}
+
+\newcommand{\DSto}{\mathop{\to}\limits}
+\newcommand{\DSsymto}{\mathop{\symto}\limits}
+
+\newcommand{\symredu}{\Leftrightarrow_{\R}}
+
+\newcommand{\dder}{\Rightarrow}
+\newcommand{\ldder}{\Leftarrow}
+\newcommand{\der}{\Rightarrow^*}
+\newcommand{\lder}{\Leftarrow^*}
+
+\newcommand{\DSdder}{\mathop{\Rightarrow}\limits}
+\newcommand{\DSldder}{\mathop{\Leftarrow}\limits}
+\newcommand{\DSder}{\DSdder^*}
+\newcommand{\DSlder}{\DSldder^*}
+
+\newcommand{\DSlongdder}{\mathop{\Longrightarrow}\limits}
+\newcommand{\DSllongdder}{\mathop{\Longleftarrow}\limits}
+
+
+% GRAPHS -------------------------------------
+
+\newcommand{\bluenodecolour}{\graphnodecolour(0,.6,1)}
+\newcommand{\rednodecolour}{\graphnodecolour(1,.03,.03)}
+\newcommand{\greennodecolour}{\graphnodecolour(0,1,0)}
+\newcommand{\grey}{\graphnodecolour{.75}}
+\newcommand{\dashed}{\graphlinedash{4 2}}
+
+\newcommand{\script}{\scriptsize}
+\newcommand{\fs}{\footnotesize}
+\newcommand{\op}[3]{\textnode{#1}(#2){$\mathtt{#3}$}[\graphlinecolour{1}]}
+\newcommand{\smallnode}{\graphnodesize{0.30}}
+\newcommand{\nodegraph}[1]{% 
+ \graphlinewidth{.01}
+ \graphlinecolour{0}
+ \graphnodecolour{1}
+ \graphnodesize{.4}
+ \begin{graph}(.4,.2)
+  \roundnode{n}(.2,.1)\autonodetext{n}{#1}
+ \end{graph}
+}
+\newcommand{\edgegraph}{% 
+ \graphlinewidth{.01}
+ \graphlinecolour{0}
+ \graphnodecolour{1}
+ \graphnodesize{.2}
+ \grapharrowlength{.15}
+ \grapharrowwidth{.45}
+ \begin{graph}(1,.2)
+  \roundnode{s}(.2,.1)\autonodetext{s}[s]{\tiny $s$}
+  \roundnode{t}(.8,.1)\autonodetext{t}[s]{\tiny $t$}
+  \diredge{s}{t}
+ \end{graph}
+}
+\newcommand{\parrule}{% 
+ \graphlinewidth{.01}
+ \graphlinecolour{0}
+ \graphnodecolour{1}
+ \graphnodesize{.2}
+ \grapharrowlength{.15}
+ \grapharrowwidth{.45}
+ \begin{graph}(.8,.2)
+  \freetext(.6,0){par:}
+ \end{graph}
+ \begin{graph}(1,.2)
+  \roundnode{s}(.2,.1)\autonodetext{s}[s]{\tiny 1}
+  \roundnode{t}(.8,.1)\autonodetext{t}[s]{\tiny 2}
+  \dirbow{s}{t}{.1}
+  \dirbow{s}{t}{-.1}
+ \end{graph}
+ \begin{graph}(.4,.2)
+  \freetext(.2,.1){\small $\dder$}
+ \end{graph}
+ \begin{graph}(1,.2)
+  \roundnode{s}(.2,.1)\autonodetext{s}[s]{\tiny 1}
+  \roundnode{t}(.8,.1)\autonodetext{t}[s]{\tiny 2}
+  \diredge{s}{t}
+ \end{graph}
+}
+\newcommand{\seqrule}{% 
+ \graphlinewidth{.01}
+ \graphlinecolour{0}
+ \graphnodecolour{1}
+ \graphnodesize{.2}
+ \grapharrowlength{.15}
+ \grapharrowwidth{.45}
+ \begin{graph}(.8,.2)
+  \freetext(.6,0){seq:}
+ \end{graph}
+ \begin{graph}(1.6,.2)
+  \roundnode{s}(.2,.1)\autonodetext{s}[s]{\tiny 1}
+  \roundnode{d}(.8,.1)
+  \roundnode{t}(1.4,.1)\autonodetext{t}[s]{\tiny 2}
+  \diredge{s}{d}
+  \diredge{d}{t}
+ \end{graph}
+ \begin{graph}(.4,.2)
+  \freetext(.2,.1){\small $\dder$}
+ \end{graph}
+ \begin{graph}(1,.2)
+  \roundnode{s}(.2,.1)\autonodetext{s}[s]{\tiny 1}
+  \roundnode{t}(.8,.1)\autonodetext{t}[s]{\tiny 2}
+  \diredge{s}{t}
+ \end{graph}
+}

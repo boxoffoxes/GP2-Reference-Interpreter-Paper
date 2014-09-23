@@ -1,0 +1,14 @@
+   \graphnodesize{1}
+   \grapharrowlength{0.2}
+   \grapharrowwidth{0.6}
+   \autodistance{1.0}
+   \graphnodecolour{1}
+
+\fbox{%
+$\begin{array}{lcl}
+\multicolumn{3}{l}{\mathtt{main = \{r1,\, r2\};\, \{r1,\, r2\};\, r1!}}
+\\[1ex] 
+\mathtt{r1} && \mathtt{r2} \\[.8ex]
+\nodegraph{1} \dder \nodegraph{1} & \quad & \nodegraph{1} \dder \nodegraph{2}
+\end{array}$
+}

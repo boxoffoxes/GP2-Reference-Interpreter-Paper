@@ -1,0 +1,140 @@
+   \graphnodesize{1.1}
+   \grapharrowlength{0.2}
+   \grapharrowwidth{0.6}
+   \autodistance{1.0}
+   \graphnodecolour{1}
+
+\fbox{%
+$
+\begin{array}{l}
+\text{\texttt{main = if acyclic then yes else no}}\\
+\text{\texttt{acyclic = delete!;{\csp}if $\{\mtt{edge},\, \mtt{loop}\}$ then fail}}
+\\\\
+\mathtt{delete(a,x,y\colon list)}
+\\[1ex]
+\begin{array}{rcl}
+\begin{graph}(2.5,1)(0,-.1)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.5,1)(0,-.1)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\end{graph}
+\\[1.5ex]
+\multicolumn{3}{l}{\ttt{where $\mathtt{indeg(1)=0}$}}
+\end{array}
+\hspace*{3em} 
+\setlength{\tabcolsep}{.5\tabcolsep}
+\raisebox{2.5ex}{
+\begin{tabular}{lll} 
+/$\ast$ & \small \emph{preserves cycles} \\ 
+   & \small \emph{and acyclicity} & $\ast$/
+\end{tabular}
+}
+\\\\[-1ex]
+\mathtt{edge(a,x,y\colon list)}
+\\[1ex]
+\begin{array}{rcl}
+\begin{graph}(2.5,1)(0,-.1)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(2.5,1)(0,-.1)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\end{graph}
+\end{array}
+\\\\
+\mathtt{loop(a,x\colon list)}
+\\[1ex]
+\begin{array}{rcl}
+\begin{graph}(1.6,1)(0,-.1)
+\roundnode{A}(.4,.4)
+\autonodetext{A}{$\x$}
+\autonodetext{A}[s]{\tiny 1}
+\dirloopedge{A}(.54,.22)(.54,-.22)
+\freetext(1.55,.4){$\mathtt{a}$}
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(1.6,1)(0,-.1)
+\roundnode{A}(.4,.4)
+\autonodetext{A}{$\x$}
+\autonodetext{A}[s]{\tiny 1}
+\dirloopedge{A}(.54,.22)(.54,-.22)
+\freetext(1.55,.4){$\mathtt{a}$}
+\end{graph}
+\end{array}
+\\\\
+\mathtt{yes}
+\\[.5ex]
+\begin{array}{rcl}
+\begin{graph}(.2,1)
+\freetext(.1,.5){$\emptyset$}
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(.8,1)
+\roundnode{A}(.4,.5)[\grey]
+\autonodetext{A}{\ttt{"yes"}}
+\end{graph}
+\end{array}
+\\[1ex]
+\mathtt{no}
+\\[.5ex]
+\begin{array}{rcl}
+\begin{graph}(.2,1)
+\freetext(.1,.5){$\emptyset$}
+\end{graph}
+&
+\begin{graph}(.8,1)(0,-.1)
+\freetext(0.4,0.4){$\dder$}
+\end{graph}
+&
+\begin{graph}(.8,1)
+\roundnode{A}(.4,.5)[\grey]
+\autonodetext{A}{\ttt{"no"}}
+\end{graph}
+\end{array}
+\end{array}
+$
+}

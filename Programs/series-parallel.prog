@@ -1,0 +1,111 @@
+   \graphnodesize{.8}
+   \grapharrowlength{0.2}
+   \grapharrowwidth{0.6}
+   \autodistance{1.0}
+   \graphnodecolour{1}
+
+\fbox{%
+$\begin{array}{l}
+\text{\texttt{main = if series-parallel then yes else no}}\\
+\text{\ttt{series-parallel}}\; =\; \mtt{reduce!};\, \text{\ttt{delete-base}};\, \mtt{if}\ \mtt{nonempty}\ \mtt{then}\ \mtt{fail}
+\\
+\mathtt{reduce}\; =\; \{\mathtt{par},\, \mathtt{seq}\}
+\\\\
+\mathtt{par(a,b,x,y\colon list)}
+\\[1.5ex]
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\dirbow{A}{B}{.12}
+\bowtext{A}{B}{.25}{$\mathtt{a}$}
+\dirbow{A}{B}{-.12}
+\bowtext{A}{B}{-.27}{$\mathtt{b}$}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,0.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\end{graph}
+\\\\
+\mathtt{seq(a,b,x,y,z\colon list)}
+\\[1.5ex]
+\begin{graph}(4.2,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\roundnode{C}(3.8,0.4)
+\autonodetext{C}{$\z$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{C}[s]{\tiny 2} 
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\diredge{B}{C}
+\bowtext{B}{C}{.15}{$\mathtt{b}$}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\z$}
+\autonodetext{A}[s]{\tiny 1}
+\autonodetext{B}[s]{\tiny 2} 
+\diredge{A}{B}
+\end{graph}
+\\\\[-.5ex]
+\mathtt{delete-base(a,x,y\colon list)} 
+\\[1.5ex]
+\begin{graph}(2.5,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\roundnode{B}(2.1,0.4)
+\autonodetext{B}{$\y$}
+\diredge{A}{B}
+\bowtext{A}{B}{.15}{$\mathtt{a}$}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,0.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(.4,.8)
+\freetext(0.2,0.4){\large $\emptyset$}
+\end{graph}
+\\\\[-1ex]
+\mathtt{nonempty(x\colon list)}
+\\[1.5ex]
+\begin{graph}(.8,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\autonodetext{A}[s]{\tiny 1}
+\end{graph}
+%
+\begin{graph}(1.2,.8)
+\freetext(0.6,0.4){$\dder$}
+\end{graph}
+%
+\begin{graph}(.8,.8)
+\roundnode{A}(0.4,0.4)
+\autonodetext{A}{$\x$}
+\autonodetext{A}[s]{\tiny 1}
+\end{graph}
+\end{array}$
+}
