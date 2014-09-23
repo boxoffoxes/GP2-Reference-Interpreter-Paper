@@ -1,0 +1,106 @@
+\section{Benchmark Programs}
+\label{sec:benchmark}
+ 
+
+\subsection{Transitive closure}
+
+\begin{tabular}{lp{10.5cm}}
+\ul{Input:} & Any graph $G$. \\
+\ul{Output:} & The smallest extension of $G$ with unlabelled edges making the graph transitive (where ``unlabelled'' edges are labelled with the empty list).
+\end{tabular}
+  
+\begin{center}
+\input{Programs/trans_closure.prog}
+\end{center}
+
+\ul{Notes}
+\begin{enumerate}
+\setlength{\itemsep}{-.5ex}
+\item The output is unique up to isomorphism.
+\item The derivation length is bounded by $|V_G|^2$.
+\end{enumerate}
+
+
+\subsection{Shortest distances}
+
+\begin{tabular}{lp{10.5cm}}
+\ul{Input:} & A graph $G$ with a unique grey node $s$. All edge labels are non-negative integers. \\
+\ul{Output:} & The graph obtained from $G$ by marking grey each node reachable from $s$ and replacing its label $l$\/ with $l{:}d$, where $d$\/ is the shortest distance from $s$. (A distance is the sum of the edge labels of a directed path.)
+\end{tabular}
+  
+\begin{center}
+\input{Programs/distances.prog}
+\end{center}
+
+\ul{Notes}
+\begin{enumerate}
+\setlength{\itemsep}{-.5ex}
+\item The output is unique up to isomorphism.
+\item The input requirement can be relaxed by allowing negative edge labels but forbidding directed cycles with a negative distance.
+\end{enumerate}
+
+
+\subsection{Acyclic graphs}
+\label{sec:acyclic}
+
+\begin{tabular}{lp{10.5cm}}
+\ul{Input:} & Any graph $G$. \\
+\ul{Output:} & The graph obtained from $G$ by adding a grey node $v$\/ that is labelled \verb!"yes"! if $G$ is acyclic and \verb!"no"! otherwise.
+\end{tabular}
+  
+\begin{center}
+\input{Programs/acyclic.prog}
+\end{center}
+
+
+\subsection{Vertex colouring}
+
+See Section \ref{sec:graph-programs} for the description of this program.
+
+
+\subsection{Rooted 2-colouring}
+
+\begin{tabular}{lp{10.5cm}}
+\ul{Input:} & A non-empty, single-rooted, connected graph $G$ with atomic labels. \\
+\ul{Output:} & If $G$\/ is 2-colourable, then the output is obtained from $G$\/ by marking each node with either red or blue. The source and target of each non-loop edge have different colours.\\
+& If $G$\/ is not 2-colourable, then the output is $G$.
+\end{tabular}
+
+\begin{center}
+\input{Programs/2colR_C}
+\end{center}
+
+\ul{Notes}
+\begin{enumerate}
+\setlength{\itemsep}{-.5ex}
+\item The edges in the rules \ttt{colour}, \ttt{joined-reds} and \ttt{back} are \emph{bidirectional}. They matches host graph edges in either direction.
+\end{enumerate}
+
+
+\subsection{Sierpinski triangles}
+
+\begin{tabular}{lp{10.5cm}}
+\ul{Input:} & A single node labelled with a non-negative integer $n$. \\
+\ul{Output:} & The Sierpinski triangle of generation $n$.
+\end{tabular}
+  
+\begin{center}
+\input{Programs/sierpinski.prog}
+\end{center}
+
+\ul{Notes}
+\begin{enumerate}
+\setlength{\itemsep}{-.5ex}
+\item The next page shows an example of a Sierpinski triangle.
+\item The derivation length and the output size are exponential in $n$.
+\end{enumerate}
+
+\begin{figure}[p]
+ \begin{center}
+  \includegraphics[scale=.45,angle=-15]{sierpinski-3.eps}
+ \end{center}
+\vspace*{-2.5cm}
+\caption{Third generation Sierpinski triangle \label{fig:sierpinski}}
+\end{figure}
+
+
