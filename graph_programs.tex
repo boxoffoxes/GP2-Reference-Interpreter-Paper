@@ -1,16 +1,14 @@
 \section{Graph Programs}
 \label{sec:graph-programs}
 
-We briefly introduce GP by discussing two example programs (see \cite{Plump12a} for a language definition). The principal programming construct in GP are conditional graph transformation rules labelled with expressions. 
+A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence (see \cite{Plump12a} for a language definition). Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges are labelled with lists consisting of integers and character strings.
 
+Labels are of type \texttt{int} (for integers), \texttt{string} (for character strings), \texttt{atom} or \texttt{list}, where \texttt{atom} is the union of \texttt{int} and \texttt{string}. Atoms are considered as lists of length one, hence integers and strings are also lists. Given lists $\mtt{x}$ and $\mtt{y}$, their concatenation is written \texttt{x:y} (not to be confused with the append operation in Haskell). 
+We proceed by discussing two example programs.
 
 \begin{example}[Transitive Closure]
+The principal programming construct in GP are conditional graph transformation rules labelled with expressions. The program in Figure \ref{fig:transitive-closure} applies the single rule \ttt{link} as long possible to a host graph. In general, any subprogram can be iterated with the \ttt{!}-loop.
 
-\begin{tabular}{lp{10.5cm}}
-\ul{Input:} & Any graph $G$. \\
-\ul{Output:} & The smallest extension of $G$ with unlabelled edges making the graph transitive (where ``unlabelled'' edges are labelled with the empty list).
-\end{tabular}
-  
 \begin{figure}[htb]
 \begin{center}
  \input{Programs/trans_closure.prog}
@@ -19,22 +17,15 @@ We briefly introduce GP by discussing two example programs (see \cite{Plump12a} 
 \caption{Program for transitive closure}\label{fig:transitive-closure}
 \end{figure}
 
-\ul{Notes}
-\begin{enumerate}
-\setlength{\itemsep}{-.5ex}
-\item The output is unique up to isomorphism.
-\item The derivation length is bounded by $|V_G|^2$.
-\end{enumerate}
-\end{example}
+Applying \ttt{link} amounts to non-deterministically selecting a subgraph of the host graph that matches \ttt{link}'s left graph, and adding to it an edge from node 1 to node 3 provided there exits no such edge (with any label). The application condition ensures that the program terminates and extends the host graph with a minimal number of edges.
 
+It is not difficult to see that given any graph $G$, the program produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} Note that this graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. \qed
+\end{example}
+  
 
 \begin{example}[Vertex Colouring]
+The program in Figure \ref{fig:vertex-colouring} assigns a \emph{colour}\/ to each node of the host graph, such that non-loop edges have differently coloured endpoints. Positive integers are used as colours. The program replaces each node label $l$\/ with $l{:}i$, where $i$\/ is the node's colour. (In addition, \ttt{init} shades nodes to prevent being applied twice to a node.)
 
-\begin{tabular}{lp{10.5cm}}
-\ul{Input:} & Any graph $G$. \\
-\ul{Output:} & The graph obtained from $G$\/ by marking grey each node and replacing its label $l$\/ with $l{:}i$, where $1 \leq i \leq |V_G|$ is the node's \emph{colour}. The source and target of each non-loop edge have different colours.
-\end{tabular}
-  
 \begin{figure}[htb]
 \begin{center}
  \input{Programs/vertex-colouring.prog}
@@ -43,11 +34,18 @@ We briefly introduce GP by discussing two example programs (see \cite{Plump12a} 
 \caption{Program for vertex colouring}\label{fig:vertex-colouring}
 \end{figure}
 
-\ul{Notes}
-\begin{enumerate}
-\setlength{\itemsep}{-.5ex}
-\item The derivation length is bounded by $|V_G|^2$.
-\item The program is highly non-deterministic. For the same input graph, it may return outputs with different numbers of colours.
-\end{enumerate}
+The rule \ttt{inc} is applied to the host graph as long as there are edges with identically coloured endpoints. It can can be shown that this terminates after at most $n^2$ rule applications, where $n$\/ is the number of nodes. In contrast to the previous example program, different graphs may result from this process. In particular, there is no guarantee that the number of colours produced is minimal. For instance, Figure \ref{fig:colour_results} shows two different colourings produced for the same host graph.
+\qed
 \end{example}
 
+\begin{figure}[htb]
+\begin{center}
+ \input{Graphs/colour_results.graph}
+\end{center}
+%\vspace{-.5\baselineskip}
+\caption{Different outputs from vertex colouring}\label{fig:colour_results}
+\end{figure}
+
+A GP command not yet shown is a rule set $\{r_1,\dots,r_n\}$. This command non-deterministically applies any of the rules to the current graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. (Matches are injective and only valid if they do not result in dangling edges.)
+
+Another construct not yet discussed is the branching command \ttt{if} $C$ \ttt{then} $P$ \ttt{else} $Q$, where $C$, $P$ and $Q$ are arbitrary command sequences. This is executed on a host graph $G$ by first executing $C$ on a copy of $G$. If this results in a graph, $P$\/ is executed on the original graph $G$; otherwise, if $C$ fails, $Q$ is executed on $G$. The \texttt{try} command has a similar effect, except that $P$\/ is executed on the graph resulting from $C$'s execution. 
