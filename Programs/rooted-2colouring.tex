@@ -14,13 +14,13 @@
 \end{scope}
 
 
-%make-red
+%mark-red
 \begin{scope}[xshift=5.5cm]
 \node (l1) at (0,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
 \node (l2) at (2.9,0)[inner sep = 2mm,circle,draw,label=below:\scriptsize{2}]{y}
    edge [-] node[above]{a} (l1);
 \node at (4.1,0){$\Rightarrow$};
-\node at (2.3,0)[above=5mm] {make-red(a,x,y:list)};
+\node at (2.1,0)[above=5mm] {mark-red(a,x,y:list)};
 \node (r1) at (5.3,0)[circle,draw,fill=red!75,label=below:\scriptsize{1}]{x};
 \node (r2) at (8.2,0)[root,fill=blue!60,label=below:\scriptsize{2}]{y}
   edge [-,dashed] node[above]{a} (r1);  
@@ -32,7 +32,7 @@
 \node (l2) at (2.9,0)[circle,draw,fill=red!75,label=below:\scriptsize{2}]{y}
   edge [-] node[above]{a} (l1);
 \node at (4.1,0){$\Rightarrow$};
-\node at (2.6,0)[above=5mm] {joined-reds(a,x,y:list)};
+\node at (2.4,0)[above=5mm] {joined-reds(a,x,y:list)};
 \node (r1) at (5.3,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
 \node (r2) at (8.2,0)[circle,draw,fill=red!75,label=below:\scriptsize{2}]{y}
   edge [-] node[above]{a} (r1);
@@ -44,7 +44,7 @@
 \node (l2) at (2.9,0)[circle,draw,fill=blue!60,label=below:\scriptsize{2}]{y}
   edge [-,dashed] node[above]{a} (l1);  
 \node at (4.1,0){$\Rightarrow$};
-\node at (1.7,0)[above=5mm] {back(a,x,y:list)};
+\node at (1.5,0)[above=5mm] {back(a,x,y:list)};
 \node (r1) at (5.3,0)[circle,draw,fill=red!75,label=below:\scriptsize{1}]{x};
 \node (r2) at (8.2,0)[root,fill=blue!60,label=below:\scriptsize{2}]{y}
   edge [-] node[above]{a} (r1);
