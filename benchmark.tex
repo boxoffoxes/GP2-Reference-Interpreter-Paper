@@ -44,9 +44,16 @@ Besides the programs for transitive closure and vertex colouring, we select four
 & If $G$\/ is not 2-colourable, then the output is $G$.
 \end{tabular}
 
-\begin{center}
-\input{Programs/2colR_C}
-\end{center}
+\vspace{10pt}
+\begin{tabular}{|l|}
+\hline
+\hspace{2pt} \texttt{main = try (init; colour!; unroot)} \\
+\hspace{2pt} \texttt{colour = (\{mark-blue, mark-red\}; try invalid)!; back} \\
+\hspace{2pt} \texttt{invalid = \{joined-reds, joined-blues\}} \\
+\input{Programs/rooted-2colouring} \\
+\hline
+\end{tabular}
+\vspace{10pt}
 
 \ul{Notes}
 \begin{enumerate}
