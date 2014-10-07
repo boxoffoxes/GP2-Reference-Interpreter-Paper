@@ -8,7 +8,7 @@ paper.pdf : tmp/paper.ps
 tmp/%.ps : tmp/%.dvi
 	dvips $< -o $@
 
-tmp/paper.dvi : paper.tex
+tmp/paper.dvi : paper.tex $(SECTIONS)
 	$(LATEX) $<
 	$(BIBTEX) tmp/paper.aux
 	$(LATEX) $<
@@ -32,3 +32,4 @@ commit :
 fetch :
 	git pull
 
+.PHONY: paper.tex
