@@ -1,3 +1,10 @@
+\begin{tabular}{|l|}
+\hline 
+\rule{0pt}{3ex} \hspace{0pt} \texttt{main = try (init; colour!; unroot)} \\
+\hspace{2pt} \texttt{colour = (\{mark-blue, mark-red\}; invalid)!; back} \\
+\hspace{2pt} \texttt{invalid = \{joined-reds, joined-blues\}} \\
+\hspace{2pt} \texttt{back = \{back-red, back-blue\}} \\
+
 \begin{tikzpicture} [scale=0.7,align=center,auto,inner sep=2mm,arrowin,arrowout,font=\ttfamily]
 %init
 \node at (0,0)[circle,draw,label=below:\scriptsize{1}]{x};
@@ -7,10 +14,10 @@
 
 %unroot
 \begin{scope}[yshift=-3cm]
-\node (l1) at (0,0)[fill=cyan,root,label=below:\scriptsize{1}]{x};
+\node (l1) at (0,0)[fill=violet!50,root,label=below:\scriptsize{1}]{x};
 \node at (1.2,0){$\Rightarrow$};
 \node at (1.3,0)[above=5mm] {unroot(x:list)};
-\node (r1) at (2.4,0)[inner sep = 2mm,circle,draw,label=below:\scriptsize{1}]{x};
+\node (r1) at (2.4,0)[fill=violet!50,inner sep = 2mm,circle,draw,label=below:\scriptsize{1}]{x};
 \end{scope}
 
 
@@ -38,16 +45,18 @@
   edge [-] node[above]{a} (r1);
 \end{scope}
 
-%back
+%back-red
 \begin{scope}[xshift=2.75cm,yshift=-6cm]
 \node (l1) at (0,0)[root,fill=red!75,label=below:\scriptsize{1}]{x};
 \node (l2) at (2.9,0)[circle,draw,fill=blue!60,label=below:\scriptsize{2}]{y}
   edge [-,dashed] node[above]{a} (l1);  
 \node at (4.1,0){$\Rightarrow$};
-\node at (1.5,0)[above=5mm] {back(a,x,y:list)};
+\node at (1.9,0)[above=5mm] {back-red(a,x,y:list)};
 \node (r1) at (5.3,0)[circle,draw,fill=red!75,label=below:\scriptsize{1}]{x};
 \node (r2) at (8.2,0)[root,fill=blue!60,label=below:\scriptsize{2}]{y}
   edge [-] node[above]{a} (r1);
 \end{scope}
-
-\end{tikzpicture}
+ 
+\end{tikzpicture} \\
+\hline
+\end{tabular}
