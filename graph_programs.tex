@@ -1,7 +1,7 @@
 \section{Graph Programs}
 \label{sec:graph-programs}
 
-We give a brief introduction to GP, mainly by example. A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence (see \cite{Plump12a} for a language definition). Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges are labelled with lists consisting of integers and character strings.
+We give a brief introduction to GP, mainly by example (see \cite{Plump12a} for a language definition). A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence. Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges are labelled with lists consisting of integers and character strings.
 
 Labels are of type \texttt{int} (for integers), \texttt{string} (for character strings), \texttt{atom} or \texttt{list}, where \texttt{atom} is the union of \texttt{int} and \texttt{string}. Atoms are considered as lists of length one, hence integers and strings are also lists. Given lists $\mtt{x}$ and $\mtt{y}$, their concatenation is written \texttt{x:y} (not to be confused with the append operation in Haskell). 
 We proceed by discussing two example programs.
@@ -46,6 +46,6 @@ Rule \ttt{inc} is applied to the host graph as long as there are edges with iden
 \caption{Different outputs from vertex colouring}\label{fig:colour_results}
 \end{figure}
 
-A GP command not used in the example programs is a rule set $\mtt{\{}r_1,\dots,r_n\mtt{\}}$. This command non-deterministically applies any of the rules to the current graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. (Matches are injective and only valid if they do not result in dangling edges.)
+A GP command not used in the example programs is a rule set $\mtt{\{}r_1,\dots,r_n\mtt{\}}$. This command non-deterministically applies any of the rules to the current graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. Matches must be injective and are only valid if they do not result in dangling edges.
 
 Another construct not yet discussed is the branching command \ttt{if} $C$ \ttt{then} $P$ \ttt{else} $Q$, where $C$, $P$ and $Q$ are arbitrary command sequences. This is executed on a host graph $G$ by first executing $C$ on a copy of $G$. If this results in a graph, $P$\/ is executed on the original graph $G$; otherwise, if $C$ fails, $Q$ is executed on $G$. The command \ttt{try} $C$ \ttt{then} $P$ \ttt{else} $Q$ has a similar effect, except that $P$\/ is executed on the graph resulting from $C$'s execution. 
