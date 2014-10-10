@@ -45,20 +45,14 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \end{tabular}
 
 \vspace{10pt}
-\begin{tabular}{|l|}
-\hline 
-\rule{0pt}{3ex} \hspace{0pt} \texttt{main = try (init; colour!; unroot)} \\
-\hspace{2pt} \texttt{colour = (\{mark-blue, mark-red\}; invalid)!; back} \\
-\hspace{2pt} \texttt{invalid = \{joined-reds, joined-blues\}} \\
 \input{Programs/rooted-2colouring} \\
-\hline
-\end{tabular}
 \vspace{10pt}
 
 \ul{Notes}
 \begin{enumerate}
 \setlength{\itemsep}{-.5ex}
-\item The edges in the rules \ttt{colour}, \ttt{joined-reds} and \ttt{back} are \emph{bidirectional}. They match host graph edges in either direction.
+\item The nodes in rule \ttt{unroot} are violet. They can match a node of any colour. A violet right-hand node takes the colour of the match of the left-hand node.
+\item The edges in the \ttt{mark}, \ttt{joined} and \ttt{back} rules are \emph{bidirectional}. They match host graph edges in either direction.
 \end{enumerate}
 
 

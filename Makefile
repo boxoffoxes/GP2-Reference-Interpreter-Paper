@@ -4,6 +4,7 @@ BIBTEX=bibtex
 
 paper.pdf : tmp/paper.ps
 	ps2pdf $< $@
+	cp tmp/paper.ps ./
 
 tmp/%.ps : tmp/%.dvi
 	dvips $< -o $@
