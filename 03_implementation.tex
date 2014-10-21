@@ -1,6 +1,6 @@
 \section{Implementation}
 
-An flowchart of the reference interpreter is shown in Figure \ref{fig:architecture}. Following that, we present a detailed look at each individual component.
+A flowchart of the reference interpreter is shown in Figure \ref{fig:architecture}. Following that, we give a brief description of each Haskell module in the code and we present a detailed look at each major component of the system.
 
 \subsection{Overview}
 
@@ -31,12 +31,12 @@ To give an indication of the conciseness of the code, the interpreter contains a
 As mentioned above, we use a parser combinator library fine-tuned to process some syntax specific to GP2. Each nonterminal of the grammar is represented by a Haskell function that parses the right-hand side of the grammar rule. An example is given below.
 
 \begin{verbatim}
-ruleGraph :: Parser AstRuleGraph
-ruleGraph = keyword "[" |> pure AstRuleGraph <*> maybeSome node <| 
-            keyword "|" <*> maybeSome edge <| keyword "]"
+1 ruleGraph :: Parser AstRuleGraph
+2 ruleGraph = keyword "[" |> pure AstRuleGraph <*> maybeSome node <| 
+3             keyword "|" <*> maybeSome edge <| keyword "]"
 \end{verbatim}
 
-The operators \texttt{|>, <*> and <|} can be viewed as infix functions: \texttt{<*>} sequences two parsers, \texttt{|>} ignores the output of its left parsee, and \texttt{<|} ignores the output of its right parser. In this way the combinators ensure that the the parsing code is very similar in appearance to GP2's context-free BNF grammar, and that syntax with no semantic value is seamlessly recognised and discarded.
+The operators \texttt{|>, <*> and <|} are infix binary functions: \texttt{<*>} sequences two parsers, \texttt{|>} ignores the output of its left parsee, and \texttt{<|} ignores the output of its right parser. In this way the combinators ensure that the the parsing code is very similar in appearance to GP2's context-free BNF grammar, and that syntax with no semantic value is seamlessly recognised and discarded.
 
 \subsection{Transformation}
 
@@ -49,36 +49,36 @@ The interpreter runs the GP2 program on the host graph. It is passed an upper bo
 \begin{itemize}
 \item A list of unique output graphs, up to isomorphism, with a count of how many isomorphic copies of each graph were generated.
 \item The number of failures. A failure occurs when no rule from a set of rules cannot be applied to a graph, except if the rule set is in a loop or the condition section of a conditional branching statement.
-\item The number of unfinished computations. A computation is unfinished if the bound on rule applications has been reached before the end of the program.
+\item The number of unfinished computations. A computation is unfinished if the bound on rule applications is reached before the end of the program.
 \end{itemize}
 
-During program execution, a list of \texttt{GraphStates} is maintained, each one representing a single nondeterministic execution of the program. A \texttt{GraphState} is an abstract data type: its values are a graph along with its rule application count, a failure symbol, and an unfinished symbol. There is a Haskell function to evaluate each GP2 control construct. Each function takes as input a single \texttt{GraphState}, along with some data about the program, and outputs a list of \texttt{GraphStates}. The \texttt{GraphStates} are propagated between functions with the use of recursive calls and Haskell's \texttt{concatMap} function. \texttt{GraphStates} representing failures and unfinished computations remain untouched after their creation, while \texttt{GraphStates} containing an intermediate graph are modified when a rule call is reached in the program's AST. The rule application process is the core of the interpreter. The code responsible for managing rule applications is below.
+During program execution, the interpreter maintains a list of \texttt{GraphStates}, each representing a single nondeterministic execution of the program. A \texttt{GraphState} is an abstract data type: its values are a graph along with its rule application count, a failure symbol, and an unfinished symbol. There is a Haskell function to evaluate each GP2 control construct. Each function takes as input a single \texttt{GraphState}, along with some data about the program, and outputs a list of \texttt{GraphStates}. The \texttt{GraphStates} are propagated between functions with the use of recursive calls and Haskell's \texttt{concatMap} function. \texttt{GraphStates} representing failures and unfinished computations remain untouched after their creation, while \texttt{GraphStates} containing an intermediate graph are modified when a rule call is reached in the program's AST. The rule application process is the core of the interpreter. The code responsible for managing rule applications is below.
 
 \begin{verbatim}
-evalSimpleCommand max ds (RuleCall rs) (GS g rc) = 
-   if rc == max 
-      then [Unfinished]
-      -- Apply all rules in one step.
-      else let resultGraphs = 
-          [h | r <- rs, h <- applyRule g $ ruleLookup r ds] 
-          in
-             case resultGraphs of
-                [] -> [Failure]
-                hs -> [GS h (rc+1) | h <- hs]
+1 evalSimpleCommand max ds (RuleCall rs) (GS g rc) = 
+2   if rc == max 
+3     then [Unfinished]
+4     -- Apply all rules in one step.
+5     else let resultGraphs = 
+6       [h | r <- rs, h <- applyRule g $ ruleLookup r ds] 
+7       in
+8         case resultGraphs of
+9           [] -> [Failure]
+10          hs -> [GS h (rc+1) | h <- hs]
 \end{verbatim}
 
-\texttt{max} is the rule application bound, \texttt{ds} is a list of the rule and procedure declarations in the GP2 program, \texttt{rs} is a list of rules, and \texttt{GS g rc} is the current graph state. \texttt{GS} is the \texttt{GraphState} constructor, \texttt{g} is the working host graph, and \texttt{rc} is the number of rules that have been applied to \texttt{g}. The most significant part of the code is the list comprehension. It can be read as, ``for all rules $r$ in $rs$, apply $r$ to $g$ and produce the list of all output graphs $h$.'' Note that each individual rule application can produce multiple output graphs; the list comprehension is able to collate every possible output into one list. If \texttt{resultGraphs} is empty, then no rule in \texttt{rs} was applicable, and the list containing the single \texttt{GraphState Failure} is returned. Otherwise, the output graphs are placed into a fresh list of \texttt{GraphStates} with an incremented rule application count.
+\texttt{max} is the rule application bound, \texttt{ds} is a list of the rule and procedure declarations in the GP2 program, \texttt{rs} is a list of rules, and \texttt{GS g rc} is the current graph state. \texttt{GS} is the \texttt{GraphState} constructor, \texttt{g} is the working host graph, and \texttt{rc} is the number of rules that have been applied to \texttt{g}. The most significant part of the code is the list comprehension on line 6. It can be read as, ``for all rules $r$ in $rs$, apply $r$ to $g$ and produce the list of all output graphs $h$.'' Note that each individual rule application can produce multiple output graphs; the list comprehension is able to collate every possible output into one list. If \texttt{resultGraphs} is empty, then no rule in \texttt{rs} was applicable, and the list containing the single \texttt{GraphState Failure} is returned. Otherwise, the output graphs are placed into a fresh list of \texttt{GraphStates} with an incremented rule application count.
 
 
 \subsection{Graph Matching}
 
-From a pattern graph $L$ and a host graph $G$, the graph matcher constructs a list of \texttt{GraphMorphisms}. A \texttt{GraphMorphism} is a data structure containing the \textit{environment}, namely the variable-value assignments; a mapping between nodes in $L$ and the corresponding nodes in $G$; and a similar list of edge mappings. Morphisms are generated in two steps. First the node morphisms are constructed, then each node morphism is augmented with appropriate edge mappings. 
+From a pattern graph $L$ and a host graph $G$, the graph matcher constructs a list of \texttt{GraphMorphisms}. A \texttt{GraphMorphism} is a data structure containing the \textit{environment}, namely the variable-value assignments; a mapping between nodes in $L$ and the corresponding nodes in $G$; and a similar list of edge mappings. Our mappings are lists of pairs, chosen because they are simple to work with and to understand. Morphisms are generated in two steps. First the node mappings are constructed, then each node morphism is augmented with appropriate edge mappings. 
 
 The node matching algorithm works as follows, where $k$ is the number of nodes in $L$. 
 
 \begin{enumerate}
 \item Generate the list of all $k$-sized sets of nodes from $G$.
-\item Pair up (with Haskell's \texttt{zip}) each of the above sets with the set of nodes from $L$ to create a list of candidate node morphisms.
+\item Using Haskell's \texttt{zip}, pair up each of the above sets with the set of nodes from $L$ to create a list of candidate node morphisms.
 \item Remove items from the candidate morphisms list that:
   \begin{itemize}
   \item map a root node to a non-root node.
@@ -88,11 +88,11 @@ The node matching algorithm works as follows, where $k$ is the number of nodes i
 \item Iterate through the sets from step 2, comparing the labels of nodes in $L$ to those in $G$. Remove the sets in which node labels do not match for all pairs of nodes. Add any variable-value assignments as necessary.
 \end{enumerate}
 
-The three filtering criteria in step 3 are cheap relative to label matching because they perform comparisons on easily-accessible information, in contrast to a full scan of a potentially large GP2 list expression.
+The three filtering criteria in step 3 are cheap relative to label matching because they perform comparisons on easily-accessible information, in contrast to a full scan of an arbitrarily large GP2 list expression.
 
 It is clear that the complexity of this algorithm increases exponentially with both the size of $L$ and the size of $G$ due to the expensive first step. This is a naive matching strategy that would not be appropriate if performance were a consideration. In this case, where correctness is a greater concern than speed, the simplicity of this algorithm is beneficial by making the source code easier to read and reason about in comparison to an implementation with sophisticated optimisations.
 
-The edge matching algorithm attempts to find an appropriate edge morphism for each node morphism in the list generated above. Valid edge morphisms are added to the data structure and returned as a \texttt{GraphMorphism}. The first step is to generate the list of source-target pairs of each edge in $L$. Then, for each node morphism $NM$:
+The edge matching algorithm searches for an appropriate edge mapping for each node morphism in the list generated above. Valid edge mappings are added to the \texttt{GraphMorphism} data structure. The first step is to generate the list of source-target pairs of each edge in $L$. Then, for each node morphism $NM$:
 
 \begin{enumerate}
 \item Translate each source and target pair from $L$ to the pair of their images in $G$, according to $NM$.
@@ -106,11 +106,11 @@ A sample of the edge matching code is given below.
 \begin{verbatim}
 1 ruleEdges = allEdges r
 2 ruleEndPoints = map (\e -> (e, source r e, target r e)) ruleEdges
-3 hostEndPoints = mapMaybe ruleEndsToHostEnds ruleEndPoints
+3 hostEndPoints = map ruleEndsToHostEnds ruleEndPoints
 4 hostEdges = map getCandidateEdges hostEndPoints
 \end{verbatim}
 
-Line 1 creates the list of all edge identifiers of the rule graph. Line 2 maps over this list to get the list of source-target pairs for each edge. Line 3 uses an auxiliary function to generate the corresponding pairs in the host graph. \texttt{ruleEndsToHostEnds} performs a lookup of nodes in the node morphism. Finally, line 4 uses a second auxiliary function to find the appropriate edge for each source-target pair generated in the previous line. \texttt{getCandidateEdges} calls a function \texttt{joiningEdges} (from the \texttt{Graph} module) on each node pair $(s,t)$ to get the list of all edges in the host graph from $s$ to $t$. 
+Line 1 creates the list of all edge identifiers of the rule graph. Line 2 maps over this list to get the list of source-target pairs for each edge. Line 3 uses an auxiliary function to generate the corresponding pairs in the host graph. \texttt{ruleEndsToHostEnds} takes a triple $(e, s, t)$ of a rule edge, its source and its target, and uses the node morphism to output $(e, s', t')$, where $s'$ and $t'$ are the images in the node mapping of $s'$ and $t'$ respectively. Finally, line 4 uses a second auxiliary function to find the appropriate edge for each pair of host nodes generated in the previous line. \texttt{getCandidateEdges} calls a function \texttt{joiningEdges} (from the \texttt{Graph} module) on each node pair $(s, t)$ to get the list of all edges in the host graph from $s$ to $t$. 
 
 The morphisms generated obey the morphism conditions by construction. Furthermore, all output morphisms are total. A quick scan of the code can verify this. For instance, the frequently used \texttt{map} preserves list size, so it immediately follows that in the code fragment above, \texttt{hostEdges} is a list of equal length to \texttt{ruleEdges}. 
 
@@ -125,17 +125,7 @@ In almost all cases, atoms are directly comparable. The most interesting case oc
 
 \subsection{Rule Application}
 
-If the graph matcher returned a list of morphisms, each of these morphisms is checked against the dangling condition and any application conditions in the rule itself. Following that, the rule application is performed in the following steps: delete edges, delete nodes, relabel nodes, add nodes, relabel edges, add edges. 
+If the graph matcher returned a list of morphisms, each of these morphisms is checked against the dangling condition and any rule schema conditions. Following that, the rule application is performed in the following steps: delete edges, delete nodes, relabel nodes, add nodes, relabel edges, add edges. The interpreter instantiates variables with their values from the environment and evaluates expressions when appropriate.
 
 The output of the rule application is a list of graphs, where each graph is the result of a single rule application guided by one of the morphisms returned by the graph matcher.
-
-%In the double-pushout framework of graph transformation, on which GP 2 is based, a rule may not be applicable for a particular match as applying the rule could leave an edge without a source or target. The dangling condition forbids this: it requires that all host edges not deleted by the rule are not incident to nodes deleted by the role.
-
-
-%\subsection{Rooted graphs}
-
-%Lessons learned from the implementation of the original GP language led to the addition of support for root nodes to GP2. A node carries a simple binary flag indicating whether it is a root node or not. A root node in a rule graph can only match a root node in the host graph, and then only if all other normal matching conditions are met, eliminating a large number of possible subgraph matches with only an inexpensive boolean test. Whereas a non-root node in the rule graph may match a node irrespective of its root-node status.
-
-
-%Even in the reference interpreter, addition of a root node can result in a significant performance gain.
 
