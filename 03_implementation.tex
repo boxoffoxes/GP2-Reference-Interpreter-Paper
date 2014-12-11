@@ -1,7 +1,6 @@
 \section{Implementation}
 
-A flowchart of the reference interpreter is shown in Figure \ref{fig:architecture}. Following that, we give a brief description of each Haskell module in the code and we present a detailed look at each major component of the system.
-
+A flowchart of the reference interpreter is shown in Figure \ref{fig:architecture}.
 \subsection{Overview}
 
 \begin{figure}
@@ -10,65 +9,61 @@ A flowchart of the reference interpreter is shown in Figure \ref{fig:architectur
 \caption{Data flow of the reference interpreter.} \label{fig:architecture}
 \end{figure}
 
-The interpreter takes three inputs: a file containing the textual representation of a GP2 program, a file containing the textual representation of a host graph, and an upper limit on the number of rule applications to be made before halting program execution. The interpreter runs the program on the host graph until either the bound is reached or the end of the program is reached on all branches. The default output is a complete description of all possible outputs. There is a command-line flag to print only one result in case the total computation is too slow for a particular program.
+The interpreter takes three inputs: a file containing the textual representation of a GP2 program, a file containing the textual representation of a host graph, and an upper limit on the number of rule applications to be made before halting program execution. It runs the program on the host graph until either the bound is reached or the end of the program is reached on all branches. The default output is a complete description of all possible outputs. There is a command-line flag to print only one result in case the total computation is too slow for a particular program.
 
-To give an indication of the conciseness of the code, the interpreter contains approximately 2000 lines of code, including comments. The module breakdown is given below.
+The interpreter contains approximately 2000 lines of code, including comments. This should give an indication as to the conciseness and simplicity of the interpreter. The diagram above is a simplified depiction of the interpreter: Figure \ref{fig:modules} is a more detailed module relationship diagram. A module points to any modules on which it depends. 
 
-\begin{itemize}
-\item \texttt{GPSyntax} defines a data type and constructors for GP2's syntax tree. This includes the language's control constructs, a graph data type and a representation of GP2 labels and conditions. Simplicity is one of GP2's primary design factors, hence the syntax is very small and easy to encode with Haskell lists and abstract data types. 180 lines of code.
-\item \texttt{ParseLib} is a library of parsing functions and parser combinators to support the parsing of GP2 text. Each individual parsing function takes a string as input and tries to match a prefix of the string to a particular regular expression. The combinators are used to easily compose the parsing functions to cover standard parsing requirements such as alternation and repetition. 179 lines of code.
-\item There are three parsing modules: one to parse host graphs (\texttt{ParseGraph}), one to parse GP2 program text (\texttt{ParseProgram}) and one to parse GP2's conditional rule schemata (\texttt{ParseRule}). These modules use the basic parsing functions and combinators from \texttt{ParseLib} to construct a complete GP2 parser that builds the syntax tree of a GP2 program using the data types defined in \texttt{GPSyntax}. Combined, the three parsing modules contain 247 lines of code.
-\item \texttt{Graph} defines a graph API. Our graph representation uses extensible arrays implemented as a association list with integer keys in the \texttt{ExAr} module. The graph and extensible array modules have a total of 231 lines of code.
-\item \texttt{ProcessAst} creates an intermediate representation from the AST. 206 lines of code.
+\begin{figure}
+\centering
+\input{modules}
+\caption{Module dependencies.} \label{fig:modules}
+\end{figure}
+
+\begin{comment}
+\noindent \textbf{Data Structures} \\
+Our implementation uses a very simple list-based library of data structures. A graph is a pair of extensible arrays, one for the nodes and one for the edges. The arrays are implemented as association list with integer keys. We also make frequent use of simple mappings (lists of pairs).
+
+\noindent \textbf{Parser} \\
+The parser has three components: a host graph parser, a program text parser, and a conditional rule schema parser. Each individual parsing function takes a string as input and attempts to match a prefix of the string to a particular regular expression. It uses a library of functions and parser combinators to parse GP2's textual syntax: the combinators neatly compose the parsing functions to cover standard parsing requirements such as alternation and repetition. The output of the parser is a Haskell data structure representing the program's abstract syntax tree.
+
+\noindent \texttt{Transform AST} \\
+After parsing, the AST is walked in order to create intermediate representations of each rule. This involves assigning the correct types to variables occurring in labels and conditions from the rule's parameter list.
+
+\noindent \texttt{Isomorphism Checker} \\
+A naive isomorphism testing algorithm is used on the set of output graphs to avoid the printing of multiple instances of isomorphic graphs. 
+
+\noindent \texttt{Rule Application} \\
+This module is responsible for matching and applying GP2 rules. The graph matcher uses an unsophisticated brute force algorithm to find 
+
 \item The graph matching code is covered by three modules. The \texttt{Mapping} module contains a definition of a generic association list. These are used extensively in the matching algorithm to represent node mappings, edge mappings, and the environment. The two remaining modules, \texttt{GraphMatch} and \texttt{LabelMatch} contain the matching algorithms for graphs and labels respectively. Combined, the modules have 405 lines of code.
 \item \texttt{ApplyRule} and \texttt{Evaluate} are responsible for rule application. The latter replaces variables with values and evaluates expressions that occur in RHS labels and rule schema conditions. The former modifies the host graph with respect to a rule to generate a set of graphs from a collection of matches. The total line count is 259.
-\item \texttt{RunProgram} executes a GP2 program. It applies rules to the host graph and maintains data about the execution. A naive isomorphism checker, defined in the module \texttt{GraphIsomorphism} is used on the set of output graphs in order to neatly display output information. Both modules together have 269 lines of code.
-\item \texttt{Main} is responsible for putting everything together and providing I/O. It uses two modules to provide readable output graphs: \texttt{PrintGraph} and \texttt{ViewGraph}. Both take an graph and print it in GP2 syntax and the graph description language DOT respectively. 197 lines of code.
-\end{itemize}
+\item \texttt{RunProgram} executes a GP2 program. It applies rules to the host graph and maintains data about the execution. 
+\item \texttt{I/O} consists of the \texttt{Main} module, the entry point to the interpreter, which takes as input the text files and rule application bound. There are two modules to handle output: \texttt{PrintGraph} and \texttt{ViewGraph}. They print graphs in GP2's textual syntax and the graph description language DOT respectively.
+\end{comment}
+
+We describe the key components of the reference interpreter with the aim of illustrating the simplicity, clarity, and conciseness of the implementation. A basic knowledge of Haskell is useful but not essential to understand the content in the following sections.
 
 \subsection{Parser}
-
-As mentioned above, we use a parser combinator library fine-tuned to process some syntax specific to GP2. Each nonterminal of the grammar is represented by a Haskell function that parses the right-hand side of the grammar rule. An example is given below.
+The parser has three components: a host graph parser, a program text parser, and a conditional rule schema parser. Each individual parsing function takes a string as input and attempts to match a prefix of the string to a particular regular expression. It uses a library of functions and parser combinators tailored to parse GP2's textual syntax: the combinators neatly compose the parsing functions to cover standard parsing requirements such as alternation and repetition. Each nonterminal of the grammar is represented by a Haskell function that parses the right-hand side of the grammar rule. An example is given below.
 
 \begin{verbatim}
-1 ruleGraph :: Parser AstRuleGraph
-2 ruleGraph = keyword "[" |> pure AstRuleGraph <*> maybeSome node <| 
-3             keyword "|" <*> maybeSome edge <| keyword "]"
+gpMain :: Parser Main
+gpMain = keyword "Main" |> keyword "=" |> pure Main <*> 
+         commandSequence
 \end{verbatim}
 
-The operators \texttt{|>, <*> and <|} are infix binary functions: \texttt{<*>} sequences two parsers, \texttt{|>} ignores the output of its left parsee, and \texttt{<|} ignores the output of its right parser. In this way the combinators ensure that the the parsing code is very similar in appearance to GP2's context-free BNF grammar, and that syntax with no semantic value is seamlessly recognised and discarded.
+The operators \texttt{|> and <*>} are binary functions: \texttt{<*>} sequences two parsers and \texttt{|>} ignores the output of its left parser. \texttt{keyword} is a parser that recognises and discards its string argument. \texttt{commandSequence} recognises strings representing a valid GP2 command sequence. \texttt{Main} is a data constructor for the Main node of GP2's abstract syntax tree. \texttt{pure} is a wrapper whose purpose is unrelated to the parsing of GP2 text. It can be seen that with this coding style the parsing code is very similar in appearance to GP2's context-free BNF grammar. 
 
 \subsection{Transformation}
 
-The transformation phase extracts some semantic information from the AST, such as the types of variables specified in a rule schema's parameter list, and transforms graphs into the data structure defined by the \texttt{Graph} module. The internal graph representation is a pair of extensible arrays: one for the nodes and one for the edges. Node and edge labels are encoded into the node and edge data types. The simplicity of this implementation is intentional. Operations on graphs are concisely represented using Haskell's standard library of list processing functions. We chose to emphasise simplicity, readability and elegance over performance. 
+The transformation phase extracts semantic information from the AST, such as the types of variables specified in a rule schema's parameter list, and transforms graphs into the data structure defined in the \texttt{Graph} module, one component of the data structure library. The internal graph representation is a pair of extensible arrays: one for the nodes and one for the edges. The arrays are implemented as association lists with integer keys. Node and edge labels are encoded into the node and edge data types. The simplicity of this implementation is intentional. Operations on graphs are concisely represented using Haskell's standard library of list processing functions. 
 
-\subsection{The Interpreter}
+\subsection{Label Matching}
+The label matching algorithm establishes whether a label from a LHS rule item can be matched with a label from a host item. It takes as input the current environment and the two labels to be compared. 
 
-The interpreter runs the GP2 program on the host graph. It is passed an upper bound on rule applications. In many example programs, the same graph can be reached through several distinct computational branches. Therefore, when program execution is complete, a naive isomorphism checker is used to collate the list of output graphs into its isomorphism classes. The output is as follows:
+GP2 labels consist of a mark and a list. The marks are encoded as an abstract data type and are directly comparable. Lists are naturally represented as Haskell lists, where each element is an atom. Atoms occurring in the host graph are constants (integers, characters or strings), while rule atoms are either constants, variables or a concatenated string (expressions and degree operators are forbidden in LHS labels). If a variable-value assignment is required to a complete a match, it is tested against the current environment to ensure that the same variable is not mapped to two different values. 
 
-\begin{itemize}
-\item A list of unique output graphs, up to isomorphism, with a count of how many isomorphic copies of each graph were generated.
-\item The number of failures. A failure occurs when no rule from a set of rules cannot be applied to a graph, except if the rule set is in a loop or the condition section of a conditional branching statement.
-\item The number of unfinished computations. A computation is unfinished if the bound on rule applications is reached before the end of the program.
-\end{itemize}
-
-During program execution, the interpreter maintains a list of \texttt{GraphStates}, each representing a single nondeterministic execution of the program. A \texttt{GraphState} is an abstract data type: its values are a graph along with its rule application count, a failure symbol, and an unfinished symbol. There is a Haskell function to evaluate each GP2 control construct. Each function takes as input a single \texttt{GraphState}, along with some data about the program, and outputs a list of \texttt{GraphStates}. The \texttt{GraphStates} are propagated between functions with the use of recursive calls and Haskell's \texttt{concatMap} function. \texttt{GraphStates} representing failures and unfinished computations remain untouched after their creation, while \texttt{GraphStates} containing an intermediate graph are modified when a rule call is reached in the program's AST. The rule application process is the core of the interpreter. The code responsible for managing rule applications is below.
-
-\begin{verbatim}
-1 evalSimpleCommand max ds (RuleCall rs) (GS g rc) = 
-2   if rc == max 
-3     then [Unfinished]
-4     -- Apply all rules in one step.
-5     else let resultGraphs = 
-6       [h | r <- rs, h <- applyRule g $ ruleLookup r ds] 
-7       in
-8         case resultGraphs of
-9           [] -> [Failure]
-10          hs -> [GS h (rc+1) | h <- hs]
-\end{verbatim}
-
-\texttt{max} is the rule application bound, \texttt{ds} is a list of the rule and procedure declarations in the GP2 program, \texttt{rs} is a list of rules, and \texttt{GS g rc} is the current graph state. \texttt{GS} is the \texttt{GraphState} constructor, \texttt{g} is the working host graph, and \texttt{rc} is the number of rules that have been applied to \texttt{g}. The most significant part of the code is the list comprehension on line 6. It can be read as, ``for all rules $r$ in $rs$, apply $r$ to $g$ and produce the list of all output graphs $h$.'' Note that each individual rule application can produce multiple output graphs; the list comprehension is able to collate every possible output into one list. If \texttt{resultGraphs} is empty, then no rule in \texttt{rs} was applicable, and the list containing the single \texttt{GraphState Failure} is returned. Otherwise, the output graphs are placed into a fresh list of \texttt{GraphStates} with an incremented rule application count.
-
+In almost all cases, atoms are directly comparable. The most interesting case occurs if a list variable is encountered. We exploit the fact that only one list variable is allowed in a LHS label. The length of the remainder of the rule list is compared with the length of the remainder of the host list. This information is used either to assign the list variable the list of appropriate length, or to abort matching in the case that there are too few host atoms remaining to match the remaining rule atoms.
 
 \subsection{Graph Matching}
 
@@ -101,7 +96,7 @@ The edge matching algorithm searches for an appropriate edge mapping for each no
 \item For each edge in $L$, test its label against the labels of all of its candidate matches. Remove the items in which edge labels do not match. Add any variable-value assignments as necessary.
 \end{enumerate}
 
-A sample of the edge matching code is given below.
+\begin{comment} A sample of the edge matching code is given below.
 
 \begin{verbatim}
 1 ruleEdges = allEdges r
@@ -113,19 +108,47 @@ A sample of the edge matching code is given below.
 Line 1 creates the list of all edge identifiers of the rule graph. Line 2 maps over this list to get the list of source-target pairs for each edge. Line 3 uses an auxiliary function to generate the corresponding pairs in the host graph. \texttt{ruleEndsToHostEnds} takes a triple $(e, s, t)$ of a rule edge, its source and its target, and uses the node morphism to output $(e, s', t')$, where $s'$ and $t'$ are the images in the node mapping of $s'$ and $t'$ respectively. Finally, line 4 uses a second auxiliary function to find the appropriate edge for each pair of host nodes generated in the previous line. \texttt{getCandidateEdges} calls a function \texttt{joiningEdges} (from the \texttt{Graph} module) on each node pair $(s, t)$ to get the list of all edges in the host graph from $s$ to $t$. 
 
 The morphisms generated obey the morphism conditions by construction. Furthermore, all output morphisms are total. A quick scan of the code can verify this. For instance, the frequently used \texttt{map} preserves list size, so it immediately follows that in the code fragment above, \texttt{hostEdges} is a list of equal length to \texttt{ruleEdges}. 
-
-
-\subsection{Label Matching}
-
-The label matching algorithm establishes whether a label from a rule item can be matched with a label from a host item. It takes as input the current environment and the two labels to be compared. 
-
-GP2 labels consist of a mark and a list. The marks are encoded as an abstract data type and are directly comparable. Lists are naturally represented as Haskell lists, where each element is an atom. Atoms occurring in the host graph are constants (integers, characters or strings), while rule atoms are either constants, variables or a concatenated string. If a variable-value assignment is required to a complete a match, it is tested against the current environment to ensure that the same variable is not mapped to two different values. 
-
-In almost all cases, atoms are directly comparable. The most interesting case occurs if a list variable is encountered. We exploit the fact that only one list variable is allowed in a LHS label (to ensure unique matches). The length of the remainder of the rule list is compared with the length of the remainder of the host list. This information is used either to assign the list variable the list of appropriate length, or to abort matching in the case that there are too few host atoms left to match the remaining rule atoms.
+\end{comment}
 
 \subsection{Rule Application}
 
-If the graph matcher returned a list of morphisms, each of these morphisms is checked against the dangling condition and any rule schema conditions. Following that, the rule application is performed in the following steps: delete edges, delete nodes, relabel nodes, add nodes, relabel edges, add edges. The interpreter instantiates variables with their values from the environment and evaluates expressions when appropriate.
+Each of the morphisms output by the graph matcher is checked against the dangling condition and any rule schema conditions. Following that, the rule application is performed in the following steps: delete edges, delete nodes, relabel nodes, add nodes, relabel edges, add edges. The interpreter instantiates variables with their values from the environment and evaluates expressions.
 
-The output of the rule application is a list of graphs, where each graph is the result of a single rule application guided by one of the morphisms returned by the graph matcher.
+Haskell's standard library contains many powerful list processing functions. This coordinates nicely with our representation of graphs and morphisms, allowing the dangling condition to be elegantly expressed as a one line function.
+\begin{verbatim}
+danglingCondition :: HostGraph -> EdgeMatches -> [NodeId] -> Bool
+danglingCondition g ems delns = 
+         null [e | n <- delns, e <- incidentEdges g n \\ rng ems]
+\end{verbatim}
+
+The second argument is a mapping of LHS-edges to host-edges, taken from a graph morphism. The third argument is the set of nodes deleted by the rule. The function body, interpreted in words, provides a definition of the dangling condition: All host edges that are incident to nodes deleted by the rule are also in the image of the morphism. 
+
+The output of a rule application is a list of graphs since a rule's LHS could match more than one subgraph of the host graph.
+
+\subsection{The Interpreter}
+
+The interpreter runs the GP2 program on the host graph. It is passed an upper bound on rule applications. In many example programs, the same graph can be reached through several distinct computational branches. Therefore, when program execution is complete, a naive isomorphism checker is used to collate the list of output graphs into its isomorphism classes. The output is as follows:
+
+\begin{itemize}
+\item A list of unique output graphs, up to isomorphism, with a count of how many isomorphic copies of each graph were generated.
+\item The number of failures. A failure occurs when no rule from a set of rules cannot be applied to a graph, except if the rule set is in a loop or the condition section of a conditional branching statement.
+\item The number of unfinished computations. A computation is unfinished if the bound on rule applications is reached before the end of the program.
+\end{itemize}
+
+During program execution, the interpreter maintains a list of \texttt{GraphStates}, each representing a single nondeterministic execution of the program. A \texttt{GraphState} is an abstract data type: its values are a graph along with its rule application count, a failure symbol, and an unfinished symbol. There is a Haskell function to evaluate each GP2 control construct. Each function takes as input a single \texttt{GraphState}, along with some data about the program, and outputs a list of \texttt{GraphStates}. The \texttt{GraphStates} are propagated between functions with the use of recursive calls and Haskell's \texttt{concatMap} function. \texttt{GraphStates} representing failures and unfinished computations remain untouched after their creation, while \texttt{GraphStates} containing an intermediate graph are modified when a rule call is reached in the program's AST. The rule application process is the core of the interpreter. The code responsible for managing rule applications is below.
+
+\begin{verbatim}
+1 evalSimpleCommand max ds (RuleCall rs) (GS g rc) = 
+2   if rc == max 
+3     then [Unfinished]
+4     -- Apply all rules in one step.
+5     else let resultGraphs = 
+6       [h | r <- rs, h <- applyRule g $ ruleLookup r ds] 
+7       in
+8         case resultGraphs of
+9           [] -> [Failure]
+10          hs -> [GS h (rc+1) | h <- hs]
+\end{verbatim}
+
+\texttt{max} is the rule application bound, \texttt{ds} is a list of the rule and procedure declarations in the GP2 program, \texttt{rs} is a list of rules, and \texttt{GS g rc} is the current graph state. \texttt{GS} is the \texttt{GraphState} constructor, \texttt{g} is the working host graph, and \texttt{rc} is the number of rules that have been applied to \texttt{g}. The most significant part of the code is the list comprehension on line 6. It can be read as, ``for all rules $r$ in $rs$, apply $r$ to $g$ and produce the list of all output graphs $h$.'' Note that each individual rule application can produce multiple output graphs; the list comprehension is able to collate every possible output into one list. If \texttt{resultGraphs} is empty, then no rule in \texttt{rs} was applicable, and the list containing the single \texttt{GraphState Failure} is returned. Otherwise, the output graphs are placed into a fresh list of \texttt{GraphStates} with an incremented rule application count.
 
