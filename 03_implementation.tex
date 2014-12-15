@@ -19,28 +19,6 @@ The interpreter contains approximately 2000 lines of code, including comments. T
 \caption{Module dependencies.} \label{fig:modules}
 \end{figure}
 
-\begin{comment}
-\noindent \textbf{Data Structures} \\
-Our implementation uses a very simple list-based library of data structures. A graph is a pair of extensible arrays, one for the nodes and one for the edges. The arrays are implemented as association list with integer keys. We also make frequent use of simple mappings (lists of pairs).
-
-\noindent \textbf{Parser} \\
-The parser has three components: a host graph parser, a program text parser, and a conditional rule schema parser. Each individual parsing function takes a string as input and attempts to match a prefix of the string to a particular regular expression. It uses a library of functions and parser combinators to parse GP2's textual syntax: the combinators neatly compose the parsing functions to cover standard parsing requirements such as alternation and repetition. The output of the parser is a Haskell data structure representing the program's abstract syntax tree.
-
-\noindent \texttt{Transform AST} \\
-After parsing, the AST is walked in order to create intermediate representations of each rule. This involves assigning the correct types to variables occurring in labels and conditions from the rule's parameter list.
-
-\noindent \texttt{Isomorphism Checker} \\
-A naive isomorphism testing algorithm is used on the set of output graphs to avoid the printing of multiple instances of isomorphic graphs. 
-
-\noindent \texttt{Rule Application} \\
-This module is responsible for matching and applying GP2 rules. The graph matcher uses an unsophisticated brute force algorithm to find 
-
-\item The graph matching code is covered by three modules. The \texttt{Mapping} module contains a definition of a generic association list. These are used extensively in the matching algorithm to represent node mappings, edge mappings, and the environment. The two remaining modules, \texttt{GraphMatch} and \texttt{LabelMatch} contain the matching algorithms for graphs and labels respectively. Combined, the modules have 405 lines of code.
-\item \texttt{ApplyRule} and \texttt{Evaluate} are responsible for rule application. The latter replaces variables with values and evaluates expressions that occur in RHS labels and rule schema conditions. The former modifies the host graph with respect to a rule to generate a set of graphs from a collection of matches. The total line count is 259.
-\item \texttt{RunProgram} executes a GP2 program. It applies rules to the host graph and maintains data about the execution. 
-\item \texttt{I/O} consists of the \texttt{Main} module, the entry point to the interpreter, which takes as input the text files and rule application bound. There are two modules to handle output: \texttt{PrintGraph} and \texttt{ViewGraph}. They print graphs in GP2's textual syntax and the graph description language DOT respectively.
-\end{comment}
-
 We describe the key components of the reference interpreter with the aim of illustrating the simplicity, clarity, and conciseness of the implementation. A basic knowledge of Haskell is useful but not essential to understand the content in the following sections.
 
 \subsection{Parser}
@@ -67,7 +45,7 @@ In almost all cases, atoms are directly comparable. The most interesting case oc
 
 \subsection{Graph Matching}
 
-From a pattern graph $L$ and a host graph $G$, the graph matcher constructs a list of \texttt{GraphMorphisms}. A \texttt{GraphMorphism} is a data structure containing the \textit{environment}, namely the variable-value assignments; a mapping between nodes in $L$ and the corresponding nodes in $G$; and a similar list of edge mappings. Our mappings are lists of pairs, chosen because they are simple to work with and to understand. Morphisms are generated in two steps. First the node mappings are constructed, then each node morphism is augmented with appropriate edge mappings. 
+From a pattern graph $L$ and a host graph $G$, the graph matcher constructs a list of \texttt{GraphMorphisms}. A \texttt{GraphMorphism} is a data structure containing the \textit{environment}, namely the variable-value assignments; a mapping between nodes in $L$ and the corresponding nodes in $G$; and a similar list of edge mappings. We use lists of pairs to represent mappings due to their ease of use and understanding. Morphisms are generated in two steps. First the node mappings are constructed, then each node morphism is augmented with appropriate edge mappings. 
 
 The node matching algorithm works as follows, where $k$ is the number of nodes in $L$. 
 
@@ -83,32 +61,12 @@ The node matching algorithm works as follows, where $k$ is the number of nodes i
 \item Iterate through the sets from step 2, comparing the labels of nodes in $L$ to those in $G$. Remove the sets in which node labels do not match for all pairs of nodes. Add any variable-value assignments as necessary.
 \end{enumerate}
 
-The three filtering criteria in step 3 are cheap relative to label matching because they perform comparisons on easily-accessible information, in contrast to a full scan of an arbitrarily large GP2 list expression.
+The filtering of node morphisms (step 3) is cheap relative to label matching because each filter performs a single relational query on atomic values, in contrast to the more involved label matching functions.
 
 It is clear that the complexity of this algorithm increases exponentially with both the size of $L$ and the size of $G$ due to the expensive first step. This is a naive matching strategy that would not be appropriate if performance were a consideration. In this case, where correctness is a greater concern than speed, the simplicity of this algorithm is beneficial by making the source code easier to read and reason about in comparison to an implementation with sophisticated optimisations.
 
-The edge matching algorithm searches for an appropriate edge mapping for each node morphism in the list generated above. Valid edge mappings are added to the \texttt{GraphMorphism} data structure. The first step is to generate the list of source-target pairs of each edge in $L$. Then, for each node morphism $NM$:
+The edge matching algorithm is more sophisticated than the brute force approach of the node matcher. We search for an appropriate edge mapping for each node morphism generated above. For each rule edge $e$, we use the node morphism to determine the required source $src$ and target $tgt$ for a corresponding edge in the host graph. Candidate edges to match $e$ are the host edges from $src$ to $tgt$. $e$'s label is checked against all such host edges. 
 
-\begin{enumerate}
-\item Translate each source and target pair from $L$ to the pair of their images in $G$, according to $NM$.
-\item For each source-target pair in $G$, get the list of edges from the source to the target.
-\item Using a zip operation, pair each edge in $L$ with its set of candidate edge matches from the previous step.
-\item For each edge in $L$, test its label against the labels of all of its candidate matches. Remove the items in which edge labels do not match. Add any variable-value assignments as necessary.
-\end{enumerate}
-
-\begin{comment} A sample of the edge matching code is given below.
-
-\begin{verbatim}
-1 ruleEdges = allEdges r
-2 ruleEndPoints = map (\e -> (e, source r e, target r e)) ruleEdges
-3 hostEndPoints = map ruleEndsToHostEnds ruleEndPoints
-4 hostEdges = map getCandidateEdges hostEndPoints
-\end{verbatim}
-
-Line 1 creates the list of all edge identifiers of the rule graph. Line 2 maps over this list to get the list of source-target pairs for each edge. Line 3 uses an auxiliary function to generate the corresponding pairs in the host graph. \texttt{ruleEndsToHostEnds} takes a triple $(e, s, t)$ of a rule edge, its source and its target, and uses the node morphism to output $(e, s', t')$, where $s'$ and $t'$ are the images in the node mapping of $s'$ and $t'$ respectively. Finally, line 4 uses a second auxiliary function to find the appropriate edge for each pair of host nodes generated in the previous line. \texttt{getCandidateEdges} calls a function \texttt{joiningEdges} (from the \texttt{Graph} module) on each node pair $(s, t)$ to get the list of all edges in the host graph from $s$ to $t$. 
-
-The morphisms generated obey the morphism conditions by construction. Furthermore, all output morphisms are total. A quick scan of the code can verify this. For instance, the frequently used \texttt{map} preserves list size, so it immediately follows that in the code fragment above, \texttt{hostEdges} is a list of equal length to \texttt{ruleEdges}. 
-\end{comment}
 
 \subsection{Rule Application}
 
