@@ -16,8 +16,6 @@ Benchmark          & Host Graph\footnotemark & & Total & Unique   & Failed & & A
 
 \caption[Reference interpreter benchmarks]{Reference interpreter benchmark results when generating all possible output graphs}
 
-\caption*{}
-
 \label{table:resultsAll}
 \footnotetext{For a description of host graphs see \ref{TODO:fixme}}
 \end{minipage}
@@ -39,8 +37,6 @@ Benchmark          & Host Graph\footnotemark & & Total & Unique   & Failed & & A
 \end{tabular}
 
 \caption[Reference interpreter benchmarks]{Reference interpreter benchmark results when generating a single output graph}
-
-\caption*{}
 
 \label{table:resultsSingle}
 \footnotetext{For a description of host graphs see \ref{TODO:fixme}}
@@ -84,11 +80,6 @@ In all cases the host graphs used can be found in the GP2 version-control reposi
 
 
 
-\subsection{Benchmark performance}
-
-
-Tables \ref{table:resultsSingle} and \ref{table:resultsAll} show reference interpreter performance for the six benchmark programs, each run on several host graphs. Table \ref{table:resultsAll} shows figures for generating all possible results for each program/host-graph pair, while table \ref{table:resultsSingle} shows results when the interpreter is running in single output graph mode.
-
 \subsubsection*{Compilation options}
 
 The interpreter was compiled with GHC version 7.6.3 with optimisations and profiling support enabled, using the following command-line:
@@ -105,11 +96,17 @@ All benchmarking was done on a quad-core Intel i7 clocked at 3.4GHz, with 8GB RA
 
 \subsubsection*{Running GP2}
 
-The \texttt{gp2} executable has three mandatory commandline arguments: a GP2 program, a host graph on which to run the program, and a bound on the number of rule applications.
+The \textsc{gp2} executable has three mandatory commandline arguments: a GP2 program, a host graph on which to run the program, and a bound on the number of rule applications.
 
 The rule application bound, $k$ can be used to restrict the size of the search space, only allowing output graphs that can be reached in fewer than $k$ graph transformations. As part of its output, the interpreter reports the number of unfinished computations which halted upon reaching the bound.
 
+% explain commandline options to interpreter (e.g. max apps)
 
+Additionally \textsc{gp2} accepts two optional arguments that control the number of output graphs generated and use of the built-in isomorphism checker:
+
+Passing \texttt{--no-iso} on the commandline disables the isomorphism checker. As this can result in a very large number of output graphs, this flag accepts an optional numeric parameter which sets a maximum number of graphs to generate.
+
+Passing \texttt{--one} is equivalent to \texttt{--no-iso 1}.
 
 
 Benchmarks were run using the following commandline, with execution time limited to 1 hour. The rule application bound was set sufficiently high that the limit is not reached in any of the benchmarks being run.
@@ -121,13 +118,16 @@ $ timeout --foreground 1h \
 
 Unfortunately when the interpreter is killed after exceeding the allowed execution time memory profiling information is not written to disk.
 
-% explain commandline options to interpreter (e.g. max apps)
 
 
-Haskell makes heavy use of recursion, and so its runtime system uses a bounds-checked stack which is by default 8 MB in size, which can be modified by passing appropriate compile- or run-time flags. Several programs consumed all of this stack space and terminated with overflow exceptions, as noted in the table. %TODO note in tables!
+Haskell makes heavy use of recursion, and so its runtime system uses a bounds-checked stack which is by default 8 MB in size, which can be modified by passing appropriate compile- or run-time flags. Several programs consumed all of this stack space and terminated with overflow exceptions, as noted in the table. %TODO note in tables -- is this due to a bug in GraphIsomorphism?
 
 
 
 % discuss why some progs overflowed and others didn't.
 
+
+\subsection{Benchmark performance}
+
+Tables \ref{table:resultsSingle} and \ref{table:resultsAll} summarise the reference interpreter performance for the six benchmark programs, each run on several host graphs. Table \ref{table:resultsAll} shows figures for generating all possible results for each program/host-graph pair, while table \ref{table:resultsSingle} shows results when the interpreter is running in single output graph mode.
 
