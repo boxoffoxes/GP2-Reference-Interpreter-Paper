@@ -19,7 +19,7 @@ The principal programming construct in GP are conditional graph transformation r
 
 Applying \ttt{link} amounts to non-deterministically selecting a subgraph of the host graph that matches \ttt{link}'s left graph, and adding to it an edge from node 1 to node 3 provided there exits no such edge (with any label). The application condition ensures that the program terminates and extends the host graph with a minimal number of edges.
 
-It is not difficult to see that given any graph $G$, the program produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} Note that this graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. %\qed
+It is not difficult to see that given any graph $G$, the program produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} Note that this graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. \qed
 \end{example}
   
 
@@ -35,7 +35,7 @@ The program in Figure \ref{fig:vertex-colouring} assigns a \emph{colour}\/ to ea
 \end{figure}
 
 Rule \ttt{inc} is applied to the host graph as long as there are edges with identically coloured endpoints. It can can be shown that this terminates after at most $n^2$ rule applications, where $n$\/ is the number of nodes. In contrast to the previous example program, different graphs may result from this process. In particular, there is no guarantee that the number of colours produced is minimal. For instance, Figure \ref{fig:colour_results} shows two different colourings produced for the same host graph.
-%\qed
+\qed
 \end{example}
 
 \begin{figure}[htb]
