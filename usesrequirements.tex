@@ -1,0 +1,108 @@
+\section{Reference Interpreters: Uses and Requirements}
+\label{sec:usesrequirements}
+
+A reference interpreter has several potential uses.
+Each has consequences for the
+way the reference interpreter is written and the
+facilities it provides.
+
+\paragraph{An arbiter for programmers}
+A programmer working in a new language needs to
+know whether what they are writing is a valid
+program, and whether the effect of executing it
+is the effect they intend.
+To resolve such issues, the programmer may want to
+use a reference interpreter as a black box,
+checking the output it produces given their
+program as input.
+Or they may wish to consult some part of the
+source-code for the interpreter, to know the exact
+rule defining some aspect of the language they
+are unsure about.
+
+It follows that a reference interpreter should
+provide as output at least a report whether a
+program is valid, and if so a clear representation
+of the result when it is evaluated.
+It also follows that the source-code for a
+reference interpreter should
+be organised in such a way that salient components
+are easy to identify.
+For ease of reading it should be written using a
+consistent style in a modest subset of a suitable
+high-level language.
+
+\paragraph{An arbiter for implementors}
+An implementer of a programming language,
+developing their own interpreter or compiler,
+needs a standard against which to test the correctness
+of their implementation.
+There are two main respects in which any
+implementation should agree with a reference interpreter
+as a defining standard.
+They should agree which programs are valid,
+and for valid programs they should agree the results
+of executing them.
+Like application programmers, implementers too may
+wish sometimes to use the reference interpreter as
+a black box, but at other times to consult its
+internal definitions. 
+
+There are additional requirements for this use,
+bearing in mind the likely development or generation
+of many test programs.
+The representation of the
+reference interpreter's results for such programs
+should be amenable to automated comparison.
+This comparison presents particular challenges when
+behaviour of programs may be non-deterministic,
+or programs may not terminate, or both.
+The number of test programs may be large
+--- there may even be arbitrarily many test programs generated dynamically.
+So although performance is not a design goal for the reference
+interpreter, its performance should be good enough to
+make such multi-test comparisons feasible.
+
+\paragraph{A prototype for application developers}
+If no production compiler has been developed for the language,
+or none is yet available to an application developer,
+they may need to use a reference interpreter as
+an initial development platform.
+
+During the development of application programs, errors
+are common.
+So, for this use, a reference interpreter should provide
+not only a check for valid programs, but a rapid check
+with informative reports of errors.
+Yet elaborate error handling must not obscure the
+definitional style in which the interpreter is written.
+Similarly, it is desirable to have the option of some
+kind of trace or other informative report to shed
+light on failures or unexpected results when a program
+is evaluated.
+Here again, the machinery must not obsure the basic
+definitions for evaluation, nor should it impose heavy
+performance costs when performance of the interpreter
+has already been sacrificed in favour of simplicity.
+
+\paragraph{A prototype for implementation developers}
+As well as using a reference interpreter to verify correctness,
+implementers may wish to use it as the starting point in the
+development of another interpreter or a compiler.
+The whole course of such a development might even be defined as
+the successive replacement of interpreter components by
+alternatives giving higher performance, or richer information,
+at the cost of greater complexity.
+The advantage of this approach is that as each replacement
+is introduced it can be checked as a new component in an already
+tried system.
+
+This use of a reference interpreter requires a
+modular design with simple and clearly defined interfaces
+between components.
+Concerns should be separated so far as possible, avoiding
+dependencies that are not strictly necessary.
+Options for development by successive replacement may be further
+increased by choosing a host programming system for the reference
+interpreter that has a well-developed foreign-language interface. 
+
