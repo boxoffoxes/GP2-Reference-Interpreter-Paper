@@ -14,8 +14,8 @@
 
 \begin{document}
 
-\title{A Reference Interpreter for Graph Programs}
-%\title{A Reference Interpreter for a Graph Programming Language}
+\title{A Reference Interpreter for the Graph Programming Language GP2}
+%\title{A Reference Interpreter for the Graph Programming Language}
 
 \author{Christopher Bak, Glyn Faulkner, Detlef Plump and Colin Runciman} 
 \institute{Department of Computer Science\\
@@ -27,16 +27,27 @@
 
 
 \begin{abstract}
-Abstract goes here.
+GP2 is an experimental programming language
+for computing by graph transformation.
+An initial interpreter for GP2, written
+in the functional language Haskell, provides
+a concise and simply structured reference
+implementation.
+Despite its simplicity, the performance of
+the interpreter is sufficient for the
+comparative investigation of a range of test
+programs.
+It also provides a platform for the development
+of more sophisticated implementations.
 \end{abstract}
 
 \input{01_introduction}
 \input{graph_programs}
-\input{03_implementation}
 \input{benchmark}
+\input{usesrequirements}
+\input{03_implementation}
 \input{04_results}
 \input{05_discussion}
-
 
 \bibliography{bibliography}{}
 \bibliographystyle{plain}
