@@ -9,9 +9,9 @@ A flowchart of the reference interpreter is shown in Figure \ref{fig:architectur
 \caption{Data flow of the reference interpreter.} \label{fig:architecture}
 \end{figure}
 
-The interpreter takes three inputs: a file containing the textual representation of a GP2 program, a file containing the textual representation of a host graph, and an upper limit on the number of rule applications to be made before halting program execution. It runs the program on the host graph until either the bound is reached or the end of the program is reached on all branches. The default output is a complete description of all possible outputs. There is a command-line flag to print only one result in case the total computation is too slow for a particular program.
+The interpreter takes three inputs: a file containing the textual representation of a GP2 program, a file containing the textual representation of a host graph, and an upper limit on the number of rule applications to be made before halting program execution. It runs the program on the host graph, traversing all nondeterministic branches of the program. The default output is a complete description of all possible outputs. Branches that exceed the rule application bound before program termination are output as unfinished computations. For efficiency reasons, the interpreter is also capable of computing a single output graph. 
 
-The interpreter contains approximately 2000 lines of code, including comments. This should give an indication as to the conciseness and simplicity of the interpreter. The diagram above is a simplified depiction of the interpreter: Figure \ref{fig:modules} is a more detailed module relationship diagram. A module points to any modules on which it depends. 
+The interpreter contains approximately 1000 lines of code. This should give an indication as to the conciseness and simplicity of the interpreter. Figure \ref{fig:modules} depicts the module dependency structure of the interpreter. A module points to any modules on which it depends. 
 
 \begin{figure}
 \centering
@@ -34,7 +34,7 @@ The operators \texttt{|> and <*>} are binary functions: \texttt{<*>} sequences t
 
 \subsection{Transformation}
 
-The transformation phase extracts semantic information from the AST, such as the types of variables specified in a rule schema's parameter list, and transforms graphs into the data structure defined in the \texttt{Graph} module, one component of the data structure library. The internal graph representation is a pair of extensible arrays: one for the nodes and one for the edges. The arrays are implemented as association lists with integer keys. Node and edge labels are encoded into the node and edge data types. The simplicity of this implementation is intentional. Operations on graphs are concisely represented using Haskell's standard library of list processing functions. 
+The transformation phase extracts semantic information from the AST, such as the types of variables specified in a rule schema's parameter list, and transforms graphs into the data structure defined in the \texttt{Graph} module, one component of the data structure library. The internal graph representation is a pair of maps of nodes and edges. Node and edge labels are encoded into the node and edge data types. The simplicity of this implementation is intentional. Operations on graphs are concisely represented using Haskell functions from the default library \texttt{Prelude} and from \texttt{Data.Map}, a Haskell library that implements maps efficiently as balanced binary trees.
 
 \subsection{Label Matching}
 The label matching algorithm establishes whether a label from a LHS rule item can be matched with a label from a host item. It takes as input the current environment and the two labels to be compared. 
@@ -45,31 +45,13 @@ In almost all cases, atoms are directly comparable. The most interesting case oc
 
 \subsection{Graph Matching}
 
-From a pattern graph $L$ and a host graph $G$, the graph matcher constructs a list of \texttt{GraphMorphisms}. A \texttt{GraphMorphism} is a data structure containing the \textit{environment}, namely the variable-value assignments; a mapping between nodes in $L$ and the corresponding nodes in $G$; and a similar list of edge mappings. We use lists of pairs to represent mappings due to their ease of use and understanding. Morphisms are generated in two steps. First the node mappings are constructed, then each node morphism is augmented with appropriate edge mappings. 
+From a pattern graph $L$ and a host graph $G$, the graph matcher constructs a list of \texttt{GraphMorphisms}. A \texttt{GraphMorphism} is a data structure containing the \textit{environment}, namely the variable-value assignments; a mapping between nodes in $L$ and the corresponding nodes in $G$; and a similar list of edge mappings. We use lists of pairs to represent mappings due to their ease of use and understanding. Morphisms are generated in two steps. First the node mappings are found, each with an environment. Each node mapping-environment pair is then augmented with appropriate edge mappings and environment extensions to form a set of total graph morphisms.
 
-The node matching algorithm works as follows, where $k$ is the number of nodes in $L$. 
+We describe the node matching algorithm. For each node $l_k \in L$, the interpreter constructs the list of all host nodes \texttt{[$h_{k_1}, \ldots, h_{k_m}$]} that match $l_k$ with respect to rootedness and labels. The process of comparing labels also produces an environment that is paired with each node, omitted for clarity. The result is a list of lists \texttt{[[$h_{1_1}, \ldots, h_{1_m}$],\ldots,[$h_{n_1}, \ldots, h_{n_m}$]]} where $n$ is the number of nodes in $L$. Each candidate node mapping is taken from this list of lists by selecting exactly one item from each list. The final step is to test each candidate mapping for compatibility with respect to their environments. Haskell's list comprehensions are perfectly suited for this task: the list of lists is computed with a single nested list comprehension, while a second list comprehension is responsible for collating the valid candidate mappings. 
 
-\begin{enumerate}
-\item Generate the list of all $k$-sized sets of nodes from $G$.
-\item Using Haskell's \texttt{zip}, pair up each of the above sets with the set of nodes from $L$ to create a list of candidate node morphisms.
-\item Remove items from the candidate morphisms list that:
-  \begin{itemize}
-  \item map a root node to a non-root node.
-  \item map a node $l$ to a node $h$ where either the indegree or outdegree of $l$ is greater than that of $h$.
-  \item map a node $l$ to a node $h$ where $l$'s mark is not cyan and not equal to $h$'s mark.
-  \end{itemize}
-\item Iterate through the sets from step 2, comparing the labels of nodes in $L$ to those in $G$. Remove the sets in which node labels do not match for all pairs of nodes. Add any variable-value assignments as necessary.
-\end{enumerate}
-
-The filtering of node morphisms (step 3) is cheap relative to label matching because each filter performs a single relational query on atomic values, in contrast to the more involved label matching functions.
-
-It is clear that the complexity of this algorithm increases exponentially with both the size of $L$ and the size of $G$ due to the expensive first step. This is a naive matching strategy that would not be appropriate if performance were a consideration. In this case, where correctness is a greater concern than speed, the simplicity of this algorithm is beneficial by making the source code easier to read and reason about in comparison to an implementation with sophisticated optimisations.
-
-The edge matching algorithm is more sophisticated than the brute force approach of the node matcher. We search for an appropriate edge mapping for each node morphism generated above. For each rule edge $e$, we use the node morphism to determine the required source $src$ and target $tgt$ for a corresponding edge in the host graph. Candidate edges to match $e$ are the host edges from $src$ to $tgt$. $e$'s label is checked against all such host edges. 
-
+The edge matching algorithm is similar. For each edge in $L$, we use the node morphism to determine the required source and target for a corresponding edge in the host graph. The list of candidate host edges is then the list of host edges from that source to that target. Each rule edge is checked against each candidate host edge for label compatibility, supported by the environment passed from the node morphism.
 
 \subsection{Rule Application}
-
 Each of the morphisms output by the graph matcher is checked against the dangling condition and any rule schema conditions. Following that, the rule application is performed in the following steps: delete edges, delete nodes, relabel nodes, add nodes, relabel edges, add edges. The interpreter instantiates variables with their values from the environment and evaluates expressions.
 
 Haskell's standard library contains many powerful list processing functions. This coordinates nicely with our representation of graphs and morphisms, allowing the dangling condition to be elegantly expressed as a one line function.
@@ -80,8 +62,6 @@ danglingCondition g ems delns =
 \end{verbatim}
 
 The second argument is a mapping of LHS-edges to host-edges, taken from a graph morphism. The third argument is the set of nodes deleted by the rule. The function body, interpreted in words, provides a definition of the dangling condition: All host edges that are incident to nodes deleted by the rule are also in the image of the morphism. 
-
-The output of a rule application is a list of graphs since a rule's LHS could match more than one subgraph of the host graph.
 
 \subsection{The Interpreter}
 
