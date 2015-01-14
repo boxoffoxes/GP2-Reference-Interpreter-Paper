@@ -10,9 +10,9 @@ A flowchart of the reference interpreter is shown in Figure \ref{fig:architectur
 \caption{Data flow of the reference interpreter.} \label{fig:architecture}
 \end{figure}
 
-The interpreter takes three inputs: a file containing the textual representation of a GP2 program, a file containing the textual representation of a host graph, and an upper limit on the number of rule applications to be made before halting program execution. It runs the program on the host graph until either the bound is reached or the end of the program is reached on all branches. The default output is a complete description of all possible outputs. There is a command-line flag to print only one result in case the total computation is too slow for a particular program.
+The interpreter takes three inputs: a file containing the textual representation of a GP2 program, a file containing the textual representation of a host graph, and an upper limit on the number of rule applications to be made before halting program execution. It runs the program on the host graph, traversing all nondeterministic branches of the program. The default output is a complete description of all possible outputs. Branches that exceed the rule application bound before program termination are output as unfinished computations. For efficiency reasons, the interpreter is also capable of computing a single output graph. 
 
-The interpreter contains approximately 2000 lines of code, including comments. This should give an indication as to the conciseness and simplicity of the interpreter. The diagram above is a simplified depiction of the interpreter: Figure \ref{fig:modules} is a more detailed module relationship diagram. A module points to any modules on which it depends. 
+The interpreter contains approximately 1000 lines of code. This should give an indication as to the conciseness and simplicity of the interpreter. Figure \ref{fig:modules} depicts the module dependency structure of the interpreter. A module points to any modules on which it depends. 
 
 \begin{figure}
 \centering
@@ -35,7 +35,46 @@ The operators \texttt{|> and <*>} are binary functions: \texttt{<*>} sequences t
 
 \subsection{Transformation}
 
-The transformation phase extracts semantic information from the AST, such as the types of variables specified in a rule schema's parameter list, and transforms graphs into the data structure defined in the \texttt{Graph} module, one component of the data structure library. The internal graph representation is a pair of extensible arrays: one for the nodes and one for the edges. The arrays are implemented as association lists with integer keys. Node and edge labels are encoded into the node and edge data types. The simplicity of this implementation is intentional. Operations on graphs are concisely represented using Haskell's standard library of list processing functions. 
+The transformation phase extracts semantic information from the AST, such as the types of variables specified in a rule schema's parameter list, and transforms graphs into the data structure defined in the \texttt{Graph} module, one component of the data structure library. The internal graph representation is a pair of maps of nodes and edges. Node and edge labels are encoded into the node and edge data types. The simplicity of this implementation is intentional. Operations on graphs are concisely represented using Haskell functions from the default library \texttt{Prelude} and from \texttt{Data.Map}, a Haskell library that implements maps efficiently as balanced binary trees.
+
+\subsection{Label Matching}
+The label matching algorithm establishes whether a label from a LHS rule item can be matched with a label from a host item. It takes as input the current environment and the two labels to be compared. 
+
+GP2 labels consist of a mark and a list. The marks are encoded as an abstract data type and are directly comparable. Lists are naturally represented as Haskell lists, where each element is an atom. Atoms occurring in the host graph are constants (integers, characters or strings), while rule atoms are either constants, variables or a concatenated string (expressions and degree operators are forbidden in LHS labels). If a variable-value assignment is required to a complete a match, it is tested against the current environment to ensure that the same variable is not mapped to two different values. 
+
+In almost all cases, atoms are directly comparable. The most interesting case occurs if a list variable is encountered. We exploit the fact that only one list variable is allowed in a LHS label. The length of the remainder of the rule list is compared with the length of the remainder of the host list. This information is used either to assign the list variable the list of appropriate length, or to abort matching in the case that there are too few host atoms remaining to match the remaining rule atoms.
+
+\subsection{Graph Matching}
+
+From a pattern graph $L$ and a host graph $G$, the graph matcher constructs a list of \texttt{GraphMorphisms}. A \texttt{GraphMorphism} is a data structure containing the \textit{environment}, namely the variable-value assignments; a mapping between nodes in $L$ and the corresponding nodes in $G$; and a similar list of edge mappings. We use lists of pairs to represent mappings due to their ease of use and understanding. Morphisms are generated in two steps. First the node mappings are found, each with an environment. Each node mapping-environment pair is then augmented with appropriate edge mappings and environment extensions to form a set of total graph morphisms.
+
+We describe the node matching algorithm. For each node $l_k \in L$, the interpreter constructs the list of all host nodes \texttt{[$h_{k_1}, \ldots, h_{k_m}$]} that match $l_k$ with respect to rootedness and labels. The process of comparing labels also produces an environment that is paired with each node, omitted for clarity. The result is a list of lists \texttt{[[$h_{1_1}, \ldots, h_{1_m}$],\ldots,[$h_{n_1}, \ldots, h_{n_m}$]]} where $n$ is the number of nodes in $L$. Each candidate node mapping is taken from this list of lists by selecting exactly one item from each list. The final step is to test each candidate mapping for compatibility with respect to their environments. Haskell's list comprehensions are perfectly suited for this task: the list of lists is computed with a single nested list comprehension, while a second list comprehension is responsible for collating the valid candidate mappings. 
+
+The edge matching algorithm is similar. For each edge in $L$, we use the node morphism to determine the required source and target for a corresponding edge in the host graph. The list of candidate host edges is then the list of host edges from that source to that target. Each rule edge is checked against each candidate host edge for label compatibility, supported by the environment passed from the node morphism.
+
+\subsection{Rule Application}
+Each of the morphisms output by the graph matcher is checked against the dangling condition and any rule schema conditions. Following that, the rule application is performed in the following steps: delete edges, delete nodes, relabel nodes, add nodes, relabel edges, add edges. The interpreter instantiates variables with their values from the environment and evaluates expressions.
+
+Haskell's standard library contains many powerful list processing functions. This coordinates nicely with our representation of graphs and morphisms, allowing the dangling condition to be elegantly expressed as a one line function.
+\begin{verbatim}
+danglingCondition :: HostGraph -> EdgeMatches -> [NodeId] -> Bool
+danglingCondition g ems delns = 
+         null [e | n <- delns, e <- incidentEdges g n \\ rng ems]
+\end{verbatim}
+
+The second argument is a mapping of LHS-edges to host-edges, taken from a graph morphism. The third argument is the set of nodes deleted by the rule. The function body, interpreted in words, provides a definition of the dangling condition: All host edges that are incident to nodes deleted by the rule are also in the image of the morphism. 
+
+\subsection{The Interpreter}
+
+The interpreter runs the GP2 program on the host graph. It is passed an upper bound on rule applications. In many example programs, the same graph can be reached through several distinct computational branches. Therefore, when program execution is complete, a naive isomorphism checker is used to collate the list of output graphs into its isomorphism classes. The output is as follows:
+
+\begin{itemize}
+\item A list of unique output graphs, up to isomorphism, with a count of how many isomorphic copies of each graph were generated.
+\item The number of failures. A failure occurs when no rule from a set of rules cannot be applied to a graph, except if the rule set is in a loop or the condition section of a conditional branching statement.
+\item The number of unfinished computations. A computation is unfinished if the bound on rule applications is reached before the end of the program.
+\end{itemize}
+
+During program execution, the interpreter maintains a list of \texttt{GraphStates}, each representing a single nondeterministic execution of the program. A \texttt{GraphState} is an abstract data type: its values are a graph along with its rule application count, a failure symbol, and an unfinished symbol. There is a Haskell function to evaluate each GP2 control construct. Each function takes as input a single \texttt{GraphState}, along with some data about the program, and outputs a list of \texttt{GraphStates}. The \texttt{GraphStates} are propagated between functions with the use of recursive calls and Haskell's \texttt{concatMap} function. \texttt{GraphStates} representing failures and unfinished computations remain untouched after their creation, while \texttt{GraphStates} containing an intermediate graph are modified when a rule call is reached in the program's AST. The rule application process is the core of the interpreter. The code responsible for managing rule applications is below.
 
 \subsection{Label Matching}
 The label matching algorithm establishes whether a label from a LHS rule item can be matched with a label from a host item. It takes as input the current environment and the two labels to be compared. 

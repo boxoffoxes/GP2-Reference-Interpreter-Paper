@@ -1,10 +1,13 @@
-\documentclass{llncs}
+\documentclass{eptcs}
+\providecommand{\event}{\GAM 2015}
+%\documentclass{llncs}
 %\usepackage{lncs}
 
-\usepackage{amsmath,latexsym,amsfonts,amssymb,theorem,verbatim}
+\usepackage{amsmath,latexsym,amsfonts,amssymb,amsthm,verbatim}
 \usepackage{rotating,graphs,stmaryrd}
 \usepackage{subfig,pgf,xcolor,tikz}
 \usepackage{cite}
+\usepackage{breakurl}
 
 \input{macros}
 
@@ -15,12 +18,14 @@
 \begin{document}
 
 \title{A Reference Interpreter for the Graph Programming Language GP2}
-%\title{A Reference Interpreter for the Graph Programming Language}
 
-\author{Christopher Bak, Glyn Faulkner, Detlef Plump and Colin Runciman} 
-\institute{Department of Computer Science\\
-           The University of York, UK}
+\author{Christopher Bak, Glyn Faulkner, Detlef Plump and Colin Runciman
+    \institute{Department of Computer Science\\
+               The University of York, UK}
+}
 
+\def\authorrunning{C. Bak, G. Faulkner, D. Plump \& C. Runciman} 
+\def\titlerunning{A Reference Interpreter for Graph Programs}
 
 \maketitle
 \thispagestyle{empty}
