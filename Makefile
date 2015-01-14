@@ -1,4 +1,4 @@
-SECTIONS=01_introduction.tex 02_language.tex 03_implementation.tex 04_results.tex 05_discussion.tex
+SECTIONS=01_introduction.tex 02_language.tex benchmark.tex usesrequirements.tex 03_implementation.tex architecture.tex 04_results.tex 05_discussion.tex
 LATEX=latex -halt-on-error -output-directory=tmp
 BIBTEX=bibtex
 

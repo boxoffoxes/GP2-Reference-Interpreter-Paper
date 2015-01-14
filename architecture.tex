@@ -1,19 +1,19 @@
-\begin{tikzpicture} [align=center, arrowout, box]
+\begin{tikzpicture} [align=center, arrowout]
 
 \node(parser) at (0,0)  [box, rounded corners] {Parser};
 
-\node(gen) at (3,0) [box, rounded corners] {Transformation};
+\node(gen) at (3,0) [box, rounded corners] {Transformer};
 
 \node(inter) at (6.5,0) [box, rounded corners] {Interpreter};
 
-\node(apply) at (4.5,-2) [box, text width=2cm] {Rule Application};
+\node(apply) at (4.5,-2) [box, rounded corners] {Rule Applier};
 
 \draw[arrowout] (-2, 0.22) -- node[above, text width=1.5cm]{\scriptsize{Host Graph File}} (parser.160);
 \draw[arrowout] (-2, -0.22) -- node[below, text width=1.5cm]{\scriptsize{Program File}} (parser.200);
 \draw[arrowout] (0,-1.7) -- node[right, text width=1.5cm]{\scriptsize{Rule Application Bound}} (parser.270);
 
 \draw [arrowout] (parser) --  (gen);
-\node at (1.1,0.3) {\scriptsize{AST}};
+\node at (1.35,0.3) {\scriptsize{AST}};
 
 \draw [arrowout] (gen.10) -- node[above, text width=1cm]{\scriptsize{Host Graph}} (inter.167);
 \draw [arrowout] (gen.350) --  (inter.193);
