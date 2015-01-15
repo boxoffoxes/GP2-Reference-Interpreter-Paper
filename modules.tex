@@ -1,23 +1,31 @@
 \begin{tikzpicture} [align=center, arrowin]
 
-\node(io) at (0, 6)  [box] {I/O\\x lines};
-\node(run) at (0, 4.5) [box] {Program Interpreter\\x lines};
-\node(apply) at (0, 3) [box] {Rule Applier\\x lines};
-\node(iso) at (-3.5, 1.5) [box] {Isomorphism Checker\\x lines};
-\node(lmatch) at (0, 1.5) [box] {Label Matcher\\x lines};
-\node(trans) at (3, 1.5) [box] {Transformer\\x lines};
-\node(data) at (0, 0) [box] {Data Structure\\Libaries\\x lines};
-\node(parser) at (3, 0) [box] {Parser\\x lines};
+\node(main) at (0, 7.5)  [box] {Main Interpreter\\x lines};
+\node(iso) at (-3, 6) [box] {Isomorphism\\Checker\\x lines};
+\node(eval) at (0, 6) [box] {Evaluater\\x lines};
+\node(print) at (3, 6) [box] {Graph Printer\\x lines};
+\node(apply) at (0, 4.5) [box] {Rule Applier\\x lines};
+\node(gmatch) at (0, 3) [box] {Graph Matcher\\x lines};
+\node(lmatch) at (-3, 1.5) [box] {Label Matcher\\x lines};
+\node(graph) at (0, 1.5) [box] {Graph Library\\x lines};
+\node(trans) at (3, 1.5) [box] {Checker \&\\Transformer\\x lines};
+\node(data) at (0, -0.25) [box] {Finite Maps \&\\Libraries\\x lines};
+\node(parser) at (3, -0.5) [box] {Parser \& AST\\x lines};
 
 \draw (parser) edge[arrowin, dashed] (trans);
 \draw (data) edge[arrowin, dashed] (trans);
 \draw (data) edge[arrowin, dashed] (lmatch);
-\draw (data) edge[arrowin, dashed] (iso);
-\draw (lmatch) edge[arrowin, dashed] (apply);
-\draw (trans) edge[arrowin, dashed] (apply);
-\draw (apply) edge[arrowin, dashed] (run);
-\draw (iso) edge[arrowin, dashed, bend left=30] (run.205);
-\draw (run) edge[arrowin, dashed] (io);
+\draw (data) edge[arrowin, dashed] (graph);
+\draw (trans) edge[arrowin, dashed] (gmatch);
+\draw (graph) edge[arrowin, dashed] (gmatch);
+\draw (graph) edge[arrowin, dashed, bend left=25] (iso);
+\draw (graph) edge[arrowin, dashed, bend right=25] (print);
+\draw (lmatch) edge[arrowin, dashed] (gmatch);
+\draw (gmatch) edge[arrowin, dashed] (apply);
+\draw (apply) edge[arrowin, dashed] (eval);
+\draw (iso) edge[arrowin, dashed] (main);
+\draw (eval) edge[arrowin, dashed] (main);
+\draw (print) edge[arrowin, dashed] (main);
 
 \end{tikzpicture}
 
