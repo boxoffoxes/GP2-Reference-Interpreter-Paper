@@ -19,7 +19,7 @@ The principal programming construct in GP are conditional graph transformation r
 
 Applying \ttt{link} amounts to non-deterministically selecting a subgraph of the host graph that matches \ttt{link}'s left graph, and adding to it an edge from node 1 to node 3 provided there exits no such edge (with any label). The application condition ensures that the program terminates and extends the host graph with a minimal number of edges.
 
-It is not difficult to see that given any graph $G$, the program produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} Note that this graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. \qed
+A graph is \emph{transitive} if for each directed path from a node $v$ to another node $v'$, there is an edge from $v$ to $v'$. It is not difficult to see that given any graph $G$, the program in Figure \ref{fig:transitive-closure} produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} This graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. \qed
 \end{example}
   
 

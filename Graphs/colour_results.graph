@@ -6,24 +6,6 @@
 \graphnodecolour{1}
 
 \begin{graph}(3.2,3.2)
- \roundnode{n1}(.4,1.6)
- \roundnode{n2}(1.6,2.8)
- \roundnode{n3}(2.8,1.6)
- \roundnode{n4}(1.6,.4)
- \diredge{n1}{n2}
- \diredge{n2}{n3}
- \diredge{n4}{n3}
- \diredge{n1}{n4}
-\end{graph}
-\\
-\begin{graph}(4.2,.5)(0,.2)
- \freetext(.3,.5)%
-  {\begin{turn}{45} \mbox{\large $\DSlder$} \end{turn}}
- \freetext(3.9,.5)%
-  {\begin{turn}{-45} \mbox{\large $\DSder$} \end{turn}}
-\end{graph}
-\\
-\begin{graph}(3.2,3.2)
  \roundnode{n1}(.4,1.6)[\grey]\nodetext{n1}{1}
  \roundnode{n2}(1.6,2.8)[\grey]\nodetext{n2}{2}
  \roundnode{n3}(2.8,1.6)[\grey]\nodetext{n3}{1}
@@ -34,7 +16,23 @@
  \diredge{n1}{n4}
 \end{graph}
 %
+\begin{graph}(2,3.2)
+ \freetext(1,1.7){\large $\DSlder$}
+\end{graph}
+%
 \begin{graph}(3.2,3.2)
+ \roundnode{n1}(.4,1.6)
+ \roundnode{n2}(1.6,2.8)
+ \roundnode{n3}(2.8,1.6)
+ \roundnode{n4}(1.6,.4)
+ \diredge{n1}{n2}
+ \diredge{n2}{n3}
+ \diredge{n4}{n3}
+ \diredge{n1}{n4}
+\end{graph}
+%
+\begin{graph}(2,3.2)
+ \freetext(1,1.7){\large $\DSder$}
 \end{graph}
 %
 \begin{graph}(3.2,3.2)

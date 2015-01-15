@@ -36,24 +36,24 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \end{center}
 
 
-\subsection{Rooted 2-colouring}
-
-\begin{tabular}{lp{10.5cm}}
-\ul{Input:} & A connected graph $G$. \\
-\ul{Output:} & If $G$\/ is 2-colourable, then the output is obtained from $G$\/ by marking each node with either red or blue. The source and target of each non-loop edge have different colours.\\
-& If $G$\/ is not 2-colourable, then the output is $G$.
-\end{tabular}
-
-\vspace{10pt}
-\input{Programs/rooted-2colouring} \\
-\vspace{10pt}
-
-\ul{Notes}
-\begin{enumerate}
-\setlength{\itemsep}{-.5ex}
-\item The nodes in rule \ttt{unroot} are violet. They can match a node of any colour. A violet right-hand node takes the colour of the match of the left-hand node.
-\item The edges in the \ttt{mark}, \ttt{joined} and \ttt{back} rules are \emph{bidirectional}. They match host graph edges in either direction.
-\end{enumerate}
+% \subsection{Rooted 2-colouring}
+% 
+% \begin{tabular}{lp{10.5cm}}
+% \ul{Input:} & A connected graph $G$. \\
+% \ul{Output:} & If $G$\/ is 2-colourable, then the output is obtained from $G$\% / by marking each node with either red or blue. The source and target of each % non-loop edge have different colours.\\
+% & If $G$\/ is not 2-colourable, then the output is $G$.
+% \end{tabular}
+% 
+% \vspace{10pt}
+% \input{Programs/rooted-2colouring} \\
+% \vspace{10pt}
+% 
+% \ul{Notes}
+% \begin{enumerate}
+% \setlength{\itemsep}{-.5ex}
+% \item The nodes in rule \ttt{unroot} are violet. They can match a node of any % colour. A violet right-hand node takes the colour of the match of the left-han% d node.
+% \item The edges in the \ttt{mark}, \ttt{joined} and \ttt{back} rules are \emph% {bidirectional}. They match host graph edges in either direction.
+% \end{enumerate}
 
 
 \subsection{Generating Sierpinski triangles}
@@ -64,7 +64,7 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \end{tabular}
   
 \begin{center}
-\input{Programs/sierpinski.prog}
+\fbox{\input{Programs/sierpinski.prog}}
 \end{center}
 
 \ul{Notes}
