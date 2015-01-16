@@ -159,15 +159,16 @@ As discussed in section \ref{sec:graph-match} the reference interpreter matches 
 A more performance focussed implementation would use a \textit{search plan}\cite{Horvath-Varro07} in which a graph morphism is built incrementally by adding nodes and edges to an existing partial morphism, and back-tracking if no suitable graph elements could be found.
 
 
-\subsubsection*{Generic data structures}
+\subsubsection*{Unoptimised data structures}
 
-The current version of the interpreter uses a generic lazy map data structure which gives a reasonable balance between cost of search and cost of update. 
+The current version of the interpreter uses a generic lazy map data structure which gives a good balance between cost of search and cost of update. 
 
+Our first prototypes stored the graphs as linked-lists of key/value pairs. The result was an interpreter which spent most of its execution time traversing these lists retrieving nodes and edges. Switching to the faster map structure alone yielded a factor of two speed improvement. A smaller improvement was realised by switching edge keys from an integer to a triplet incorporating the unique identifiers of the source and target nodes.
 
-Our first prototypes stored the graphs as linked-lists of key/value pairs. The result was an interpreter which spent most of its execution time traversing these lists retrieving nodes and edges. Switching to the faster map structure alone yielded a factor of two speed improvement.
+Nevertheless, an underlying data structure that was tuned to our specific usage patterns and judiciously indexed could dramatically reduce this high cost of node and edge retrieval.
 
-Nevertheless, an underlying data structure tuned to our specific usage patterns and judiciously indexed could dramatically reduce this high cost of node and edge retrieval.
-
+%TODO: not sure this goes here
+The incremental improvements we made to our original prototype resulted in a total speed-up of approximately a factor of four hundred! This increase in speed was itself a useful debugging tool, as it permitted running of larger host graphs through our programs, putting greater stress on the stack and heap.
 
 \subsubsection*{Isomorphism checking}
 
