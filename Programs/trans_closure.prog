@@ -5,7 +5,7 @@
 \graphnodecolour{1}
 
 $\begin{array}{rcl}
-\multicolumn{3}{l}{\mathtt{main} = \mathtt{link!}}
+\multicolumn{3}{l}{\mathtt{Main} = \mathtt{link!}}
 \\[1ex]
 \multicolumn{3}{l}{\mathtt{link (a,b,x,y,z\colon list)}}
 \\

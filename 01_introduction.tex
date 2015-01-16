@@ -1,6 +1,6 @@
 \section{Introduction}
 
-GP 2 is an experimental programming language in which the major part of
+GP~2 is an experimental programming language in which the major part of
 the computational state is a labelled directed graph, and the basic
 units by which computational progress is made are subgraph-replacement
 rules.
@@ -9,28 +9,32 @@ the control structures above the level of rules involve back-tracking.
 
 The implementation of such a programming language poses some
 interesting challenges and opportunities.
-Our ultimate goal is to produce a compiler from GP 2 to
+Our ultimate goal is to produce a compiler from GP~2 to
 high-performance executable code.
 This paper reports a first stage towards that goal, the development
+<<<<<<< HEAD
 of a \emph{reference interpreter}\/ for GP 2.
+=======
+of a \emph{reference interpreter} for GP~2.
+>>>>>>> e33bc3e75934e44df7390e72e99371239c7c7e77
 By this we mean an interpreter written with the main aim of
 being clear, concise and correct.
 Where there are design choices, simplicity of
 definition takes priority over other considerations
 such as performance and the richness of functionality.
 
-Section~\ref{sec:graph-programs} outlines and illustrates the GP 2 language
+Section~\ref{sec:graph-programs} outlines and illustrates the GP~2 language
 graph-programming language.
 Section~\ref{sec:benchmark} presents a small set of test programs
-written in GP 2.
+written in GP~2.
 Section~\ref{sec:usesrequirements} considers the expected uses of
 a reference interpreter, and consequent requirements.
 Section~\ref{sec:implementation} describes our reference interpreter for
-GP 2.
-Section~\ref{sec:results} sets out the measured results of using the reference
+GP~2.
+Section~\ref{sec:performanceevaluation} sets out the measured results of using the reference
 interpreter to evaluate the test programs in Section~\ref{sec:benchmark}.
 Section~\ref{sec:relatedandfuture} briefly discusses related work and
 indicates some of our own expected lines of future work.
 Section~\ref{sec:conclusions} draws overall conclusions from our work
-on the reference interpreter for GP 2.
+on the reference interpreter for GP~2.
 
