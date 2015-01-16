@@ -11,14 +11,17 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \ul{Output:} & The graph obtained from $G$ by marking grey each node reachable from $s$ and replacing its label $l$\/ with $l{:}d$, where $d$\/ is the shortest distance from $s$. (A distance is the sum of the edge labels of a directed path.)
 \end{tabular}
   
+\begin{figure}[htb]
 \begin{center}
 \input{Programs/distances.prog}
 \end{center}
+\caption{Program for shortest distances}\label{fig:shortest-distances}
+\end{figure}
 
 \ul{Notes}
 \begin{enumerate}
 \setlength{\itemsep}{-.5ex}
-\item The output is unique up to isomorphism.
+\item The result is unique up to isomorphism.
 \item The input requirement can be relaxed by allowing negative edge labels but forbidding directed cycles with a negative distance.
 \end{enumerate}
 
@@ -31,10 +34,12 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \ul{Output:} & Graph $G$ if it is acyclic, otherwise the program fails.
 \end{tabular}
   
+\begin{figure}[htb]
 \begin{center}
 \input{Programs/acyclic.prog}
 \end{center}
-
+\caption{Program for checking acyclicity}\label{fig:acyclicity}
+\end{figure}
 
 % \subsection{Rooted 2-colouring}
 % 
@@ -63,9 +68,17 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \ul{Output:} & The Sierpinski triangle of generation $n$.
 \end{tabular}
   
+\begin{figure}[p]
 \begin{center}
-\fbox{\input{Programs/sierpinski.prog}}
+\input{Programs/sierpinski.prog}
 \end{center}
+\caption{Program for generating Sierpinski triangles}\label{fig:Sierpinski-program}
+ \begin{center}
+  \includegraphics[scale=.35,angle=-15]{sierpinski-3.eps}
+ \end{center}
+\vspace*{-2.5cm}
+\caption{Third generation Sierpinski triangle \label{fig:sierpinski}}
+\end{figure}
 
 \ul{Notes}
 \begin{enumerate}
@@ -74,12 +87,5 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \item The derivation length and the output size are exponential in $n$.
 \end{enumerate}
 
-\begin{figure}[htb]
- \begin{center}
-  \includegraphics[scale=.4,angle=-15]{sierpinski-3.eps}
- \end{center}
-\vspace*{-2.5cm}
-\caption{Third generation Sierpinski triangle \label{fig:sierpinski}}
-\end{figure}
 
 

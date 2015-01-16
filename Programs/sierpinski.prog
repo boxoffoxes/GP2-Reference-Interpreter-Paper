@@ -6,7 +6,7 @@
 }
 
 \newcommand{\leftgraph}{
-\begin{graph}(4,3.5)%(-0.5,1)%
+\begin{graph}(4,3.5)(0,.3)%
 \setupg%
 \roundnode{1}(0.5,2.8)%
 \roundnode{2}(2.5,2.8)%
@@ -27,7 +27,7 @@
 }
 
 \newcommand{\rightgraph}{
-\begin{graph}(5,5)%(-0.5,1)%
+\begin{graph}(5,4.8)(0,.3)%
 \setupg%
 \roundnode{1}(0.5,4.4)%
 \roundnode{2}(2.5,4.4)%
@@ -89,7 +89,7 @@
 \newcommand{\myvcenter}[1]{\ensuremath{\vcenter{\hbox{#1}}}}
 
 \begin{tabular}{lcl}
-\multicolumn{3}{l}{$\mathtt{main\, =\, init;\; (inc;\; expand!)!}$} \\\\
+\multicolumn{3}{l}{$\mathtt{Main\, =\, init;\; (inc;\; expand!)!}$} \\[1ex]
 $\mathtt{init (x: int)}$  & \hspace*{2em} &  $\mathtt{inc (x,y: int)}$\\[-1.5ex]
 \myvcenter{\ngraph{x}} \goesto \myvcenter{\startgraph} 
 &&

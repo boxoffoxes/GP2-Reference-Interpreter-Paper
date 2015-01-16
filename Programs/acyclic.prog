@@ -4,10 +4,9 @@
    \autodistance{1.0}
    \graphnodecolour{1}
 
-\fbox{%
 $
 \begin{array}{rclcrcl}
-\multicolumn{7}{l}{\ttt{main = if cyclic then fail}}\\
+\multicolumn{7}{l}{\ttt{Main = if cyclic then fail}}\\
 \multicolumn{7}{l}{\ttt{cyclic = delete!;\;\{edge,\,loop\}}}
 \\[1.8ex]
 \multicolumn{3}{l}{\mathtt{delete(a,x,y\colon list)}}
@@ -91,4 +90,3 @@ $
 \end{graph}
 \end{array}
 $
-}

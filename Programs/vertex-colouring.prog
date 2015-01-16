@@ -6,7 +6,7 @@
 \graphnodecolour{1}
 
 $\begin{array}{ll}
-\mtt{main}\, =\, \mathtt{init!;\; inc!}
+\mtt{Main}\, =\, \mathtt{init!;\; inc!}
 \\[1ex]
 \mtt{init (x\colon list)}
 &
