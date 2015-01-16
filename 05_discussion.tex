@@ -1,5 +1,20 @@
 \section{Related and Future Work}
 \label{sec:relatedandfuture}
+Early programming languages were often defined by their implementations,
+perhaps in the form of a \emph{definitional interpreter}.
+Despite the development of more abstract techniques
+for defining the operational semantics of programming languages, in recent years there
+have been several efforts to rehabilitate definitional or
+reference interpreters, sometimes informed by more abstract semantic
+presentation.
+Motivation varies, but here are representative remarks in the preface
+of an influential textbook: 
+\begin{quote}
+\textit{Our goal is to provide a deep, working understanding of the essential concepts of programming languages. \ldots
+Most of these essentials relate to the semantics, or meaning, of program elements. Such meanings reflect how program elements are interpreted as the program executes. Programs called interpreters provide the most direct, executable expression of program semantics. \ldots We therefore choose interpreters as our primary vehicle for expressing the semantics of programming language elements. \ldots
+The most interesting question about a program as object is, \textnormal{``What does it do?''} The study of interpreters tells us this. Interpreters are critical because they reveal nuances of meaning, and are the direct path to more efficient compilation and to other kinds of program analyses.} \cite{Friedmanetal2008}
+\end{quote}
+In several respects, our motivation is similar.  We aim to promote a ``\textit{deep, working understanding}'' of the GP2 design, and to find ``\textit{path(s) to more efficent compilation \ldots and program analysis}''.
 
 To our knowledge, existing graph-transformation languages do not have published implementations
 in the same spirit as our reference interpreter.
@@ -7,13 +22,12 @@ For example, GROOVE\cite{Ghamarianetal12} and GrGEN\cite{JakumeitBuchwaldKroll20
 are two of the most widely used systems.
 The Java source code for the GROOVE implementation, including a graphical development suite,
 extends to around 150,000 lines.
-GrGEN is implemented in a combination of Java and C\#.
-A Java front-end is used to generate C\# code and
-.NET assemblies from a textual specification of a GrGEN graph rewriting system.
-The run-time system and other components are written in C\#. 
-In all there are around 68,000 lines of Java source for the front-end,
+GrGEN is implemented in a combination of Java and C\#:
+a Java front-end is used to generate C\# code and
+.NET assemblies from a textual specification of a GrGEN graph rewriting system;
+the run-time system and other components are written in C\#. 
+In all there are around 68,000 lines of Java source for the GrGEN front-end,
 and around 93,000 lines of C\# for the run-time system, API support and an interactive shell.
-
 We recognise that both GROOVE and GrGEN are mature and fully-featured systems,
 and GrGEN in particular is highly optimising.
 Even so, the contrast with the 1000-line Haskell sources for our GP2 reference interpreter
