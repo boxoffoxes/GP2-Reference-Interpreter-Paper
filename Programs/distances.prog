@@ -4,9 +4,9 @@
 \autodistance{1.0}
 \graphnodecolour{1}
 
-\framebox{%
+%\framebox{%
 $\begin{array}{rclcrcl}
-\multicolumn{5}{l}{\mathtt{main} = \mathtt{init};\,\mathtt{\{add,\, reduce\}!}}
+\multicolumn{5}{l}{\mathtt{Main} = \mathtt{init};\,\mathtt{add!};\,\mathtt{reduce!}}
 \\[1.5ex]
 \multicolumn{3}{l}{\mathtt{init(x\colon list)}}
 &&
@@ -89,4 +89,4 @@ $\begin{array}{rclcrcl}
 &&&&
 \multicolumn{3}{l}{\texttt{where $\mathtt{m+n < p}$}}
 \end{array}$
-}
+%}
