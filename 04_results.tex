@@ -31,13 +31,10 @@ The rule application bound, $k$ can be used to restrict the size of the search s
 
 % explain commandline options to interpreter (e.g. max apps)
 
-Additionally \texttt{gp2} accepts two optional arguments that control the number of output graphs generated and use of the built-in isomorphism checker:
+Additionally \texttt{gp2} accepts two optional arguments that control the number of output graphs generated and use of the built-in isomorphism checker. The only one of interest here is 
 
 \begin{description}
-	\setlength\itemsep{-0.2em}
-	\item[\texttt{--no-iso} \textit{[n]}]  Disable the isomorphism checker. As this can result in a very large number of output graphs, this flag accepts an optional numeric parameter which sets a maximum number of graphs to generate.
-
-	\item[\texttt{--one}] Only produce a single output graph. Equivalent to \texttt{--no-iso 1}.
+	\item[\texttt{--one}] Only produce a single output graph.
 \end{description}
 
 Benchmarks were run using the following commandline. We limited execution time to 5 minutes per program/host graph pair. The rule application bound was set sufficiently high that the limit is not reached in any of the benchmarks being run.
@@ -147,7 +144,7 @@ In the sub-second execution time benchmarks, profiling information indicated tha
 
 As discussed in section \ref{sec:graph-match} the reference interpreter matches nodes and edges in separate passes. This makes for a simple algorithm at the expense of performance.
 
-A more performance focussed implementation would use a \textit{search plan}\cite{Horvath-Varro07} in which a graph morphism is built incrementally by adding nodes and edges to an existing partial morphism, and back-tracking if no suitable graph elements could be found.
+A more performance focussed implementation might use a \textit{search plan}\cite{Horvath-Varro07} in which a graph morphism is built incrementally by adding nodes and edges to an existing partial morphism, back-tracking if no suitable candidate can be found.
 
 
 %\subsubsection*{Unoptimised data structures}
