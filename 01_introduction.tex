@@ -2,7 +2,7 @@
 
 GP 2 is an experimental programming language in which the major part of
 the computational state is a labelled directed graph, and the basic
-units by which computational progress is made are subgraph-rewriting
+units by which computational progress is made are subgraph-replacement
 rules.
 Choices of rules and subgraphs are non-determinstic, and some of
 the control structures above the level of rules involve back-tracking.
@@ -12,7 +12,7 @@ interesting challenges and opportunities.
 Our ultimate goal is to produce a compiler from GP 2 to
 high-performance executable code.
 This paper reports a first stage towards that goal, the development
-of a \emph{reference interpreter} for GP 2.
+of a \emph{reference interpreter}\/ for GP 2.
 By this we mean an interpreter written with the main aim of
 being clear, concise and correct.
 Where there are design choices, simplicity of
