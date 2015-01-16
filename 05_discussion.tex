@@ -1,7 +1,25 @@
+\section{Related and Future Work}
+\label{sec:relatedandfuture}
 
-\section{Conclusions and Future Work}
-\label{sec:conclusionsfuture}
+To our knowledge, existing graph-transformation languages do not have published implementations
+in the same spirit as our reference interpreter.
+For example, GROOVE\cite{Ghamarianetal12} and GrGEN\cite{JakumeitBuchwaldKroll2010}
+are two of the most widely used systems.
+The Java source code for the GROOVE implementation, including a graphical development suite,
+extends to around 150,000 lines.
+GrGEN is implemented in a combination of Java and C\#.
+A Java front-end is used to generate C\# code and
+.NET assemblies from a textual specification of a GrGEN graph rewriting system. The runtime system is written in C\#. 
+In all there are around 68,000 lines of Java source for the front-end,
+and around (350,000???) lines of C\# for the run-time system.
 
+We recognise that both GROOVE and GrGEN are mature and fully-featured systems,
+and GrGEN in particular is highly optimising.
+Even so, the contrast with the 1000-line Haskell sources for our GP2 reference interpreter
+is striking.
+
+\section{Conclusions}
+\label{sec:conclusions}
 
 %\subsection{Contributions}
 
