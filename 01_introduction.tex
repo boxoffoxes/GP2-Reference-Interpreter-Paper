@@ -1,6 +1,6 @@
 \section{Introduction}
 
-GP2 is an experimental programming language in which the major part of
+GP 2 is an experimental programming language in which the major part of
 the computational state is a labelled directed graph, and the basic
 units by which computational progress is made are subgraph-rewriting
 rules.
@@ -9,24 +9,24 @@ the control structures above the level of rules involve back-tracking.
 
 The implementation of such a programming language poses some
 interesting challenges and opportunities.
-Our ultimate goal is to produce a compiler from GP2 to
+Our ultimate goal is to produce a compiler from GP 2 to
 high-performance executable code.
 This paper reports a first stage towards that goal, the development
-of a \emph{reference interpreter} for GP2.
+of a \emph{reference interpreter} for GP 2.
 By this we mean an interpreter written with the main aim of
 being clear, concise and correct.
 Where there are design choices, simplicity of
 definition takes priority over other considerations
 such as performance and the richness of functionality.
 
-Section~\ref{sec:gp2language} outlines and illustrates the GP2 language
+Section~\ref{sec:gp2language} outlines and illustrates the GP 2 language
 graph-programming language.
 Section~\ref{sec:benchmark} presents a small set of test programs
-written in GP2.
+written in GP 2.
 Section~\ref{sec:usesrequirements} considers the uses and requirements
 for a reference interpreter.
 Section~\ref{sec:implementation} describes our reference interpreter for
-GP2.
+GP 2.
 Section~\ref{sec:results} sets out the results of using the reference
 interpreter to evaluate the test programs in Section~\ref{sec:benchmark},
 including various measures of the sizes of computations and the
