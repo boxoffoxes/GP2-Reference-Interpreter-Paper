@@ -61,6 +61,19 @@ The \textit{shortest distances} benchmark requires all edges to have an integer 
 Tables \ref{table:resultsSingle} and \ref{table:resultsAll} summarise the reference interpreter performance for the five benchmark programs, each run on several host graphs. Table \ref{table:resultsAll} shows figures for generating all possible results for each program/host-graph pair, while table \ref{table:resultsSingle} shows results when the interpreter is running in single output graph mode.
 
 
+% TODO: noteworthy in single result:
+% Acyclicity test on cyclic graphs: 0 rule apps
+% Rapid increase in heap usage for Trans.
+% 
+% noteworthy in all results:
+% vertex colouring a 3x3 grid uses in excess of 7 gigabytes of RAM!
+% Some benchmarks incur a very low overhead for calculating all compared to single -- Haskell sharing of data structures.
+% Shortest distances -- 4x4 was $<0.01$ seconds in single but $>5m$ in all mode
+%
+% general comments:
+% allocd vs live heap -- Haskell requests memory from the OS in large chunks, so allocated can be several times live
+% 
+
 
 \begin{table}[h]
 \begin{minipage}{\textwidth}
