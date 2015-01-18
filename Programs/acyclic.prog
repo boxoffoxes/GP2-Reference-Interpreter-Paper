@@ -6,8 +6,8 @@
 
 $
 \begin{array}{rclcrcl}
-\multicolumn{7}{l}{\ttt{Main = if cyclic then fail}}\\
-\multicolumn{7}{l}{\ttt{cyclic = delete!;\;\{edge,\,loop\}}}
+\multicolumn{7}{l}{\ttt{Main = if Cyclic then fail}}\\
+\multicolumn{7}{l}{\ttt{Cyclic = delete!;\;\{edge,\,loop\}}}
 \\[1.8ex]
 \multicolumn{3}{l}{\mathtt{delete(a,x,y\colon list)}}
 \\[.5ex]

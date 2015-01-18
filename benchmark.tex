@@ -1,16 +1,14 @@
 \section{Benchmark Programs}
 \label{sec:benchmark}
  
-Besides the programs for transitive closure and vertex colouring, we select four more programs for benchmarking.
+In Section \ref{sec:performanceevaluation}, the performance of the reference interpreter is evaluated on a small set of benchmark programs. These include the programs for transitive closure and vertex colouring, and three more programs which we describe in this section.
 
-
-\subsection{Shortest distances}
-
-\begin{tabular}{lp{10.5cm}}
-\ul{Input:} & A graph $G$ with a unique grey node $s$. All edge labels are non-negative integers. \\
-\ul{Output:} & The graph obtained from $G$ by marking grey each node reachable from $s$ and replacing its label $l$\/ with $l{:}d$, where $d$\/ is the shortest distance from $s$. (A distance is the sum of the edge labels of a directed path.)
-\end{tabular}
+\vspace{.5\baselineskip}
+\noindent
+\emph{Shortest distances.} The program in Figure \ref{fig:shortest-distances} expects an input graph $G$\/ containing a unique grey node $s$, where edge labels are assumed to be non-negative integers. A unique output graph is obtained from $G$ by marking grey each node reachable from $s$ and replacing its label $l$\/ with $l{:}d$, where $d$\/ is the shortest distance from $s$. (A distance is the sum of the edge labels of a directed path.)
   
+The program first assigns distance 0 to the unique start node $s$. Then the loop \ttt{add!} traverses the nodes reachable from $s$, assigning distances by adding edge labels. In a second phase, the loop \ttt{reduce!} minimizes distances by searching for edges whose sum of source node distance and edge label is smaller than the target node distance, and replacing the target node distance with the sum.
+
 \begin{figure}[htb]
 \begin{center}
 \input{Programs/distances.prog}
@@ -18,27 +16,18 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \caption{Program for shortest distances}\label{fig:shortest-distances}
 \end{figure}
 
-\ul{Notes}
-\begin{enumerate}
-\setlength{\itemsep}{-.5ex}
-\item The result is unique up to isomorphism.
-\item The input requirement can be relaxed by allowing negative edge labels but forbidding directed cycles with a negative distance.
-\end{enumerate}
+The requirement that edge labels are non-negative ensures that the program terminates. It can be relaxed by allowing negative edge labels but requiring that directed cycles have a non-negative overall distance.
 
-
-\subsection{Recognising acyclic graphs}
-\label{sec:acyclic}
-
-\begin{tabular}{lp{10.5cm}}
-\ul{Input:} & Any graph $G$. \\
-\ul{Output:} & Graph $G$ if it is acyclic, otherwise the program fails.
-\end{tabular}
+\vspace{.5\baselineskip}
+\noindent
+\emph{Recognising acyclic graphs.} The program in Figure \ref{fig:acyclicity} checks whether its input graph is acyclic. If this is the case, the program produces some output graph, otherwise it fails. Suppose we call the program \ttt{acyclic} to use it as a macro in the program \ttt{if} \ttt{acyclic} \ttt{then} $P$ \ttt{else} $Q$. Given any input graph $G$, this program will test whether $G$\/ is acyclic and, depending on the result, either execute $P$ or $Q$ on $G$.  
   
+The presence of cycles is checked by deleting as long as possible edges whose sources have no incoming edges, and testing whether any edges remain. This is correct since an application of \ttt{delete} preserves both the absence and the presence of cycles (by the condition of the rule). Moreover, a graph to which \ttt{delete} is not applicable is acyclic if and only if it is edge-less (every acyclic graph with edges must contain an edge to which \texttt{delete} is applicable). 
 \begin{figure}[htb]
 \begin{center}
 \input{Programs/acyclic.prog}
 \end{center}
-\caption{Program for checking acyclicity}\label{fig:acyclicity}
+\caption{Program for recognising acyclic graphs}\label{fig:acyclicity}
 \end{figure}
 
 % \subsection{Rooted 2-colouring}
@@ -61,13 +50,14 @@ Besides the programs for transitive closure and vertex colouring, we select four
 % \end{enumerate}
 
 
-\subsection{Generating Sierpinski triangles}
+\vspace{.5\baselineskip}
+\noindent
+\emph{Generating Sierpinski triangles.} A \emph{Sierpinski triangle} is a self-similar geometric structure which can be recursively defined. Figure \ref{fig:sierpinski} shows a Sierpinski triangle of generation three, composed of three second-generation triangles, each of which consists of three triangles of generation one.\footnote{The geometric layout was created by the graphical interface of the GP 1 implementation \cite{Manning-Plump08b}.}
 
-\begin{tabular}{lp{10.5cm}}
-\ul{Input:} & A single node labelled with a non-negative integer $n$. \\
-\ul{Output:} & The Sierpinski triangle of generation $n$.
-\end{tabular}
-  
+The program in Figure \ref{fig:Sierpinski-program} expects as input a single node labelled with the generation number of the Sierpinski triangle to be produced. The rule \texttt{init} creates the Sierpinski triangle of generation 0 and turns the input node into a ``control node'' with label $x{:}0$, holding the required generation number $x$ together with the current generation number.
+
+After initialisation, the nested loop $\mtt{(inc;\, expand!)!}$ is executed. In each iteration of the outer loop, \texttt{inc} increases the current generation number if it is smaller than the required number (which is checked by the rule's condition). If the test is successful, the inner loop \ttt{expand!} performs a Sierpinski step on each triangle whose top node is labelled with the current generation number: the triangle is replaced by four triangles such that the top nodes of the three outer triangles are labelled with the next higher generation number. The test $\mathtt{x > y}$ fails when the required generation number has been reached. In this case the application of \texttt{inc} fails, causing the outer loop to terminate and return the current graph which is the Sierpinski triangle of the requested generation.
+
 \begin{figure}[p]
 \begin{center}
 \input{Programs/sierpinski.prog}
@@ -79,12 +69,5 @@ Besides the programs for transitive closure and vertex colouring, we select four
 \vspace*{-2.5cm}
 \caption{Third generation Sierpinski triangle \label{fig:sierpinski}}
 \end{figure}
-
-\ul{Notes}
-\begin{enumerate}
-\setlength{\itemsep}{-.5ex}
-\item The next page shows an example of a Sierpinski triangle.
-\item The derivation length and the output size are exponential in $n$.
-\end{enumerate}
 
 Sierpinski triangles pose a hard challenge for graph transformation: generating the $n$-th triangle requires space and a number of rule applications exponential in $n$. This problem was part of the 2007 tool contest for graph transformation, where the goal was to generate triangles of generation numbers as high as possible and as fast as possible \cite{Taentzer_et_al08a}.
