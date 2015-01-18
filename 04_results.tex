@@ -58,22 +58,11 @@ The \textit{shortest distances} benchmark requires all edges to have an integer 
 
 \subsection{Benchmark performance}\label{sec:benchperf}
 
-Tables \ref{table:resultsSingle} and \ref{table:resultsAll} summarise the reference interpreter performance for the five benchmark programs, each run on several host graphs. Table \ref{table:resultsAll} shows figures for generating all possible results for each program/host-graph pair, while table \ref{table:resultsSingle} shows results when the interpreter is running in single output graph mode.
+For the sake of brevity we have omitted some intermediate results which followed the general pattern, such as the 4x4 grid in \textit{vertex-colouring}. Where multiple host graphs produced times of less than 0.01 seconds, we include only the largest. Likewise we show only the smallest that exceeded the five minute time limit.
 
 
-% TODO: noteworthy in single result:
-% Acyclicity test on cyclic graphs: 0 rule apps
-% Rapid increase in heap usage for Trans.
-% 
-% noteworthy in all results:
-% vertex colouring a 3x3 grid uses in excess of 7 gigabytes of RAM!
-% Some benchmarks incur a very low overhead for calculating all compared to single -- Haskell sharing of data structures.
-% Shortest distances -- 4x4 was $<0.01$ seconds in single but $>5m$ in all mode
-%
-% general comments:
-% allocd vs live heap -- Haskell requests memory from the OS in large chunks, so allocated can be several times live
-% 
 
+Table \ref{table:resultsSingle} summarises results for the reference interpreter operating in single-result mode. The \textit{Apps} column shows the number of rule applications required to reach the solution. \textit{Time} lists the sum of user and system time reported by the \texttt{time} command. The final two columns show the maximum amount of memory requested by the \texttt{gp2} executable (\textit{allocd}), and the maximum memory holding live data respectively. The disparity between these two numbers, which sometimes approaches a factor of three, results from the Haskell run-time system requesting memory from the operating system in large chunks.
 
 \begin{table}[h]
 \begin{minipage}{\textwidth}
@@ -95,6 +84,14 @@ Benchmark          & Host Graph & Apps & Time/s   & & Allocd & Live \\
 
 
 
+% In the \textit{acyclicity test} benchmark, notice that the \textit{cyclic $n$} host graphs show rule application counts of zero.  % TODO: is this right?!? Surely a predicate rule has to be applied?
+
+Notice the rapid increase in live heap usage for the \textit{transitive closure} benchmark, with an increase in the length of the linear host graph by ten increasing memory requirements by approximately an order of magnitude. %todo; discuss
+
+
+Table \ref{table:resultsAll} summarises the performance of the reference interpreter running in all-result mode. This table contains three additional columns showing the total number of output graphs, the number of distinct output graphs up to isomorphism, and the number of executions that terminated in failure, either due to a final placed rule failing to match, or an explicit call to GP~2's \texttt{fail} directive. Where different solutions required differing numbers of rule applications the \textit{Apps} column now shows the range of values.
+
+
 \begin{table}[h]
 \begin{minipage}{\textwidth}
 \centering
@@ -113,71 +110,44 @@ Benchmark          & Host Graph & Total & Unique   & Failed & Apps & Time/s   & 
 \end{minipage}
 \end{table}
 
+The extra overheads in all-result mode go beyond simply the cost of generating all possible output graphs; the interpreter must also test them for isomorphism. Unsurprisingly execution time increases sharply with increasing size of host graph, putting many of the host graphs that completed in single-result mode beyond our five minute execution time limit.
 
-Comparing tables \ref{table:resultsAll} and \ref{table:resultsSingle} gives an indication of the additional costs associated with generating all graphs and isomorphism-checking the results.
+The effect of producing all possible results on heap usage is the cases of the \textit{3x3 grid} host graphs in both the \textit{acyclicity} test and \textit{shortest distances} less than one might expect given the tens of thousands of isomorphic graphs generated. The discrepancy can be accounted for by Haskell's lazy evaluation and intelligent sharing of identical data structures.
 
-
-% Generating all possible intermediate graphs
-
-%\subsubsection*{Exhaustive search}
-
-When viewing the results in \ref{table:resultsAll}, it should be remembered that the interpreter is computing \textit{all possible} output graphs for a given program/host-graph pair, then consolidating the results based on isomorphism. It is therefore unsurprising that execution time increases exponentially with increasing size of host graph.
-
-However, as already mentioned, more consideration was given to code-correctness and readability than to execution speed or memory consumption.
-
-While performance is acceptable for some quite complex programs, it is nevertheless easy to find cases in which performance rapidly degrades to an unacceptable degree. A particular example being the vertex-colouring benchmark program, which exhibits exponential growth in the number of possible intermediate graphs with increasing edge counts.
-
-One of the most serious limits on the performance of the reference interpreter, which impacts matching of any non-trivial rule, is the naive node-matching strategy. Given a rule with $n$ nodes, select all permutations of $n$ nodes from the host graph, then discard those that fail to meet rootedness, label and edge constraints.
-
-While from the point of view of simplicity this is a reasonable choice for finding all possible outputs for each rule, it is far from an optimal way of finding a single output graph; for any non-trivial rule and host pair the chances of $n$ nodes selected essentially at random matching a rule is very low, meaning that many permutations need to be inspected for each successful match.
-
-That this strategy is repeated for all of the intermediate graphs generated by the previous rule application explains the combinatorial explosions we see in heavily non-deterministic programs like \textit{Sierpinski} and \textit{Shortest distances}.
-
-% interpreter cost vs compiler
-%\subsubsection*{Interpreter costs}
-
-Any interpreter has run-time costs which would be paid at compile-time in a compiler. These costs can account for a significant percentage of the execution time.
-
-In the sub-second execution time benchmarks, profiling information indicated that a significant portion of the execution time was spent parsing the rule-graphs and building map structures.
+The \textit{vertex colouring} benchmark in contrast has many distinct solutions, reducing the effectiveness of these features. Unfortunately, when \texttt{gp2} is killed by an external process such as the \texttt{timeout} command, the Haskell memory profiler does not write its data to disk before exiting, so we cannot give accurate figures for memory usage for this benchmark, however we noted that as the five minute limit approached during processing of the \textit{3x3 grid} host graph, \texttt{gp2} had been allocated over seven gigabytes, putting a conservative estimate of its live heap in excess of two gigabytes!
 
 
-%\subsubsection*{Separate graph and edge matching}
+\subsection{Discussion}
+
+Performance is acceptable for some quite complex programs, particularly when running in single result mode. We nevertheless easily find cases in which execution time and memory usage rapidly degrade. An extreme example of this being the vertex-colouring benchmark program, which exhibits factorial growth in the number of possible intermediate graphs with increasing edge counts.
+
+The current version of the interpreter uses a generic lazy map data structure which gives a good balance between cost of search and cost of update. 
+
+Our first prototypes stored the graphs as linked-lists of key/value pairs, resulting in an interpreter which spent most of its execution time traversing these lists retrieving nodes and edges. Switching to the faster map yielded a factor of two speed improvement. A smaller improvement was realised by switching edge keys from an integer to a triplet incorporating the unique identifiers of the source and target nodes.
+
+Nevertheless, an underlying data structure tuned to our specific usage patterns and judiciously indexed could dramatically reduce the cost of node and edge retrieval.
+
+The incremental improvements we made to our original prototype resulted in a large speed-up. This in itself proved a useful debugging tool, as it permitted running of larger host graphs through our programs, putting greater stress on the stack and heap.
+
 
 As discussed in section \ref{sec:graph-match} the reference interpreter matches nodes and edges in separate passes. This makes for a simple algorithm at the expense of performance.
 
 A more performance focussed implementation might use a \textit{search plan}\cite{Horvath-Varro07} in which a graph morphism is built incrementally by adding nodes and edges to an existing partial morphism, back-tracking if no suitable candidate can be found.
 
+% interpreter cost vs compiler
+%\subsubsection*{Interpreter costs}
 
-%\subsubsection*{Unoptimised data structures}
+%Any interpreter has run-time costs which would be paid at compile-time in a compiler. These costs can account for a significant percentage of the execution time.
 
-The current version of the interpreter uses a generic lazy map data structure which gives a good balance between cost of search and cost of update. 
+%In the sub-second execution time benchmarks, profiling information indicated that a significant portion of the execution time was spent parsing the rule-graphs and building map structures.
 
-Our first prototypes stored the graphs as linked-lists of key/value pairs. The result was an interpreter which spent most of its execution time traversing these lists retrieving nodes and edges. Switching to the faster map structure alone yielded a factor of two speed improvement. A smaller improvement was realised by switching edge keys from an integer to a triplet incorporating the unique identifiers of the source and target nodes.
-
-Nevertheless, an underlying data structure that was tuned to our specific usage patterns and judiciously indexed could dramatically reduce this high cost of node and edge retrieval.
-
-%TODO: not sure this goes here
-The incremental improvements we made to our original prototype resulted in a total speed-up of approximately a factor of four hundred! This increase in speed was itself a useful debugging tool, as it permitted running of larger host graphs through our programs, putting greater stress on the stack and heap.
-
-%\subsubsection*{Isomorphism checking}
-
-Another cost associated with generating all possible output graphs is isomorphism checking. In benchmarks where nondeterminism gives us multiple ways of reaching similar output graphs we want a way of reducing this potentially large set of outputs to those which are truly distinct. A particularly extreme example of this can be seen in the \textit{3x3 grid} host graph of the \textit{Shortest distances} benchmark. Here we produced nearly 30~000 isomorphic output graphs! Presumably if allowed to run to completion the \textit{4x4 grid} would yield several orders of magnitude more.
-
-
-% Cost of profiling
-%\subsubsection*{Profiling costs}
-
-We have also incurred some incidental costs by gathering the profiling information used to generate 
-
+Additionally we have inevitably incurred some incidental costs by gathering the profiling information reported here.
 % TODO: guestimate profiling costs
 
 
-% TODO: fail early and fail cheaply!
 
 
 
 
-
-An unfortunate property of the Haskell memory profiler is that memory profiling information is not saved to disk if the running program is killed by an external process such as the \texttt{timeout} command, which means we are unable to give accurate figures for memory usage for benchmarks which did not complete within the allotted time.
 
 
