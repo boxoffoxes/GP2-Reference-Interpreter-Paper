@@ -34,18 +34,21 @@ The final three mandatory arguments to the \texttt{gp2} executable specify the b
 
 The names of host graphs used for benchmarking give an indication of their structure.
 
-\begin{description}
-	\setlength\itemsep{-0.2em}
-	\item[Gen $n$] The \textit{Sierpinski} program expects a host graph containing a single node with a numeric label, which controls the number of iterations of the \texttt{expand!} command.
+\vspace{.5\baselineskip}
+\noindent
+\emph{Gen $n$}. The \textit{Sierpinski} program expects a host graph containing a single node with a numeric label, which controls the number of iterations of the \texttt{expand!} command.
 
-	\item[Linear $n$] A chain of $n$ nodes. The first node has only a single outgoing edge. The last node has only a single incoming edge. All other nodes have exactly one incoming and one outgoing edge.
+\vspace{.5\baselineskip}
+\noindent
+\emph{Linear $n$}. A chain of $n$ nodes. The first node has only a single outgoing edge. The last node has only a single incoming edge. All other nodes have exactly one incoming and one outgoing edge.
 
-	\item[Cyclic $n$] As Linear $n$, but with an extra edge linking the first and final placed nodes so that every node has exactly one incoming and one outgoing edge.
+\vspace{.5\baselineskip}
+\noindent
+\emph{Cyclic $n$}. As Linear $n$, but with an extra edge linking the first and final placed nodes so that every node has exactly one incoming and one outgoing edge.
 
-	\item[$x \times y$ Grid] A square lattice of $x$ nodes wide by $y$ nodes tall.
-\end{description}
-
-The \textit{shortest distances} benchmark requires all edges to have an integer ``cost'' of traversal. For each host graph passed to this program, we assigned a cost of one to half of the edges, and a cost of two to the other half.
+\vspace{.5\baselineskip}
+\noindent
+\emph{$x \times y$ Grid}. A square lattice of $x$ nodes wide by $y$ nodes tall. The \textit{shortest distances} benchmark requires all edges to have an integer ``cost'' of traversal. The \textit{grid} host graphs passed to this program have a cost of one assigned to half of the edges, and a cost of two to the other half.
 
 
 

@@ -2,7 +2,7 @@
 \label{sec:graph-programs}
 
 This paper focusses on GP~2, a successor to the graph programming language GP \cite{Plump09a,Plump12a}.
-GP is a domain-specific language which aims to support formal reasoning on programs (see \cite{Poskitt-Plump12a} for a Hoare-logic approach to verifying GP programs). We give a brief introduction to GP~2, mainly by example. The definition of the language, including a formal operational semantics, can be found in \cite{Plump12a}. 
+GP is a domain-specific language which aims to support formal reasoning on graph programs (see \cite{Poskitt-Plump12a} for a Hoare-logic approach to verifying GP programs). We give a brief introduction to GP~2, mainly by example. The definition of the language, including a formal operational semantics, can be found in \cite{Plump12a}. 
 
 A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence. Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges may be labelled.
 
@@ -55,4 +55,4 @@ Rule \ttt{inc} is applied to the host graph as long as there are edges with iden
 \emph{Other program constructs.}
 A GP~2 command not used in the example programs is a rule set $\mtt{\{}r_1,\dots,r_n\mtt{\}}$. This command \emph{non-deterministically} applies any of the rules to the current host graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. Matches must be injective and are only valid if they do not result in \emph{dangling edges}.
 
-Another construct not yet discussed is the branching command \ttt{if} $C$ \ttt{then} $P$ \ttt{else} $Q$, where $C$, $P$ and $Q$ are arbitrary command sequences. This is executed on a host graph $G$ by first executing $C$ on a copy of $G$. If $C$ succeeds, $P$\/ is executed on the original graph $G$; otherwise, if $C$ fails, $Q$ is executed on $G$. The command \ttt{try} $C$ \ttt{then} $P$ \ttt{else} $Q$ has a similar effect, except that $P$\/ is executed on the graph resulting from $C$'s execution. 
+Another construct not yet discussed is the branching command \ttt{if} $C$ \ttt{then} $P$ \ttt{else} $Q$, where $C$, $P$ and $Q$ are arbitrary command sequences. This is executed on a host graph $G$ by first executing $C$ on a copy of $G$. If $C$ succeeds, $P$\/ is executed on the original graph $G$; otherwise, $Q$ is executed on $G$. The command \ttt{try} $C$ \ttt{then} $P$ \ttt{else} $Q$ has a similar effect, except that $P$\/ is executed on the graph resulting from $C$'s execution. 
