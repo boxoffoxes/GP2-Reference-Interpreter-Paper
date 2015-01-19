@@ -7,7 +7,9 @@ Each has consequences for the
 way the reference interpreter is written and the
 facilities it provides.
 
-\paragraph{An arbiter for programmers}
+\vspace{.5\baselineskip}
+\noindent
+\emph{An arbiter for programmers.}
 A programmer working in a new language needs to
 know whether what they are writing is a valid
 program, and whether the effect of executing it
@@ -16,10 +18,9 @@ To resolve such issues, the programmer may want to
 use a reference interpreter as a black box,
 checking the output it produces given their
 program as input.
-Or they may wish to consult some part of the
-source-code for the interpreter, to know the exact
-rule defining some aspect of the language they
-are unsure about.
+Or they may wish to look at a salient part of the
+source-code for the interpreter, to confirm some
+aspect of the language they are unsure about.
 
 It follows that a reference interpreter should
 provide as output at least a report whether a
@@ -33,7 +34,9 @@ For ease of reading it should be written using a
 consistent style in a modest subset of a suitable
 high-level language.
 
-\paragraph{An arbiter for implementors}
+\vspace{.5\baselineskip}
+\noindent
+\emph{An arbiter for implementors.}
 An implementer of a programming language,
 developing their own interpreter or compiler,
 needs a standard against which to test the correctness
@@ -55,7 +58,7 @@ of many test programs.
 The representation of the
 reference interpreter's results for such programs
 should be amenable to automated comparison.
-This comparison presents particular challenges in GP2 since
+This comparison presents particular challenges in GP~2 since
 behaviour of programs may be non-deterministic,
 or programs may not terminate, or both.
 The number of test programs may be large
@@ -64,7 +67,9 @@ So although performance is not a design goal for the reference
 interpreter, its performance should be good enough to
 make such multi-test comparisons feasible.
 
-\paragraph{A prototype for application developers}
+\vspace{.5\baselineskip}
+\noindent
+\emph{A prototype for application developers.}
 If no production compiler has been developed for the language,
 or none is yet available to an application developer,
 they may need to use a reference interpreter as
@@ -86,7 +91,9 @@ definitions for evaluation, nor should it impose heavy
 performance costs when performance of the interpreter
 has already been sacrificed in favour of simplicity.
 
-\paragraph{A prototype for implementation developers}
+\vspace{.5\baselineskip}
+\noindent
+\emph{A prototype for implementation developers.}
 As well as using a reference interpreter to verify correctness,
 implementers may wish to use it as the starting point in the
 development of another interpreter or a compiler.

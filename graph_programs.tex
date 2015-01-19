@@ -1,15 +1,16 @@
 \section{Graph Programs}
 \label{sec:graph-programs}
 
-This paper focusses on the graph programming language GP \cite{Plump09a,Plump12a}, a domain-specific language which aims to support formal reasoning on programs (see \cite{Poskitt-Plump12a} for a Hoare-logic approach to verifying GP programs). We give a brief introduction to GP 2, mainly by example. The definition of the language, including a formal operational semantics, can be found in \cite{Plump12a}. 
+This paper focusses on GP~2, a successor to the graph programming language GP \cite{Plump09a,Plump12a}.
+GP is a domain-specific language which aims to support formal reasoning on programs (see \cite{Poskitt-Plump12a} for a Hoare-logic approach to verifying GP programs). We give a brief introduction to GP~2, mainly by example. The definition of the language, including a formal operational semantics, can be found in \cite{Plump12a}. 
 
 A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence. Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges may be labelled.
 
-Labels are of type \texttt{int} (for integers), \texttt{char} (for characters), \texttt{string} (for character strings), \texttt{atom} or \texttt{list}, where \texttt{atom} is the union of \texttt{int} and \texttt{string}. Atoms are considered as lists of length one, hence integers and strings are also lists. Given lists $\mtt{x}$ and $\mtt{y}$, their concatenation is written \texttt{x:y} (not to be confused with the list-cons operator in Haskell). 
+Labels are of type \texttt{int} (for integers), \texttt{char} (for characters), \texttt{string} (for character strings), \texttt{atom} or \texttt{list}, where \texttt{atom} is the union of \texttt{int}, \texttt{char} and \texttt{string}. Atoms are considered as lists of length one, hence integers and strings are also lists. Given lists $\mtt{x}$ and $\mtt{y}$, their concatenation is written \texttt{x:y} (not to be confused with the list-cons operator in Haskell). 
 We proceed by discussing two example programs.
 
 \begin{example}[Transitive Closure]
-The principal programming construct in GP 2 are conditional graph-transformation rules labelled with expressions. The program in Figure \ref{fig:transitive-closure} applies the single rule \ttt{link} \emph{as long possible} to a host graph. In general, any subprogram can be iterated by applying \ttt{!} as a postfix operator.
+The principal programming constructs in GP~2 are conditional graph-transformation rules labelled with expressions. The program in Figure \ref{fig:transitive-closure} applies the single rule \ttt{link} \emph{as long possible} to a host graph. In general, any subprogram can be iterated by applying \ttt{!} as a postfix operator.
 
 \begin{figure}[htb]
 \begin{center}
@@ -19,14 +20,15 @@ The principal programming construct in GP 2 are conditional graph-transformation
 \caption{Program for transitive closure}\label{fig:transitive-closure}
 \end{figure}
 
-Applying \ttt{link} amounts to non-deterministically selecting a subgraph of the host graph that matches \ttt{link}'s left graph, and adding to it an edge from node 1 to node 3 provided there exits no such edge (with any label). The application condition ensures that the program terminates and extends the host graph with a minimal number of edges.
+Applying \ttt{link} amounts to non-deterministically selecting a subgraph of the host graph that matches \ttt{link}'s left graph, and adding to it an edge from node 1 to node 3 provided there is no such edge (with any label). The application condition ensures that the program terminates and extends the host graph with a minimal number of edges.
 
-A graph is \emph{transitive} if for each directed path from a node $v$ to another node $v'$, there is an edge from $v$ to $v'$. It is not difficult to see that given any graph $G$, the program in Figure \ref{fig:transitive-closure} produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} This graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. \qed
+A graph is \emph{transitive} if for each directed path from a node $v$ to another node $v'$, there is an edge from $v$ to $v'$.  Given any graph $G$, the program in Figure \ref{fig:transitive-closure} produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} This graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. \qed
 \end{example}
   
 
 \begin{example}[Vertex Colouring]
-The program in Figure \ref{fig:vertex-colouring} assigns a \emph{colour}\/ to each node of the host graph, such that non-loop edges have differently coloured endpoints. Positive integers are used as colours because, in general, an unbounded number of colours is needed. The program replaces each node label $l$\/ with $l{:}i$, where $i$\/ is the node's colour. In addition, the rule \ttt{init} shades nodes to prevent being applied twice to a node. (Nodes can be graphically \emph{marked}\/ by drawing them shaded or in one of the colours red, green or blue.)
+The program in Figure \ref{fig:vertex-colouring} assigns a \emph{colour}\/ to each node of the host graph, such that non-loop edges have differently coloured endpoints. Positive integers are used as colours because, in general, an unbounded number of colours is needed. The program replaces each node label $l$\/ with $l{:}i$, where $i$\/ is the node's colour. In addition, the rule \ttt{init} shades nodes to prevent repeated application to the same node.
+% (Nodes can be graphically \emph{marked}\/ by drawing them shaded or in one of the colours red, green or blue.)
 
 \begin{figure}[htb]
 \begin{center}
@@ -48,6 +50,9 @@ Rule \ttt{inc} is applied to the host graph as long as there are edges with iden
 \caption{Different results from vertex colouring}\label{fig:colour_results}
 \end{figure}
 
-A GP 2 command not used in the example programs is a rule set $\mtt{\{}r_1,\dots,r_n\mtt{\}}$. This command \emph{non-deterministically} applies any of the rules to the current host graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. Matches must be injective and are only valid if they do not result in \emph{dangling edges}.
+\vspace{.5\baselineskip}
+\noindent
+\emph{Other program constructs.}
+A GP~2 command not used in the example programs is a rule set $\mtt{\{}r_1,\dots,r_n\mtt{\}}$. This command \emph{non-deterministically} applies any of the rules to the current host graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. Matches must be injective and are only valid if they do not result in \emph{dangling edges}.
 
 Another construct not yet discussed is the branching command \ttt{if} $C$ \ttt{then} $P$ \ttt{else} $Q$, where $C$, $P$ and $Q$ are arbitrary command sequences. This is executed on a host graph $G$ by first executing $C$ on a copy of $G$. If $C$ succeeds, $P$\/ is executed on the original graph $G$; otherwise, if $C$ fails, $Q$ is executed on $G$. The command \ttt{try} $C$ \ttt{then} $P$ \ttt{else} $Q$ has a similar effect, except that $P$\/ is executed on the graph resulting from $C$'s execution. 

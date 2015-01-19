@@ -1,15 +1,15 @@
 \section{Benchmark Programs}
 \label{sec:benchmark}
  
-In Section \ref{sec:performanceevaluation}, the performance of the reference interpreter is evaluated on a small set of benchmark programs. These include the programs for transitive closure and vertex colouring, and three more programs which we describe in this section.
+In Section \ref{sec:performanceevaluation}, the performance of the reference interpreter will be evaluated on a small set of benchmark programs. These include the programs for transitive closure and vertex colouring, and three more programs which we describe in this section.
 
 \vspace{.5\baselineskip}
 \noindent
-\emph{Shortest distances.} The program in Figure \ref{fig:shortest-distances} expects an input graph $G$\/ containing a unique grey node $s$, where edge labels are assumed to be non-negative integers. A unique output graph is obtained from $G$ by marking grey each node reachable from $s$ and replacing its label $l$\/ with $l{:}d$, where $d$\/ is the shortest distance from $s$. (A distance is the sum of the edge labels of a directed path.)
+\emph{Shortest distances.} The program in Figure \ref{fig:shortest-distances} expects an input graph $G$\/ containing a unique grey node $s$, where edge labels are assumed to be non-negative integers. A unique output graph is obtained by marking grey each node reachable from $s$ and replacing its label $l$\/ with $l{:}d$, where $d$\/ is the shortest distance from $s$. (A distance is the sum of the edge labels of a directed path.)
   
 The program first assigns distance 0 to the unique start node $s$. Then the loop \ttt{add!} traverses the nodes reachable from $s$, assigning distances by adding edge labels. In a second phase, the loop \ttt{reduce!} minimizes distances by searching for edges whose sum of source node distance and edge label is smaller than the target node distance, and replacing the target node distance with the sum.
 
-\begin{figure}[htb]
+\begin{figure}[t]
 \begin{center}
 \input{Programs/distances.prog}
 \end{center}
@@ -18,17 +18,17 @@ The program first assigns distance 0 to the unique start node $s$. Then the loop
 
 The requirement that edge labels are non-negative ensures that the program terminates. It can be relaxed by allowing negative edge labels but requiring that directed cycles have a non-negative overall distance.
 
-\vspace{.5\baselineskip}
-\noindent
-\emph{Recognising acyclic graphs.} The program in Figure \ref{fig:acyclicity} checks whether its input graph is acyclic. If this is the case, the program produces some output graph, otherwise it fails. Suppose we call the program \ttt{acyclic} to use it as a macro in the program \ttt{if} \ttt{acyclic} \ttt{then} $P$ \ttt{else} $Q$. Given any input graph $G$, this program will test whether $G$\/ is acyclic and, depending on the result, either execute $P$ or $Q$ on $G$.  
-  
-The presence of cycles is checked by deleting as long as possible edges whose sources have no incoming edges, and testing whether any edges remain. This is correct since an application of \ttt{delete} preserves both the absence and the presence of cycles (by the condition of the rule). Moreover, a graph to which \ttt{delete} is not applicable is acyclic if and only if it is edge-less (every acyclic graph with edges must contain an edge to which \texttt{delete} is applicable). 
-\begin{figure}[htb]
+\begin{figure}[t]
 \begin{center}
 \input{Programs/acyclic.prog}
 \end{center}
 \caption{Program for recognising acyclic graphs}\label{fig:acyclicity}
 \end{figure}
+\vspace{.5\baselineskip}
+\noindent
+\emph{Recognising acyclic graphs.} The program in Figure \ref{fig:acyclicity} checks whether its input graph is acyclic. If this is the case, the program preserves its input graph, otherwise it fails. Suppose we call the program \ttt{acyclic} to use it as a macro in the program \ttt{if} \ttt{acyclic} \ttt{then} $P$ \ttt{else} $Q$. Given any input graph $G$, this program will test whether $G$\/ is acyclic and, depending on the result, either execute $P$ or $Q$ on $G$.  
+  
+The presence of cycles is checked by deleting as long as possible edges whose sources have no incoming edges, and testing whether any edges remain. This is correct since an application of \ttt{delete} preserves both the absence and the presence of cycles (by the condition of the rule). Moreover, a graph to which \ttt{delete} is not applicable is acyclic if and only if it is edge-less (every acyclic graph with edges must contain an edge to which \texttt{delete} is applicable). 
 
 % \subsection{Rooted 2-colouring}
 % 
