@@ -4,7 +4,7 @@
 This paper focusses on GP~2, a successor to the graph programming language GP \cite{Plump09a,Plump12a}.
 GP is a domain-specific language which aims to support formal reasoning on graph programs (see \cite{Poskitt-Plump12a} for a Hoare-logic approach to verifying GP programs). We give a brief introduction to GP~2, mainly by example. The definition of the language, including a formal operational semantics, can be found in \cite{Plump12a}. 
 
-A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence. Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges may be labelled.
+A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence. Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges are labelled with (lists of) integers and character strings.
 
 Labels are of type \texttt{int} (for integers), \texttt{char} (for characters), \texttt{string} (for character strings), \texttt{atom} or \texttt{list}, where \texttt{atom} is the union of \texttt{int}, \texttt{char} and \texttt{string}. Atoms are considered as lists of length one, hence integers and strings are also lists. Given lists $\mtt{x}$ and $\mtt{y}$, their concatenation is written \texttt{x:y} (not to be confused with the list-cons operator in Haskell). 
 We proceed by discussing two example programs.
