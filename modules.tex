@@ -1,31 +1,35 @@
-\begin{tikzpicture} [align=center, arrowin]
+\begin{tikzpicture} [align=center]
 
-\node(main) at (0, 7.5)  [box] {Main Interpreter\\53 lines};
-\node(iso) at (-3, 6) [box] {Isomorphism\\Checker\\21 lines};
-\node(eval) at (0, 6) [box] {Evaluator\\99 lines};
-\node(print) at (3, 6) [box] {Graph Printer\\34 lines};
-\node(apply) at (0, 4.5) [box] {Rule Applier\\53 lines};
-\node(gmatch) at (0, 3) [box] {Graph Matcher\\43 lines};
-\node(lmatch) at (-3, 1.5) [box] {Label Matcher\\89 lines};
-\node(graph) at (0, 1.5) [box] {Graph Library\\76 lines};
-\node(trans) at (3, 1.5) [box] {Checker \&\\Transformer\\118 lines};
-\node(data) at (0, -0.25) [box] {Finite Maps \&\\Libraries\\60 lines};
-\node(parser) at (3, -0.5) [box] {Parser \& AST\\356 lines};
+\node(main) at (0, 0)  [box] {Main\\Interpreter\\53 lines};
+\node(iso) at (2.5, -2.25) [box] {Isomorphism\\Checker\\21 lines};
+\node(print) at (2.5, -0.75) [box] {Graph Printer\\34 lines};
+\node(eval) at (2.5, 0.75) [box] {Evaluator\\99 lines};
+\node(parser) at (2.5, 2.25) [box] {Parser\\230 lines};
+\node(apply) at (5, 0.75) [box] {Rule\\Applier\\53 lines};
+\node(gmatch) at (7.5, 0.75) [box] {Graph\\Matcher\\43 lines};
+\node(graph) at (7.5, -1.5) [box] {Graph\\Library\\76 lines};
+\node(lmatch) at (10, -1.5) [box] {Label\\Matcher\\89 lines};
+\node(trans) at (10, 0.75) [box] {Checker \&\\Transformer\\118 lines};
+\node(libs) at (12.5, -1.5) [box] {Finite Maps\\\& Libraries\\60 lines};
+\node(ast) at (12.5, 0.75) [box] {AST\\126 lines};
 
-\draw (parser) edge[arrowin, dashed] (trans);
-\draw (data) edge[arrowin, dashed] (trans);
-\draw (data) edge[arrowin, dashed] (lmatch);
-\draw (data) edge[arrowin, dashed] (graph);
+\draw (ast) edge[arrowin, dashed] (trans);
+\draw (ast) edge[arrowin, dashed] (lmatch);
+\draw (ast.145) edge[arrowin, dashed, bend right=15] (parser);
+\draw (libs) edge[arrowin, dashed] (trans);
+\draw (libs) edge[arrowin, dashed] (lmatch);
+\draw (libs.215) edge[arrowin, dashed, bend left=25] (graph.315);
 \draw (trans) edge[arrowin, dashed] (gmatch);
 \draw (graph) edge[arrowin, dashed] (gmatch);
-\draw (graph) edge[arrowin, dashed, bend left=25] (iso);
-\draw (graph) edge[arrowin, dashed, bend right=25] (print);
+\draw (graph) edge[arrowin, dashed] (iso.0);
+\draw (graph) edge[arrowin, dashed] (print.0);
 \draw (lmatch) edge[arrowin, dashed] (gmatch);
-\draw (gmatch) edge[arrowin, dashed] (apply);
-\draw (apply) edge[arrowin, dashed] (eval);
-\draw (iso) edge[arrowin, dashed] (main);
-\draw (eval) edge[arrowin, dashed] (main);
-\draw (print) edge[arrowin, dashed] (main);
+\draw (gmatch.180) edge[arrowin, dashed] (apply);
+\draw (apply) edge[arrowin, dashed] (eval.0);
+\draw (parser.180) edge[arrowin, dashed] (main);
+\draw (iso.180) edge[arrowin, dashed] (main);
+\draw (eval.180) edge[arrowin, dashed] (main);
+\draw (print.180) edge[arrowin, dashed] (main);
 
 \end{tikzpicture}
 
