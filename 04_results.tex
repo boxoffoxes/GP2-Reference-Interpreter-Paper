@@ -1,9 +1,7 @@
 \section{Performance Evaluation}
 \label{sec:performanceevaluation}
 
-In this section we will look at how efficiently our interpreter executes the benchmark programs described in section \ref{sec:benchmark}, and discuss the factors that affect its performance.
-
-While not tuned for speed, the interpreter must still run fast enough to allow its use as a tool to test the correctness of future compiled implementations of the language.
+In this section we will look at how efficiently our interpreter executes the benchmark programs described in Section \ref{sec:benchmark}, and discuss the factors that affect its performance. While not tuned for speed, the interpreter must still run fast enough to allow its use as a tool to test the correctness of future compiled implementations of the language.
 
 
 % TODO: mention performance of previous versions, and how increased performance brought bugs and limitations to light.
@@ -17,7 +15,7 @@ We compiled the interpreter using The Glasgow Haskell Compiler\cite{ghc} version
 $ ghc -O2 -prof -fprof-auto -rtsopts -o gp2 Main.hs
 \end{verbatim}
 
-All figures reported here were obtained using a quad-core Intel i7 clocked at 3.4GHz, with 8GB RAM, running 64-bit Ubuntu 14.04 LTS with kernel 3.13.0. The number of processor cores should not have a significant effect on the measured performance of the single-threaded GP~2 interpreter.
+All figures reported were obtained using a quad-core Intel i7 clocked at 3.4GHz, with 8GB RAM, running 64-bit Ubuntu 14.04 LTS with kernel 3.13.0. The number of processor cores should not have a significant effect on the measured performance of the single-threaded GP~2 interpreter.
 
 We ran benchmarks using the following command:
 
@@ -28,9 +26,9 @@ $ timeout --foreground 5m time \
 
 The \texttt{timeout} command limits execution time to five minutes for each program/host-graph pair. We used the sum of user and system time reported by the standard Unix \texttt{time} utility as our measure of execution time.
 
-The arguments to \texttt{gp2} between \texttt{+RTS} and \texttt{-RTS} tell the Haskell run-time system to save profiling information to a file called \texttt{gc.prof} in the current directory, while the \texttt{\$GPOPT} variable was either set to \texttt{--one} to put the interpreter into single-result mode (see table \ref{table:resultsSingle}), or unset for all-result mode (table \ref{table:resultsAll}.
+The arguments to \texttt{gp2} between \texttt{+RTS} and \texttt{-RTS} tell the Haskell run-time system to save profiling information to a file called \texttt{gc.prof} in the current directory, while the \texttt{\$GPOPT} variable was either set to \texttt{--one} to put the interpreter into single-result mode (see Table \ref{table:resultsSingle}), or unset for all-result mode (Table \ref{table:resultsAll}).
 
-The final three mandatory arguments to the \texttt{gp2} executable specify the benchmark program, the host graph, and the maximum number of rule applications, as described in section \ref{sec:implementation}.
+The final three mandatory arguments to the \texttt{gp2} executable specify the benchmark program, the host graph, and the maximum number of rule applications, as described in Section \ref{sec:implementation}.
 
 We captured the standard-output and standard-error channels from all programs to a file.
 
@@ -43,7 +41,7 @@ The names of host graphs used for benchmarking give an indication of their struc
 	\setlength\itemsep{-0.2em}
 	\item[Gen $n$] The \textit{Sierpinski} program expects a host graph containing a single node with a numeric label, which controls the number of iterations of the \texttt{expand!} rule to run.
 
-	\item[Linear $n$] A chain of $n$ nodes. The first node has only a single outgoing edge. The last node has only a single incoming edge, and all other nodes have exactly one incoming and one outgoing edge.
+	\item[Linear $n$] A chain of $n$ nodes. The first node has only a single outgoing edge. The last node has only a single incoming edge. All other nodes have exactly one incoming and one outgoing edge.
 
 	\item[Cyclic $n$] As Linear $n$, but with an extra edge linking the first and final placed nodes so that every node has exactly one incoming and one outgoing edge.
 
@@ -123,7 +121,7 @@ The current version of the interpreter uses a generic lazy map data structure wh
 
 The incremental improvements we made to our original prototype resulted in a large speed-up. This in itself proved a useful debugging tool, as it permitted running of larger host graphs through our programs, putting greater stress on the stack and heap.
 
-As discussed in section \ref{sec:graph-match} the reference interpreter matches nodes and edges in separate passes. This makes for a simple algorithm at the expense of performance. A more performance focussed implementation might use a \textit{search plan}\cite{Horvath-Varro07} in which a graph morphism is built incrementally by adding nodes and edges to an existing partial morphism, back-tracking if no suitable candidate can be found.
+As discussed in Section \ref{sec:graph-match} the reference interpreter matches nodes and edges in separate passes. This makes for a simple algorithm at the expense of performance. A more performance focussed implementation might use a \textit{search plan}\cite{Horvath-Varro07} in which a graph morphism is built incrementally by adding nodes and edges to an existing partial morphism, back-tracking if no suitable candidate can be found.
 
 % interpreter cost vs compiler
 %\subsubsection*{Interpreter costs}
