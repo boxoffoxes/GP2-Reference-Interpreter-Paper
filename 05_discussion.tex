@@ -34,12 +34,23 @@ We recognise that both \textsc{Groove} and \textsc{GrGen.Net} are mature and ful
 
 We have begun work on two compiled implementations of GP2. One generates code for an abstract machine; the other translates GP~2 programs to C. They also differ in the way the graph data structure is accessed and the strategies employed to match left-hand sides of rules. The reference interpreter is supporting these ongoing developments. For example, some front-end components are re-used, and we check output graphs against isomorphism classes
 computed by the interpreter.
+
+
 \section{Conclusions}
 \label{sec:conclusions}
 
-%\subsection{Contributions}
+% Claims for reference interpreter largely realised
+% Emphasise  concise implementation of labelled graph transformation PL with non-determinism, backtracking etc.
+% Common choice of implementation language: C#, Java -- some merits of Haskell.
 
-%This work lays a valuable foundation for checking the correctness of subsequent GP2 interpreters and compilers. It also demonstrates the use of a lazy functional language to implement a nondeterministic language. Perhaps the data from running the interpreter on our test programs may reveal some insights into properties/features of the interpreter.
+We feel that our original aims in producing a reference interpreter have been largely realised. We have a compact implementation of GP~2 which we can use as a tool for testing programs and researching future graph language compilers, and have demonstrated the merits of a lazy functional language in the implementation of a non-deterministic graph programming language.
+
+% Another benefit: review corner-cases of semantics in light of example applications
+In the process we have reviewed corner-cases of the operational semantics in light of the example applications we have developed.
+
+% Main reservation: all results, scale
+
+Our main reservation is in handling of all results mode, where complex problems result in long execution times and significant memory usage. Nevertheless, we view leaving a computation to run for several days on a powerful machine to produce a set of all possible output graphs as an acceptable one-time cost in the context of testing a subsequent GP~2 compiler. 
 
 
 
