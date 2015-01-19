@@ -60,7 +60,7 @@ For the sake of brevity we have omitted some intermediate results which followed
 
 Table \ref{table:resultsSingle} summarises results for the reference interpreter operating in single-result mode. The \textit{Apps} column shows the number of rule applications required to reach the solution. \textit{Time} lists the sum of user and system time reported by the \texttt{time} command. The final two columns show the maximum amount of memory requested by the \texttt{gp2} executable, and the maximum memory holding live data respectively. The disparity between these two numbers, which sometimes approaches a factor of three, results from the Haskell run-time system requesting memory from the operating system in large chunks.
 
-\begin{table}[h]
+\begin{table}[t]
 \begin{minipage}{\textwidth}
 \centering
 
@@ -88,7 +88,7 @@ Notice the rapid increase in live heap usage for the \textit{transitive closure}
 Table \ref{table:resultsAll} summarises the performance of the reference interpreter running in all-result mode. This table contains three additional columns showing the total number of output graphs, the number of distinct output graphs up to isomorphism, and the number of executions that terminated in failure, either due to a final placed rule failing to match, or an explicit call to GP~2's \texttt{fail} directive. Where different solutions required differing numbers of rule applications the \textit{Apps} column now shows the range of values.
 
 
-\begin{table}[h]
+\begin{table}[t]
 \begin{minipage}{\textwidth}
 \centering
 
