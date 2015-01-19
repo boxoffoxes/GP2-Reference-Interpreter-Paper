@@ -56,8 +56,6 @@ The presence of cycles is checked by deleting as long as possible edges whose so
 
 The program in Figure \ref{fig:Sierpinski-program} expects as input a single node labelled with the generation number of the Sierpinski triangle to be produced. The rule \texttt{init} creates the Sierpinski triangle of generation 0 and turns the input node into a ``control node'' with label $x{:}0$, holding the required generation number $x$ together with the current generation number.
 
-After initialisation, the nested loop $\mtt{(inc;\, expand!)!}$ is executed. In each iteration of the outer loop, \texttt{inc} increases the current generation number if it is smaller than the required number (which is checked by the rule's condition). If the test is successful, the inner loop \ttt{expand!} performs a Sierpinski step on each triangle whose top node is labelled with the current generation number: the triangle is replaced by four triangles such that the top nodes of the three outer triangles are labelled with the next higher generation number. The test $\mathtt{x > y}$ fails when the required generation number has been reached. In this case the application of \texttt{inc} fails, causing the outer loop to terminate and return the current graph which is the Sierpinski triangle of the requested generation.
-
 \begin{figure}[p]
 \begin{center}
 \input{Programs/sierpinski.prog}
@@ -69,5 +67,7 @@ After initialisation, the nested loop $\mtt{(inc;\, expand!)!}$ is executed. In 
 \vspace*{-2.5cm}
 \caption{Third generation Sierpinski triangle \label{fig:sierpinski}}
 \end{figure}
+
+After initialisation, the nested loop $\mtt{(inc;\, expand!)!}$ is executed. In each iteration of the outer loop, \texttt{inc} increases the current generation number if it is smaller than the required number (which is checked by the rule's condition). If the test is successful, the inner loop \ttt{expand!} performs a Sierpinski step on each triangle whose top node is labelled with the current generation number: the triangle is replaced by four triangles such that the top nodes of the three outer triangles are labelled with the next higher generation number. The test $\mathtt{x > y}$ fails when the required generation number has been reached. In this case the application of \texttt{inc} fails, causing the outer loop to terminate and return the current graph which is the Sierpinski triangle of the requested generation.
 
 Sierpinski triangles pose a hard challenge for graph transformation: generating the $n$-th triangle requires space and a number of rule applications exponential in $n$. This problem was part of the 2007 tool contest for graph transformation, where the goal was to generate triangles of generation numbers as high as possible and as fast as possible \cite{Taentzer_et_al08a}.
