@@ -1,7 +1,7 @@
 \section{Performance Evaluation}
 \label{sec:performanceevaluation}
 
-In this section we will look at how efficiently our interpreter executes the benchmark programs described in Section \ref{sec:benchmark}, and discuss the factors that affect its performance. While not tuned for speed, the interpreter must still run fast enough to allow its use as a tool to test the correctness of future compiled implementations of the language.
+In this section we will look at how efficiently our interpreter executes the benchmark programs described in Section \ref{sec:benchmark}, and discuss the factors that affect its performance. Though not tuned for speed, the interpreter must run fast enough to allow its use as a practical tool.
 
 
 % TODO: mention performance of previous versions, and how increased performance brought bugs and limitations to light.
@@ -17,20 +17,17 @@ $ ghc -O2 -prof -fprof-auto -rtsopts -o gp2 Main.hs
 
 All figures reported were obtained using a quad-core Intel i7 clocked at 3.4GHz, with 8GB RAM, running 64-bit Ubuntu 14.04 LTS with kernel 3.13.0. The number of processor cores should not have a significant effect on the measured performance of the single-threaded GP~2 interpreter.
 
-We ran benchmarks using the following command:
+We ran benchmarks using the following command
 
 \begin{verbatim}
 $ timeout --foreground 5m time \
       gp2 +RTS -p -sgc.prof -RTS $GPOPT $PROG $GRAPH 10000
 \end{verbatim}
 
-The \texttt{timeout} command limits execution time to five minutes for each program/host-graph pair. We used the sum of user and system time reported by the standard Unix \texttt{time} utility as our measure of execution time.
-
-The arguments to \texttt{gp2} between \texttt{+RTS} and \texttt{-RTS} tell the Haskell run-time system to save profiling information to a file called \texttt{gc.prof} in the current directory, while the \texttt{\$GPOPT} variable was either set to \texttt{--one} to put the interpreter into single-result mode (see Table \ref{table:resultsSingle}), or unset for all-result mode (Table \ref{table:resultsAll}).
-
+\noindent
+limiting execution time to five minutes for each application of a program to a host graph. We used the sum of user and system time reported by the standard \texttt{time} utility as our measure of execution time.
+The arguments to \texttt{gp2} between \texttt{+RTS} and \texttt{-RTS} tell the Haskell run-time system to save profiling information.  The \texttt{\$GPOPT} variable was either set to \texttt{--one} to put the interpreter into single-result mode (see Table \ref{table:resultsSingle}), or unset for all-result mode (see Table \ref{table:resultsAll}).
 The final three mandatory arguments to the \texttt{gp2} executable specify the benchmark program, the host graph, and the maximum number of rule applications, as described in Section \ref{sec:implementation}.
-
-We captured the standard-output and standard-error channels from all programs to a file.
 
 \subsection{Host Graphs}
 \label{subsec:hosts}
@@ -39,7 +36,7 @@ The names of host graphs used for benchmarking give an indication of their struc
 
 \begin{description}
 	\setlength\itemsep{-0.2em}
-	\item[Gen $n$] The \textit{Sierpinski} program expects a host graph containing a single node with a numeric label, which controls the number of iterations of the \texttt{expand!} rule to run.
+	\item[Gen $n$] The \textit{Sierpinski} program expects a host graph containing a single node with a numeric label, which controls the number of iterations of the \texttt{expand!} command.
 
 	\item[Linear $n$] A chain of $n$ nodes. The first node has only a single outgoing edge. The last node has only a single incoming edge. All other nodes have exactly one incoming and one outgoing edge.
 
