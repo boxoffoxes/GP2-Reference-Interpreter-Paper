@@ -62,7 +62,11 @@ As we have shown in Section~\ref{sec:performanceevaluation}, the interpreter is 
 both by GP~2 programmers and by the developers of other GP~2 implementations.
 Our main reservation here concerns all-results mode.
 Used in this mode, the interpreter can require very long execution times and all the memory our machines have available.
-Our likely solution will be to build up a standard set of test programs.
+One remedy might be to check for isomorphism or other equivalences
+between intermediate graphs, compacting the state-space.
+However, the extra machinery would complicate the interpreter, and it
+could demand even more space in some cases.
+Instead, our likely solution will be to build up a standard set of test programs.
 We can first run each test (for several days, if necessary)
 on a powerful machine to produce the set of all possible output graphs up to isomorphism.
 Our isomorphism checker, though simple, is efficient enough for rapid
