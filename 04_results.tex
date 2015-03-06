@@ -131,7 +131,7 @@ more complicated, was a large speed-up. This in turn enabled us to run larger co
 putting greater stress on stack and heap memory.  There may yet be quite simple modifications that would reduce
 memory demand --- we have made comparatively little effort in this direction.
 
-As discussed in Section \ref{sec:graph-match} the reference interpreter matches nodes and edges in separate passes. This makes for a simple algorithm at the expense of performance. A more performance focussed implementation might use a \textit{search plan}\cite{Horvath-Varro07} in which a graph morphism is built incrementally by adding both nodes and edges to an existing partial morphism, back-tracking if no suitable candidate can be found.
+As discussed in Section \ref{sec:graph-match} the reference interpreter matches nodes and edges in separate passes. This makes for a simple algorithm at the expense of performance. A more performance focussed implementation might use a \textit{search plan}\cite{Zundorf96, Dorr95b} in which a graph morphism is built incrementally by adding both nodes and edges to an existing partial morphism, back-tracking if no suitable candidate can be found.
 
 % interpreter cost vs compiler
 %\subsubsection*{Interpreter costs}
