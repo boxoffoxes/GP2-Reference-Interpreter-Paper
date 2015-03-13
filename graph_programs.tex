@@ -4,13 +4,13 @@
 This paper focusses on GP~2, a successor to the graph programming language GP \cite{Plump09a,Plump12a}.
 GP is a domain-specific language which aims to support formal reasoning on graph programs (see \cite{Poskitt-Plump12a} for a Hoare-logic approach to verifying GP programs). We give a brief introduction to GP~2, mainly by example. The definition of the language, including a formal operational semantics, can be found in \cite{Plump12a}. 
 
-A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence. Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges are labelled with (lists of) integers and character strings.
+A graph program consists of declarations of conditional graph transformation rules and macros, and exactly one main command sequence. Graphs are directed and may contain  loops and parallel edges. The rules operate on a \emph{host graph}\/ (or input graph) whose nodes and edges are labelled with a list of integers and character strings. Besides the list, a label may contain a \emph{mark}\/ which is one of the values \ttt{red}, \ttt{green}, \ttt{blue}, \ttt{grey} and \ttt{dashed} (where \ttt{grey} and \ttt{dashed} are reserved for nodes and edges, respectively). For example, the label of the node on the right of rule \ttt{init} in Figure \ref{fig:vertex-colouring} is the pair $\tuple{\mtt{x{:}1},\, \mtt{grey}}$.
 
-Labels are of type \texttt{int} (for integers), \texttt{char} (for characters), \texttt{string} (for character strings), \texttt{atom} or \texttt{list}, where \texttt{atom} is the union of \texttt{int}, \texttt{char} and \texttt{string}. Atoms are considered as lists of length one, hence integers and strings are also lists. Given lists $\mtt{x}$ and $\mtt{y}$, their concatenation is written \texttt{x:y} (not to be confused with the list-cons operator in Haskell). 
-We proceed by discussing two example programs.
+Variables in rules are of type \texttt{int}, \texttt{char}, \texttt{string}, \texttt{atom} or \texttt{list}, where \texttt{atom} is the union of \texttt{int} and \texttt{string}. Atoms are considered as lists of length one, hence integers and strings are also lists. Similarly, characters are considered as strings of length one. Given lists $\mtt{x}$ and $\mtt{y}$, their concatenation is written \texttt{x:y} (not to be confused with the list-cons operator in Haskell). 
+%We proceed by discussing two example programs.
 
 \begin{example}[Transitive Closure]
-The principal programming constructs in GP~2 are conditional graph-transformation rules labelled with expressions. The program in Figure \ref{fig:transitive-closure} applies the single rule \ttt{link} \emph{as long possible} to a host graph. In general, any subprogram can be iterated by applying \ttt{!} as a postfix operator.
+The principal programming constructs in GP~2 are conditional graph-transformation rules labelled with expressions. The program in Figure \ref{fig:transitive-closure} applies the single rule \ttt{link} \emph{as long as possible} to a host graph. In general, any subprogram can be iterated with the postfix operator ``\ttt{!}''. (A composite loop $(P_1\mtt{;}\dots\mtt{;}P_n)\mtt{!}$ terminates if any of the components $P_i$\/ \emph{fails}, meaning that some rule in $P_i$\/ could not be matched. In this case the loop finishes with the graph on which the current iteration of the body $(P_1;\dots;P_n)$ was entered. See \cite{Plump12a} for details.)
 
 \begin{figure}[htb]
 \begin{center}
@@ -20,7 +20,7 @@ The principal programming constructs in GP~2 are conditional graph-transformatio
 \caption{Program for transitive closure}\label{fig:transitive-closure}
 \end{figure}
 
-Applying \ttt{link} amounts to non-deterministically selecting a subgraph of the host graph that matches \ttt{link}'s left graph, and adding to it an edge from node 1 to node 3 provided there is no such edge (with any label). The application condition ensures that the program terminates and extends the host graph with a minimal number of edges.
+Applying \ttt{link} amounts to non-deterministically selecting a subgraph of the host graph that matches \ttt{link}'s left graph, and adding to it an edge from node 1 to node 3 provided there is no such edge (with any label). The application condition ensures that the program terminates and extends the host graph with a minimal number of edges. Rule matching is injective and involves instantiating variables with concrete values (see also below).
 
 A graph is \emph{transitive} if for each directed path from a node $v$ to another node $v'$, there is an edge from $v$ to $v'$.  Given any graph $G$, the program in Figure \ref{fig:transitive-closure} produces the smallest transitive graph that results from adding unlabelled edges to $G$.\footnote{``Unlabelled'' edges are actually labelled with the empty list.} This graph is unique up to isomorphism and requires at most $n^2$ applications of \ttt{link}, where $n$\/ is the number of nodes in $G$. \qed
 \end{example}
@@ -53,6 +53,6 @@ Rule \ttt{inc} is applied to the host graph as long as there are edges with iden
 \vspace{.5\baselineskip}
 \noindent
 \emph{Other program constructs.}
-A GP~2 command not used in the example programs is a rule set $\mtt{\{}r_1,\dots,r_n\mtt{\}}$. This command \emph{non-deterministically} applies any of the rules to the current host graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. Matches must be injective and are only valid if they do not result in \emph{dangling edges}.
+A GP~2 command not used in the example programs is a rule set $\mtt{\{}r_1,\dots,r_n\mtt{\}}$. This command non-deterministically applies any of the rules to the current host graph. The application \emph{fails}\/ if none of the left-hand graphs in the rules matches a subgraph. Matches must be injective and are only valid if they do not result in \emph{dangling edges}. (More formally, GP~2 is based on the double-pushout approach with injective matching, extended with relabelling and rule schemata \cite{Plump12a}.)
 
 Another construct not yet discussed is the branching command \ttt{if} $C$ \ttt{then} $P$ \ttt{else} $Q$, where $C$, $P$ and $Q$ are arbitrary command sequences. This is executed on a host graph $G$ by first executing $C$ on a copy of $G$. If $C$ succeeds, $P$\/ is executed on the original graph $G$; otherwise, $Q$ is executed on $G$. The command \ttt{try} $C$ \ttt{then} $P$ \ttt{else} $Q$ has a similar effect, except that $P$\/ is executed on the graph resulting from $C$'s execution. 

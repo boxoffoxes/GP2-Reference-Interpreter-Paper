@@ -1,5 +1,6 @@
 \section{Related and Future Work}
 \label{sec:relatedandfuture}
+
 Early programming languages were often defined by their implementations,
 perhaps in the form of a \emph{definitional interpreter}.
 We now have more abstract techniques for defining operational semantics.
@@ -8,6 +9,9 @@ rehabilitation of interpreters as executable counterparts to semantic
 definitions --- eg. \cite{Campbell2012}. 
 Motivation varies, but here's an extract from the preface
 of an influential textbook: 
+
+\pagebreak
+
 \begin{quote}
 \textit{Our goal is to provide a deep, working understanding of the essential concepts of programming languages. \ldots
 Most of these essentials relate to the semantics, or meaning, of program elements. Such meanings reflect how program elements are interpreted as the program executes. \ldots
@@ -42,21 +46,11 @@ computed by the interpreter.
 % Emphasise  concise implementation of labelled graph transformation PL with non-determinism, backtracking etc.
 % Common choice of implementation language: C#, Java -- some merits of Haskell.
 
-Our original goals for our reference interpreter have largely been realised.
-We have a concise implementation of GP~2, expressed in around 1,000 lines using
-the lazy functional language Haskell.
-We have taken every opportunity to use a Haskell strength --- lazy list-processing,
-and in particular list comprehensions for generate-and-test style definitions ---
-to achieve this conciseness.
-However, despite our observations in Section~\ref{sec:usesrequirements} about error reports and traces,
-we concede that our current interpreter provides only a bare minimum in this respect.
+Our original goals for our reference interpreter have largely been realised. We have a concise implementation of GP~2, expressed in around 1,000 lines using the lazy functional language Haskell. We have taken every opportunity to use a Haskell strength --- lazy list-processing, and in particular list comprehensions for generate-and-test style definitions --- to achieve this conciseness. However, despite our observations in Section~\ref{sec:usesrequirements} about error reports and traces, we concede that our current interpreter provides only a bare minimum in this respect.
 
-We have had some unexpected results from our work with the interpreter.
-Occasionally, the practical consequences of a crisp semantic definition
-may be surprising to programmers, or it may pose challenges for an efficient
-implementation.
-We have found that our reference interpreter can shed helpful light in
-such instances.
+As stated in the Introduction, our motivation for producing a simple interpreter was to achieve clarity and correctness. This raises the question of whether the reference interpreter could be formally verified against the operational semantics of GP~2. While this is a desirable goal for future work, existing verification projects for subsets of C \cite{Leroy09a} and ML \cite{Kumar-Myreen-Norrish-Owens14a} indicate that such a project would be a major endeavour despite the modest size of the GP~2 language.
+
+When working with the interpreter, we have had some unexpected results. Occasionally, the practical consequences of a crisp semantic definition may be surprising to programmers, or it may pose challenges for an efficient implementation. We have found that our reference interpreter can shed helpful light in such instances.
 
 As we have shown in Section~\ref{sec:performanceevaluation}, the interpreter is efficient enough for practical use in testing,
 both by GP~2 programmers and by the developers of other GP~2 implementations.
