@@ -3,11 +3,26 @@
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  familiarise ourselves with the semantics of GP 2
+  Test correctness of later compiled implementations
 \item
-  identify any gaps or ambiguities in the semantics
+  Fully implement non-determinacy
 \item
-  testing correctness of later compiled implementations
+  Familiarise language implementers with the semantics of GP 2
+\item
+  Identify any gaps or ambiguities in the semantics
+\end{itemize}
+
+\pause
+
+\textbf{Simplicity is an over-riding aim}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Speed and memory use are secondary concerns
+\item
+  Sophistication is to be actively avoided if it complicates the
+  implementation!
 \end{itemize}
 
 \end{frame}
@@ -33,9 +48,9 @@ For a given program/host-graph pair\ldots{}
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Produce all distinct output graphs up to isomorphism 
-\item
   Generate all possible output graphs 
+\item
+  Produce all distinct output graphs up to isomorphism 
 \item
   Output a single result 
 \end{itemize}
@@ -49,9 +64,11 @@ Also, stand-alone tools:
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  isomorphism checker
+  Isomorphism checker
 \item
-  graph viewer (based on GraphViz)
+  Host-graph generator
+\item
+  Graph viewer
 \end{itemize}
 
 \end{frame}
@@ -61,18 +78,23 @@ Also, stand-alone tools:
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Written in Haskell\footnote{\url{https://www.haskell.org/}}
+  Based on the GP 2 semantics
 \item
-  As close as possible to a direct translation of the GP 2 semantics
+  Written in Haskell\footnote{\url{https://www.haskell.org/}}
 \end{itemize}
 
-\input{../architecture.tex}
+\begin{center}
+\scalebox{0.9}{ \input{../architecture.tex} }
+\end{center}
 
 \end{frame}
 
 \begin{frame}{Implementation 2}
 
-\scalebox{0.75}{\input{../modules.tex}}
+\begin{center}
+\small
+\scalebox{0.65}{\input{../modules.tex}}
+\end{center}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -92,61 +114,70 @@ Also, stand-alone tools:
 
 \end{frame}
 
-\begin{frame}{Performance (all result mode)}
-
-\scalebox{0.65}{
-\begin{tabular}{llrrrrrcrr}
-\hline 
-&  & \multicolumn{3}{c}{Output Graphs} & & && \multicolumn{2}{c}{Heap/kB}\\
-Benchmark          & Host Graph & Total & Unique   & Failed & Apps & Time/s   & & Total  & Live \\
-\hline 
-\input{../results_table_all.tex}
-\end{tabular}
-}
-
-\end{frame}
-
-\begin{frame}{Performance (Single result)}
-
-\scalebox{0.5}{
-\begin{tabular}{llrrcrr}
-\hline 
-&  & & & & \multicolumn{2}{c}{Heap/kB}\\
-Benchmark          & Host Graph & Apps & Time/s   & & Allocd & Live \\
-\hline 
-\input{../results_table_one.tex}
-\end{tabular}
-}
-
-\end{frame}
-
-\begin{frame}{Conclusions \& Further work}
+\begin{frame}{Performance}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  We have developed a useful testing and verification tool
+  Produce a fourth-generation Sierpinski triangle in 6.5 seconds 
+\item
+  A cyclic graph of 1000 nodes fails an acyclicity test in 1.8 seconds 
+\item
+  Transitive closure of a linear graph of 50 nodes takes 66 seconds
+\item
+  Vertex colouring a 9x9 grid in one-result mode takes less than a
+  second\ldots{}
+\item
+  \ldots{}but in all-result mode exceeds 5 minutes with only a 3x3 grid 
+\end{itemize}
+
+A more detailed discussion of performance can be found in the paper
+
+\end{frame}
+
+\begin{frame}{Conclusions}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  We have developed a useful reference tool for our ongoing research
+\item
+  Also useful ancillary tools:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    GraphViz-based graph visualiser
+  \item
+    Stand-alone isomorphism checker
+  \item
+    Host-graph generator, based on hypergraph grammars 
+  \end{itemize}
 \item
   Gained a clear understanding of the GP 2 semantics
 \item
-  Become aware of `edge-cases' that might trip us up in our compiler
-  work
+  Become aware of some `edge-cases' that might trip us up in our
+  compiler work 
 \end{itemize}
 
-\begin{block}{Further work}
+\end{frame}
+
+\begin{frame}{Further work}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
   Better error reporting
 \item
-  A performant compiler -- two projects underway.
-\item
-  Formal verification against GP 2 semantics.
+  A performant compiler 
 \item
   GUI program editor
+\item
+  Formal verification against GP 2 semantics. 
 \end{itemize}
 
-\end{block}
+\begin{center}
+\includegraphics[scale=0.2]{gp2graph_9CRkVV.pdf}
+\end{center}
 
 \end{frame}

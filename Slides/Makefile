@@ -1,3 +1,5 @@
+talk.pdf : talk.tex slides.tex
+
 %.pdf : %.tex
 	pdflatex -output-directory=tmp $< && mv tmp/$@ ./
 
