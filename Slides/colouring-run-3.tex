@@ -2,7 +2,7 @@
 
 \tikzstyle{every text node part}=[font=\small]
 
-\node at (1.55, 2.1) {Main = init!; inc!};
+\node at (1.55, 2.1) {Main = init!; \textbf{inc!}};
 \node at (1.7,1.3) {inc(a,x,y:list; i:int)};
 
 \node (l1) at (0,0)[circle,draw,fill=black!20,inner sep=1.5mm,label=below:\scriptsize{1}]{x:i};
@@ -18,14 +18,14 @@
 \begin{scope}[yshift=-4cm]
 \node (g1) at (0,0)[circle,draw,fill=black!20]{1};
 \node<1>(g2) at (1.5,1.5)[circle,draw,fill=black!20]{1}
-  edge[<-, red] (g1);
+  edge[<-, dashed] (g1);
 \node<2->(g2) at (1.5,1.5)[circle,draw,fill=black!20]{1}
   edge[<-] (g1);
 \node (g3) at (1.5,-1.5)[circle,draw,fill=black!20]{1}
   edge[<-] (g1);
 \node<1>(g4) at (3,0)[circle,draw,fill=black!20]{1}
   edge[<-] (g2)
-  edge[<-, red] (g3);
+  edge[<-, dashed] (g3);
 \node<2->(g4) at (3,0)[circle,draw,fill=black!20]{1}
   edge[<-] (g2)
   edge[<-] (g3);
@@ -36,14 +36,14 @@
 \node<2-> (g2) at (7.5,1.5)[circle,draw,fill=black!20]{2}
   edge[<-] (g1);
 \node<2> (g3) at (7.5,-1.5)[circle,draw,fill=black!20]{1}
-  edge[<-, red] (g1);
+  edge[<-, dashed] (g1);
 \node<3> (g3) at (7.5,-1.5)[circle,draw,fill=black!20]{1}
   edge[<-] (g1);
 \node<3> (g4) at (9,0)[circle,draw,fill=black!20]{2}
   edge[<-] (g2)
   edge[<-] (g3);
 \node<2> (g4) at (9,0)[circle,draw,fill=black!20]{2}
-  edge[<-, red] (g2)
+  edge[<-, dashed] (g2)
   edge[<-] (g3);
 
 \node<3> at (10.5,0){$\Rightarrow^2$};

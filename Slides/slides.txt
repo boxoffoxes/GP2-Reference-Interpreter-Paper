@@ -19,7 +19,7 @@
 
 
 
-# Requirements 1
+# Requirements
 
 General requirements:
 
@@ -36,7 +36,7 @@ For a given program/host-graph pair...
 - Output a single result  <!-- e.g. sierpinski -->
 
 
-# Requirements 2
+# Requirements
 
 Also, stand-alone tools:
 
@@ -49,7 +49,7 @@ Also, stand-alone tools:
 	- needs to be fast enough to do useful work in its checking capacity -- if we need to run it on our departmental compute server for two weeks to get our set of comparison graphs (up to isomorphism) that's acceptable for a RI in a way that it wouldn't be in a production compiler.
 -->
 
-# Implementation 1
+# Implementation
 
 - Based on the GP 2 semantics
 - Written in Haskell[^1]
@@ -60,7 +60,7 @@ Also, stand-alone tools:
 
 [^1]: <https://www.haskell.org/>
 
-# Implementation 2
+# Implementation
 
 \begin{center}
 \small
