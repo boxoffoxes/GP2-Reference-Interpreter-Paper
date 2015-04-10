@@ -1,0 +1,111 @@
+% A Reference Interpreter for the Graph Programming Language GP 2
+% Christopher Bak, Glyn Faulkner, Detlef Plump & Colin Runciman
+% 2015-04-11
+
+
+# Motivation
+
+- familiarise ourselves with the semantics of GP 2
+- identify any gaps or ambiguities in the semantics
+- testing correctness of later compiled implementations
+
+
+<!--
+- Knuth quote: "premature optimization is the root of all evil."[^1]
+
+
+
+[^1]: "Structured Programming with Goto Statements". Computing Surveys 6:4 (December 1974), pp. 261–301, §1.
+-->
+
+# Requirements 1
+
+General requirements:
+
+- Quick to develop <!-- not the main drive of our research -->
+- Easy to maintain and reason about
+- Must be fast enough to do "useful work"
+
+. . .
+
+For a given program/host-graph pair...
+
+- Produce all distinct output graphs up to isomorphism <!-- build a library of correct graphs -->
+- Generate all possible output graphs  <!-- iso-check is expensive! -->
+- Output a single result  <!-- e.g. sierpinski -->
+
+
+# Requirements 2
+
+Also, stand-alone tools:
+
+- isomorphism checker
+- graph viewer (based on GraphViz)
+
+
+<!--
+- speed is a nice-to-have, but not a goal
+	- needs to be fast enough to do useful work in its checking capacity -- if we need to run it on our departmental compute server for two weeks to get our set of comparison graphs (up to isomorphism) that's acceptable for a RI in a way that it wouldn't be in a production compiler.
+-->
+
+# Implementation 1
+
+- Written in Haskell[^1]
+- As close as possible to a direct translation of the GP 2 semantics
+
+\input{../architecture.tex}
+
+
+[^1]: <https://www.haskell.org/>
+
+# Implementation 2
+
+\scalebox{0.75}{\input{../modules.tex}}
+
+- Approx. 1000 SLOC
+- Exploits distinctive features of Haskell to achieve conciseness:
+	* list-comprehensions
+	* lazy evaluation
+
+
+# Performance (all result mode)
+
+\scalebox{0.65}{
+\begin{tabular}{llrrrrrcrr}
+\hline 
+&  & \multicolumn{3}{c}{Output Graphs} & & && \multicolumn{2}{c}{Heap/kB}\\
+Benchmark          & Host Graph & Total & Unique   & Failed & Apps & Time/s   & & Total  & Live \\
+\hline 
+\input{../results_table_all.tex}
+\end{tabular}
+}
+
+# Performance (Single result)
+
+\scalebox{0.5}{
+\begin{tabular}{llrrcrr}
+\hline 
+&  & & & & \multicolumn{2}{c}{Heap/kB}\\
+Benchmark          & Host Graph & Apps & Time/s   & & Allocd & Live \\
+\hline 
+\input{../results_table_one.tex}
+\end{tabular}
+}
+
+
+# Conclusions & Further work
+
+
+- We have developed a useful testing and verification tool
+- Gained a clear understanding of the GP 2 semantics
+- Become aware of 'edge-cases' that might trip us up in our compiler work
+
+
+## Further work
+
+- Better error reporting
+- A performant compiler -- two projects underway.
+- Formal verification against GP 2 semantics.
+- GUI program editor
+
+<!-- vim: set filetype=pandoc spell lbr : -->

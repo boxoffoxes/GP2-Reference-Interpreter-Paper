@@ -1,0 +1,152 @@
+\begin{frame}{Motivation}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  familiarise ourselves with the semantics of GP 2
+\item
+  identify any gaps or ambiguities in the semantics
+\item
+  testing correctness of later compiled implementations
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Requirements 1}
+
+General requirements:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Quick to develop 
+\item
+  Easy to maintain and reason about
+\item
+  Must be fast enough to do ``useful work''
+\end{itemize}
+
+\pause
+
+For a given program/host-graph pair\ldots{}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Produce all distinct output graphs up to isomorphism 
+\item
+  Generate all possible output graphs 
+\item
+  Output a single result 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Requirements 2}
+
+Also, stand-alone tools:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  isomorphism checker
+\item
+  graph viewer (based on GraphViz)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Implementation 1}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Written in Haskell\footnote{\url{https://www.haskell.org/}}
+\item
+  As close as possible to a direct translation of the GP 2 semantics
+\end{itemize}
+
+\input{../architecture.tex}
+
+\end{frame}
+
+\begin{frame}{Implementation 2}
+
+\scalebox{0.75}{\input{../modules.tex}}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Approx. 1000 SLOC
+\item
+  Exploits distinctive features of Haskell to achieve conciseness:
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    list-comprehensions
+  \item
+    lazy evaluation
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Performance (all result mode)}
+
+\scalebox{0.65}{
+\begin{tabular}{llrrrrrcrr}
+\hline 
+&  & \multicolumn{3}{c}{Output Graphs} & & && \multicolumn{2}{c}{Heap/kB}\\
+Benchmark          & Host Graph & Total & Unique   & Failed & Apps & Time/s   & & Total  & Live \\
+\hline 
+\input{../results_table_all.tex}
+\end{tabular}
+}
+
+\end{frame}
+
+\begin{frame}{Performance (Single result)}
+
+\scalebox{0.5}{
+\begin{tabular}{llrrcrr}
+\hline 
+&  & & & & \multicolumn{2}{c}{Heap/kB}\\
+Benchmark          & Host Graph & Apps & Time/s   & & Allocd & Live \\
+\hline 
+\input{../results_table_one.tex}
+\end{tabular}
+}
+
+\end{frame}
+
+\begin{frame}{Conclusions \& Further work}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  We have developed a useful testing and verification tool
+\item
+  Gained a clear understanding of the GP 2 semantics
+\item
+  Become aware of `edge-cases' that might trip us up in our compiler
+  work
+\end{itemize}
+
+\begin{block}{Further work}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Better error reporting
+\item
+  A performant compiler -- two projects underway.
+\item
+  Formal verification against GP 2 semantics.
+\item
+  GUI program editor
+\end{itemize}
+
+\end{block}
+
+\end{frame}

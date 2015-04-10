@@ -1,0 +1,25 @@
+\begin{tikzpicture} [scale=0.75,align=center,auto,inner sep=2mm,arrowin,arrowout,font=\ttfamily]
+
+\tikzstyle{every text node part}=[font=\small]
+
+\node at (3, 3) {Main = init!; inc!};
+\node at (3.8,2) {init(x: list)};
+\node at (0,0)[circle,draw,label=below:\scriptsize{1}]{x};
+\node at (6.5,0){$\Rightarrow$};
+\node at (8,0)[circle,draw,inner sep=1.5mm,fill=black!20,label=below:\scriptsize{1}]{x:1};
+
+\begin{scope}[inner sep=1.5mm,yshift=-2.8cm]
+\node at (3.8,2) {init(a,x,y: list; i: int)};
+
+\node (l1) at (0,0)[circle,draw,fill=black!20,label=below:\scriptsize{1}]{x:i};
+\node (l2) at (2.5,0)[circle,draw,fill=black!20,label=below:\scriptsize{2}]{y:i}
+  edge [<-] node[above]{a} (l1);
+
+\node at (6.5,0){$\Rightarrow$};
+
+\node (r1) at (8,0)[circle,draw,fill=black!20,label=below:\scriptsize{1}]{x:i};
+\node (r2) at (10.5,0)[circle,draw,inner sep=1mm,fill=black!20,label=below:\scriptsize{2}]{y:i+1}
+  edge [<-] node[above]{a} (r1);
+\end{scope}
+
+\end{tikzpicture}
