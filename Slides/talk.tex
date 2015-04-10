@@ -66,7 +66,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Structured Operational Semantics}
+\begin{frame}{Structured Operational Semantics\footnote{\textit{The Design of GP2}, Detlef Plump, EPTCS 82 (2012)}}
 \begin{center}
 \begin{tabular}{lcl}
 $\mathrm{[Call_1]} \displaystyle\frac{G \Rightarrow_{R} H}{\langle R,G\rangle \to H}$ 
@@ -79,10 +79,7 @@ $\mathrm{[Alap_2]} \displaystyle\frac{\langle P, G\rangle \to^+ \texttt{fail}}{\
 \\\\
 \end{tabular} 
 \end{center}
-\begin{itemize}
-\item The states are graphs (G and H) and \texttt{fail}.
-\item R is a rule. P is a program.
-\end{itemize}
+\footnotesize{Graphs G and H are states. \texttt{fail} is the failure state. R is a rule. P is a program.}
 \end{frame}
 
 \begin{frame}{Transitive Closure}
